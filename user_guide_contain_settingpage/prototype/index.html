@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Camera Onboarding Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: { extend: {} },
+      };
+    </script>
+    <style>
+      .device-mockup {
+        box-shadow: 0 0 0 10px #111, 0 0 0 12px #333, 0 20px 40px rgba(0, 0, 0, 0.5);
+        border-radius: 40px;
+        overflow: hidden;
+        position: relative;
+      }
+      .camera-bg {
+        background-image: radial-gradient(circle at 50% 50%, #475569 0%, #0f172a 100%);
+        background-color: #000;
+      }
+      @keyframes pulse-red {
+        0% {
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55);
+        }
+        70% {
+          box-shadow: 0 0 0 16px rgba(239, 68, 68, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        }
+      }
+      .recording-active {
+        animation: pulse-red 2s infinite;
+      }
+      #device[data-guide-active] .hud-btn {
+        pointer-events: none !important;
+      }
+      .guide-arrow-line {
+        transform-origin: 0 0;
+      }
+      .settings-scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .settings-scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen select-none bg-slate-200 p-4 [padding:max(1rem,env(safe-area-inset-top))] flex flex-col items-center justify-center gap-6 lg:flex-row lg:items-start lg:justify-center lg:py-8"
+  >
+    <div
+      class="device-mockup flex h-[375px] w-full max-w-[812px] shrink-0 flex-col overflow-hidden bg-black text-white"
+      id="device"
+      data-testid="device"
+    >
+      <!-- 假状态栏（装饰） -->
+      <div
+        class="z-10 flex h-8 w-full shrink-0 items-center justify-between border-b border-white/5 bg-black/20 px-5 text-xs text-white/80"
+        aria-hidden="true"
+      >
+        <span>10:24</span>
+        <div class="flex space-x-2">
+          <span>5G</span>
+          <span>88%</span>
+        </div>
+      </div>
+
+      <!-- 取景层 -->
+      <div class="camera-bg pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+        <span class="text-lg font-light tracking-widest text-white/25">模拟取景器画面</span>
+      </div>
+
+      <!-- 顶栏：Skip / 计时 / 轻量状态 -->
+      <div
+        class="pointer-events-none absolute left-0 top-0 z-20 flex w-full items-center justify-between px-5 py-3"
+      >
+        <div class="flex w-1/3 justify-start">
+          <button
+            type="button"
+            id="guide-skip-text"
+            onclick="skipUIGuide()"
+            class="pointer-events-auto text-lg font-medium text-white opacity-0 drop-shadow-md transition-opacity [text-shadow:0_1px_3px_#000]"
+            aria-label="Skip UI guide"
+          >
+            Skip
+          </button>
+        </div>
+        <div class="flex w-1/3 justify-center">
+          <div
+            class="min-w-[6rem] rounded bg-black/60 px-3 py-1 text-center font-mono text-xs tracking-wider text-white/80"
+            id="recording-time"
+            role="status"
+            aria-live="off"
+          >
+            00:00:00
+          </div>
+        </div>
+        <div class="flex w-1/3 items-center justify-end space-x-1 text-xs text-white/50"></div>
+      </div>
+
+      <!-- 左栏：功能列（最下为设置） -->
+      <div
+        class="absolute inset-y-0 left-3 z-20 flex w-12 flex-col items-center justify-between py-4 text-slate-400"
+        id="left-rail"
+      >
+        <div class="h-10 w-10" aria-hidden="true"></div>
+        <div class="flex flex-1 flex-col items-center justify-center gap-3" aria-hidden="true">
+          <span class="h-1 w-1 rounded-full bg-white/10"></span>
+        </div>
+        <div class="flex flex-col items-center justify-end gap-3 text-white/70" role="group" aria-label="左侧工具">
+          <button
+            type="button"
+            class="flex h-10 w-10 items-center justify-center transition hover:text-white"
+            title="首页"
+            disabled
+            aria-hidden="true"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            </svg>
+          </button>
+          <button type="button" class="h-10 w-10" disabled title="相册" aria-hidden="true">▦</button>
+          <button
+            type="button"
+            id="btn-live"
+            class="hud-btn h-10 w-10 text-[9px] font-bold"
+            disabled
+            title="Live"
+            aria-label="Live"
+          >
+            live
+          </button>
+          <button type="button" class="h-10 w-10" disabled title="方向" aria-hidden="true">✥</button>
+          <button type="button" class="h-10 w-10" disabled title="网格" aria-hidden="true">▦</button>
+          <button
+            type="button"
+            id="btn-settings"
+            class="hud-btn flex h-10 w-10 items-center justify-center text-white transition hover:text-white"
+            title="设置"
+            aria-label="打开拍摄设置"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 教程常驻入口：贴边小标签，避免占用主控件区域 -->
+      <button
+        type="button"
+        id="btn-tutorial"
+        class="hud-btn pointer-events-auto absolute z-30 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/55 text-base font-semibold text-white/90 backdrop-blur transition hover:bg-black/70 hover:text-white touch-none select-none"
+        title="Tutorial Center"
+        aria-controls="tutorial-modal"
+      >
+        ?
+      </button>
+
+      <!-- 底栏信息 -->
+      <div
+        class="pointer-events-none absolute bottom-3 left-0 z-20 flex w-full items-end justify-between px-4 pl-12 text-xs text-slate-500"
+      >
+        <div class="flex space-x-4 font-mono text-[11px]">
+          <span>16:58:18</span>
+          <span>1080P/30fps</span>
+        </div>
+        <div class="mr-1 font-bold text-slate-400">XbotGo <span class="font-normal text-slate-500">Falcon</span></div>
+      </div>
+
+      <!-- 右栏：追踪 + 主录制（竖向居中块） -->
+      <div
+        class="pointer-events-none absolute inset-y-0 right-5 z-20 flex w-32 flex-col items-end py-4"
+        id="right-rail"
+      >
+        <div class="pointer-events-auto absolute right-1 top-[calc(50%-136px)] flex flex-col items-center gap-3.5">
+          <button
+            type="button"
+            id="btn-photo"
+            class="hud-btn h-9 w-9 rounded-full border-2 border-slate-200/90 bg-black/25 shadow-[0_0_0_2px_rgba(0,0,0,0.35)] transition hover:border-white"
+            title="拍照"
+            aria-label="拍照"
+          ></button>
+          <button
+            type="button"
+            id="btn-track"
+            class="hud-btn flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/20 text-slate-200 transition hover:border-white/60 hover:text-white"
+            title="打点"
+            aria-label="打点"
+          >
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v2m0 6v2m-5-5h2m6 0h2" />
+              <path d="M16 16l4 4" />
+            </svg>
+          </button>
+        </div>
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 transform pointer-events-auto">
+          <button
+            type="button"
+            id="btn-record"
+            class="hud-btn group flex h-[68px] w-[68px] items-center justify-center rounded-full border-4 border-[#1a1a1a] bg-black/20 transition"
+            title="Start or stop recording"
+            aria-pressed="false"
+            aria-label="Record"
+          >
+            <div
+              id="record-inner"
+              class="h-12 w-12 rounded-full bg-[#b30000] shadow-inner transition duration-300 group-active:scale-95"
+            />
+          </button>
+        </div>
+        <div
+          class="mt-auto flex flex-col items-end gap-0.5 pr-0.5 text-[9px] text-white/50 pointer-events-auto"
+          aria-hidden="true"
+        >
+          <span>▮ 85%</span>
+          <span>▭</span>
+        </div>
+      </div>
+
+      <!-- 模块 A：UI 引导 -->
+      <div
+        id="ui-guide-overlay"
+        class="pointer-events-none absolute inset-0 z-50 hidden transition-opacity duration-300 [opacity:1]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="拍摄功能引导"
+      >
+        <div class="absolute inset-0 bg-black/55" aria-hidden="true"></div>
+        <div id="guide-hint-wrap" class="pointer-events-none absolute inset-0">
+          <div
+            id="guide-line"
+            class="guide-arrow-line absolute h-[2px] bg-white/80 transition-all duration-300 ease-out"
+            aria-hidden="true"
+          ></div>
+          <div
+            id="guide-line-head"
+            class="absolute h-2.5 w-2.5 rotate-45 border-r-2 border-t-2 border-white/80 transition-all duration-300 ease-out"
+            aria-hidden="true"
+          ></div>
+          <div
+            id="guide-text"
+            class="absolute max-w-[18rem] rounded-xl border border-sky-200/30 bg-black/45 px-3 py-2 text-xs leading-snug text-white shadow-lg backdrop-blur-[2px] transition-all duration-300"
+          >
+            <p id="guide-title" class="text-sm font-semibold">Tap to start live streaming</p>
+            <p id="guide-desc" class="mt-1 text-white/85">You can record video while live streaming</p>
+          </div>
+        </div>
+        <div class="pointer-events-auto absolute bottom-4 right-4 z-10 flex flex-col items-end gap-2">
+          <div class="rounded-full bg-black/55 px-2.5 py-1 text-[11px] text-white/90">
+            <span id="guide-progress" aria-live="polite">1/2</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="guide-skip-btn"
+              class="rounded-full bg-white/20 px-3 py-1.5 text-xs text-white/90 transition hover:bg-white/30"
+              aria-label="Skip guide"
+            >
+              Skip
+            </button>
+            <button
+              type="button"
+              onclick="nextGuideStep()"
+              id="guide-next-btn"
+              class="rounded-full bg-white/85 px-3 py-1.5 text-xs font-medium text-black transition hover:bg-white"
+              aria-label="Next step"
+            >
+              Next
+            </button>
+          </div>
+          <label class="flex cursor-pointer items-center gap-2 rounded-full bg-black/55 px-2.5 py-1 text-[11px] text-white/90">
+            <input id="guide-never" type="checkbox" class="rounded" />
+            <span>Do not show guides again</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Module B: Hall auto-calibration overlay -->
+      <div
+        id="calibration-modal"
+        class="absolute inset-0 z-[60] flex hidden items-center justify-center bg-black/80 p-6 opacity-0 transition-opacity duration-300"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="calib-title"
+      >
+        <div
+          class="w-full max-w-sm translate-y-4 transform rounded-2xl border border-gray-700 bg-gray-900 p-6 text-center shadow-2xl transition-transform duration-300"
+          id="calibration-content"
+        >
+          <div
+            class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20 text-blue-500"
+            aria-hidden="true"
+          >
+            <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h2 id="calib-title" class="mb-2 text-xl font-bold text-white">Calibrating...</h2>
+          <div id="calibration-progress" class="mb-6 hidden">
+            <div class="h-2 w-full overflow-hidden rounded-full bg-gray-700">
+              <div
+                class="h-full w-0 bg-blue-500 transition-all duration-[5000ms] ease-linear"
+                id="progress-bar"
+              ></div>
+            </div>
+            <span id="calib-countdown" class="hidden font-semibold text-blue-300">3s</span>
+          </div>
+          <div class="flex space-x-3 hidden" id="calibration-actions"></div>
+        </div>
+      </div>
+
+      <!-- Module C: Hall guidance after calibration -->
+      <div
+        id="hall-guide-modal"
+        class="absolute inset-0 z-[65] hidden bg-black/55"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="hall-guide-title"
+      >
+        <div class="absolute left-0 top-0 h-full w-full">
+          <div
+            id="hall-guide-visual"
+            class="absolute inset-y-0 left-0 w-[58%] bg-cover bg-center"
+            style="background-image: url('../image-20890a7b-a3c3-47ba-b03c-0ea9eba3e53a.png')"
+          ></div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/40"></div>
+          <div class="absolute left-[56%] top-[17%] h-[52%] w-[1px] border-l border-dashed border-white/35"></div>
+          <div class="absolute left-[56%] top-[48%] h-[1px] w-[16%] border-t border-dashed border-green-300/80"></div>
+        </div>
+        <div class="absolute right-5 top-[30%] z-10 w-[17rem] rounded-xl border border-emerald-200/25 bg-black/35 p-3 text-left text-white shadow-lg backdrop-blur-[2px]">
+          <p id="hall-guide-tag" class="text-lg font-bold text-lime-400">● Calibration complete</p>
+          <h3 id="hall-guide-title" class="mt-1 text-[1.35rem] font-semibold leading-tight">Align with the center line first</h3>
+          <p id="hall-guide-desc" class="mt-2 text-sm leading-relaxed text-white/90"></p>
+        </div>
+
+        <div class="pointer-events-auto absolute bottom-4 right-4 z-10 flex flex-col items-end gap-2">
+          <div id="hall-guide-progress" class="rounded-full bg-black/55 px-2.5 py-1 text-[11px] text-white/90">1/2</div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="hall-guide-skip"
+              class="hidden rounded-full bg-white/20 px-3 py-1.5 text-xs text-white/90 transition hover:bg-white/30"
+              aria-label="Skip Hall guidance"
+            >
+              Skip
+            </button>
+            <button
+              type="button"
+              id="hall-guide-next"
+              class="hidden rounded-full bg-white/85 px-3 py-1.5 text-xs font-medium text-black transition hover:bg-white"
+              aria-label="Next guidance"
+            >
+              Next
+            </button>
+            <button
+              type="button"
+              id="hall-guide-ok"
+              class="rounded-full bg-white/85 px-3 py-1.5 text-xs font-medium text-black transition hover:bg-white"
+              aria-label="Confirm guidance"
+            >
+              Done
+            </button>
+          </div>
+          <label
+            id="hall-guide-never-wrap"
+            class="hidden flex cursor-pointer items-center gap-2 rounded-full bg-black/55 px-2.5 py-1 text-[11px] text-white/90"
+          >
+            <input id="hall-guide-never" type="checkbox" class="rounded" />
+            <span>Do not show guides again</span>
+          </label>
+        </div>
+      </div>
+
+      <div
+        id="returning-guide-choice-modal"
+        class="absolute inset-0 z-[66] hidden items-center justify-center bg-black/28 p-4 backdrop-blur-[3px]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Returning user guide choice"
+      >
+        <div
+          class="w-full max-w-[22rem] rounded-[22px] border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(243,247,255,0.9))] p-5 text-slate-900 shadow-[0_20px_50px_rgba(15,23,42,0.28)] backdrop-blur-xl"
+        >
+          <div class="mb-2 text-center">
+            <h3 class="text-[22px] font-semibold tracking-tight text-slate-800">Notice</h3>
+            <p class="mt-1 text-xs text-slate-500">Do you want to view the precautions and UI guide?</p>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              id="returning-choice-skip"
+              class="rounded-[12px] border border-slate-200 bg-white px-2.5 py-2 text-[13px] font-semibold leading-tight text-slate-700 transition hover:bg-slate-50 active:scale-[0.98]"
+            >
+              Skip and do not show again
+            </button>
+            <button
+              type="button"
+              id="returning-choice-view"
+              class="rounded-[12px] bg-[linear-gradient(180deg,#5a96ff,#2f6de8)] px-2.5 py-2 text-[13px] font-semibold leading-tight text-white shadow-[0_8px_20px_rgba(47,109,232,0.35),inset_0_1px_0_rgba(255,255,255,0.28)] transition hover:brightness-105 active:scale-[0.98]"
+            >
+              View guides
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 模块 D：教程侧栏（常驻入口） -->
+      <div
+        id="tutorial-modal"
+        class="absolute inset-y-0 right-0 z-40 flex hidden w-64 -translate-x-full transform flex-col border-l border-slate-700 bg-gray-900/95 px-4 pt-12 pb-6 text-white backdrop-blur-xl transition-transform duration-300 [padding-top:3rem;]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Tutorial Center"
+      >
+        <button
+          type="button"
+          onclick="closeTutorial()"
+          class="absolute right-3 top-3 rounded p-2 text-gray-400 hover:bg-white/10"
+          aria-label="Close tutorial panel"
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
+        <h2 class="mb-4 text-lg font-bold">Tutorial Center</h2>
+        <div class="flex-1 space-y-3 overflow-y-auto text-sm">
+          <button
+            type="button"
+            id="btn-open-all-guides"
+            class="w-full rounded-lg border border-blue-400/40 bg-blue-500/20 px-3 py-2 text-left text-xs text-blue-100 transition hover:bg-blue-500/30"
+          >
+            Review onboarding tutorial and precautions
+          </button>
+          <div class="w-full overflow-hidden rounded-lg bg-gray-800 text-left">
+            <div
+              class="relative h-20 bg-slate-700 bg-cover bg-center"
+              style="background-image: url('../image.png')"
+            >
+              <div class="absolute inset-0 flex items-center justify-center bg-black/35">▶</div>
+            </div>
+            <div class="p-2.5">Live streaming and recording workflow <span class="text-slate-500">02:15</span></div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="tutorial-float-window"
+        class="pointer-events-auto absolute bottom-16 right-[4.5rem] z-[45] hidden w-44 rounded-xl border border-white/20 bg-black/75 p-2.5 text-white shadow-xl backdrop-blur touch-none select-none cursor-grab"
+        role="status"
+        aria-live="polite"
+      >
+        <div class="mb-1 flex items-center justify-between text-[11px] text-white/80">
+          <span id="tutorial-float-title">Tutorial playing</span>
+          <button
+            type="button"
+            id="tutorial-float-close"
+            class="rounded px-1 text-white/60 hover:bg-white/10 hover:text-white"
+            aria-label="Close floating player"
+          >
+            ×
+          </button>
+        </div>
+        <div class="h-16 rounded-md bg-slate-700/90 flex items-center justify-center text-[11px] text-white/90">Floating tutorial preview</div>
+        <p class="mt-1 text-[10px] leading-snug text-white/70">Keep this window visible while operating the capture screen.</p>
+      </div>
+      <div
+        id="float-close-zone"
+        class="pointer-events-none absolute bottom-3 right-3 z-[47] hidden h-20 w-44 items-center justify-center rounded-2xl border border-rose-200/60 bg-gradient-to-b from-rose-400/30 to-red-700/40 text-white shadow-[0_8px_24px_rgba(239,68,68,0.35)] backdrop-blur-md transition-all duration-200"
+      >
+        <div class="flex items-center gap-2 rounded-xl bg-black/20 px-3 py-2">
+          <span class="text-base leading-none">🗑</span>
+          <span class="text-xs font-semibold tracking-wide">Drag here to close</span>
+        </div>
+      </div>
+
+      <div
+        id="settings-panel"
+        class="pointer-events-auto absolute inset-0 z-[46] hidden flex-col overflow-hidden bg-[#171717] text-white"
+        role="dialog"
+        aria-modal="false"
+        aria-label="Capture settings panel"
+      >
+        <div class="relative flex items-center justify-center px-6 pb-2 pt-10">
+          <button
+            type="button"
+            id="settings-back-btn"
+            class="absolute left-4 hidden h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white"
+            aria-label="Back to settings overview"
+          >
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <div class="text-[18px] font-semibold tracking-[0.01em] text-white">Recording Settings</div>
+          <button
+            type="button"
+            id="settings-close-btn"
+            class="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+            aria-label="Close settings panel"
+          >
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-hidden px-5 pb-3 pt-2">
+          <div id="settings-main-view" class="space-y-3">
+            <section class="space-y-2">
+              <h3 class="text-[14px] font-semibold text-white">General Settings</h3>
+              <div class="grid grid-cols-4 gap-2">
+                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
+                  <span class="leading-none">Timestamp</span>
+                  <button
+                    type="button"
+                    id="settings-time-watermark-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-time-watermark-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </label>
+
+                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
+                  <span class="leading-none">Microphone</span>
+                  <button
+                    type="button"
+                    id="settings-audio-recording-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-audio-recording-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </label>
+
+                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
+                  <span class="leading-none">Auto Zoom</span>
+                  <button
+                    type="button"
+                    id="settings-auto-zoom-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-auto-zoom-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </label>
+
+                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
+                  <span class="leading-none">Auto Tracking</span>
+                  <button
+                    type="button"
+                    id="settings-auto-tracking-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-auto-tracking-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </label>
+              </div>
+            </section>
+
+            <section class="space-y-2">
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="min-w-[5.5rem] text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
+                    <div class="flex items-center gap-1">
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="Auto"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        Auto
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="50Hz"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        50Hz
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="60Hz"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        60Hz
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                  <div class="min-w-[5.5rem] text-[12px] font-medium leading-none text-gray-100">Resolution</div>
+                    <div class="flex items-center gap-1">
+                      <button
+                        type="button"
+                        data-setting-group="resolution"
+                        data-setting-value="1080P/30fps"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition"
+                      >
+                        1080P/30fps
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="resolution"
+                        data-setting-value="1080P/60fps"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition"
+                      >
+                        1080P/60fps
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="resolution"
+                        data-setting-value="4K/30fps"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition"
+                      >
+                        4K/30fps
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-0">
+              <div class="flex w-full items-center justify-between px-1 py-1.5 text-[13px] text-gray-100">
+                <span class="text-[14px] font-semibold leading-none text-white">Tutorial Center Entry</span>
+                <button
+                  type="button"
+                  id="settings-tutorial-entry-toggle"
+                  class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                  aria-pressed="true"
+                >
+                  <span
+                    id="settings-tutorial-entry-thumb"
+                    class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                  ></span>
+                </button>
+              </div>
+            </section>
+
+            <section class="space-y-0 pb-3">
+              <button
+                type="button"
+                id="settings-hardware-entry"
+                class="flex w-full items-center justify-between px-1 py-1.5 text-left text-[13px] text-gray-100 transition hover:text-white/90"
+              >
+                <span class="text-[14px] font-semibold leading-none text-white">Hardware Settings</span>
+                <div class="flex items-center gap-2 text-[12px] text-white/60">
+                  <span id="settings-hardware-entry-value">110&deg;</span>
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="m9 6 6 6-6 6" />
+                  </svg>
+                </div>
+              </button>
+            </section>
+          </div>
+
+          <div id="settings-hardware-view" class="hidden space-y-2">
+            <section class="space-y-1">
+              <h3 class="text-[14px] font-semibold text-white">Hardware Settings</h3>
+              <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
+                <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
+
+                <div class="relative mt-2 min-h-[8.5rem]">
+                  <div class="w-[10.5rem] shrink-0 pl-2 pt-4">
+                    <div class="flex flex-col gap-2">
+                      <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
+                        <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
+                        <span>Device Rotation Angle</span>
+                      </div>
+                      <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
+                        <div class="h-3 w-3 rounded-[3px] bg-[#dbe8ff]"></div>
+                        <span>Video Recording Range</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center justify-center">
+                    <svg width="214" height="118" viewBox="0 0 300 130" class="overflow-visible scale-[0.82] origin-top">
+                      <path
+                        d="M 60 100 A 90 90 0 0 1 240 100"
+                        fill="none"
+                        stroke="#444"
+                        stroke-width="1"
+                        stroke-dasharray="4 4"
+                      />
+                      <g id="settings-angle-segments"></g>
+                      <path d="M 60 105 L 240 105" stroke="#444" stroke-width="1" stroke-dasharray="2 2" />
+                      <g id="settings-angle-pointer" transform="rotate(7.7777777778 150 100)">
+                        <path d="M 150 100 L 110 30 A 80 80 0 0 1 190 30 Z" fill="rgba(255, 85, 0, 0.15)" />
+                        <line x1="150" y1="100" x2="110" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+                        <line x1="150" y1="100" x2="190" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+                        <circle cx="150" cy="100" r="6" fill="#ff5500" />
+                        <path d="M 147 96 L 153 96 L 155 104 L 145 104 Z" fill="#ff5500" />
+                        <circle cx="150" cy="100" r="2" fill="white" />
+                      </g>
+                    </svg>
+                    <div id="settings-angle-display" class="mt-[-10px] text-[12px] font-medium text-white">110&deg;</div>
+                  </div>
+                </div>
+
+                <div class="mt-2.5 flex items-center gap-2.5">
+                  <span class="w-9 text-[10px] text-white/90">60&deg;</span>
+                  <div class="relative flex h-7 flex-1 items-center">
+                    <input
+                      type="range"
+                      id="settings-angle-range"
+                      min="60"
+                      max="150"
+                      value="110"
+                      class="absolute z-20 h-full w-full cursor-pointer opacity-0"
+                    />
+                    <div id="settings-angle-slider-track" class="relative h-1 w-full rounded-full bg-[#7b7b7b]">
+                      <div
+                        id="settings-angle-slider-thumb"
+                        class="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-[4px] border-white/20 bg-white shadow-[0_0_0_8px_rgba(255,255,255,0.18)]"
+                        style="left:55.5556%;transform:translate(-50%, -50%)"
+                      ></div>
+                    </div>
+                  </div>
+                  <span class="w-9 text-right text-[10px] text-white/90">150&deg;</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div id="settings-footer" class="relative z-10 flex flex-col gap-2 px-5 pb-3 pt-1">
+          <div class="flex justify-end">
+            <button
+              type="button"
+              id="settings-restore-btn"
+              class="text-[13px] font-semibold text-white transition hover:text-gray-300"
+            >
+              Restore Defaults
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 控制面板：与手机模拟器并排，不遮挡取景区（小屏时叠在手机下方） -->
+    <div
+      id="proto-control-panel"
+      class="w-full max-w-[20rem] shrink-0 rounded-xl border border-slate-200 bg-white/95 p-3 text-sm shadow-lg lg:sticky lg:top-4 lg:max-w-[16rem] lg:self-start"
+    >
+      <h3 class="border-b border-slate-200 pb-1.5 text-sm font-bold">原型控制</h3>
+      <p class="mb-2 mt-1 text-xs text-slate-500">重放引导流程并重置本地状态。</p>
+      <div class="space-y-1.5">
+        <button
+          type="button"
+          onclick="resetPrototype()"
+          class="w-full rounded bg-slate-200 py-1.5 text-xs font-medium transition hover:bg-slate-300"
+        >
+          重置并重新体验
+        </button>
+        <button
+          type="button"
+          onclick="simulateFirstEntry()"
+          class="w-full rounded border border-blue-200 bg-blue-50 py-1.5 text-xs text-blue-700"
+        >
+          模拟首次进入（新用户）
+        </button>
+        <button
+          type="button"
+          onclick="simulateReturningEntry()"
+          class="w-full rounded border border-emerald-200 bg-emerald-50 py-1.5 text-xs text-emerald-700"
+        >
+          模拟二次进入（未勾选do not show guides again）
+        </button>
+        <button
+          type="button"
+          onclick="simulateReturningEntry(true)"
+          class="w-full rounded border border-amber-200 bg-amber-50 py-1.5 text-xs text-amber-700"
+        >
+          模拟二次进入（勾选do not show guides again）
+        </button>
+        <button
+          type="button"
+          onclick="localStorage.removeItem(LS_NEVER); localStorage.removeItem(LS_DONE); localStorage.removeItem(LS_CAL); location.reload();"
+          class="w-full rounded border border-slate-200 py-1.5 text-xs text-slate-600"
+        >
+          清除本页 localStorage
+        </button>
+      </div>
+      <p class="mt-2 text-[10px] leading-tight text-slate-400">
+        多页版旧原型已另存为 <code>index.legacy.html</code>。本页使用 <code>npm run dev</code> 即 Vite 预览。
+      </p>
+    </div>
+
+    <script>
+      const LS_DONE = "tw_proto_guide_v1";
+      const LS_NEVER = "tw_proto_never_v1";
+      const LS_CAL = "tw_proto_hall_v1";
+      const LS_TUTORIAL_ENTRY = "tw_proto_tutorial_entry_v1";
+      const LS_TUTORIAL_AUTO_OPENED = "tw_proto_tutorial_auto_opened_v1";
+      const LS_ONBOARDING_DONE = "tw_proto_onboarding_done_v1";
+      const LS_GUIDES_HIDDEN = "tw_proto_guides_hidden_v1";
+      const LS_RETURNING_GUIDE_PROMPT = "tw_proto_returning_guide_prompt_v1";
+
+      let state = {
+        isHardwareCalibrated: false,
+        isRecording: false,
+        hasAutoCalibrationFlowRun: false,
+        isGuideFlowManual: false,
+        hallGuideStep: 0,
+        guideStep: 0,
+        timerInterval: null,
+        seconds: 0,
+      };
+      const defaultSettingsState = {
+        timeWatermark: true,
+        audioRecording: true,
+        resolution: "1080P/30fps",
+        autoZoom: true,
+        autoTracking: true,
+        antiFlicker: "Auto",
+        deviceRotationAngle: 110,
+      };
+      let settingsState = {
+        ...defaultSettingsState,
+      };
+      let settingsView = "main";
+
+      const uiGuideOverlay = document.getElementById("ui-guide-overlay");
+      const guideTextBox = document.getElementById("guide-text");
+      const guideTitle = document.getElementById("guide-title");
+      const guideDesc = document.getElementById("guide-desc");
+      const guideProgress = document.getElementById("guide-progress");
+      const guideNextBtn = document.getElementById("guide-next-btn");
+      const guideSkipBtn = document.getElementById("guide-skip-btn");
+      const guideLine = document.getElementById("guide-line");
+      const guideLineHead = document.getElementById("guide-line-head");
+      const guideNever = document.getElementById("guide-never");
+      const hallGuideNever = document.getElementById("hall-guide-never");
+      const hallGuideNeverWrap = document.getElementById("hall-guide-never-wrap");
+
+      const calibrationModal = document.getElementById("calibration-modal");
+      const calibrationContent = document.getElementById("calibration-content");
+      const calibrationProgress = document.getElementById("calibration-progress");
+      const progressBar = document.getElementById("progress-bar");
+      const calibCountdown = document.getElementById("calib-countdown");
+      const calibrationActions = document.getElementById("calibration-actions");
+      const hallGuideModal = document.getElementById("hall-guide-modal");
+      const hallGuideTitle = document.getElementById("hall-guide-title");
+      const hallGuideDesc = document.getElementById("hall-guide-desc");
+      const hallGuideProgress = document.getElementById("hall-guide-progress");
+      const hallGuideVisual = document.getElementById("hall-guide-visual");
+      const hallGuideNextBtn = document.getElementById("hall-guide-next");
+      const hallGuideOkBtn = document.getElementById("hall-guide-ok");
+      const hallGuideSkipBtn = document.getElementById("hall-guide-skip");
+      const returningGuideChoiceModal = document.getElementById("returning-guide-choice-modal");
+      const returningChoiceSkipBtn = document.getElementById("returning-choice-skip");
+      const returningChoiceViewBtn = document.getElementById("returning-choice-view");
+      const tutorialModal = document.getElementById("tutorial-modal");
+      const tutorialFloatWindow = document.getElementById("tutorial-float-window");
+      const tutorialFloatTitle = document.getElementById("tutorial-float-title");
+      const tutorialFloatCloseBtn = document.getElementById("tutorial-float-close");
+      const floatCloseZone = document.getElementById("float-close-zone");
+      const settingsPanel = document.getElementById("settings-panel");
+      const settingsMainView = document.getElementById("settings-main-view");
+      const settingsHardwareView = document.getElementById("settings-hardware-view");
+      const settingsFooter = document.getElementById("settings-footer");
+      const settingsBackBtn = document.getElementById("settings-back-btn");
+      const settingsHardwareEntry = document.getElementById("settings-hardware-entry");
+      const settingsHardwareEntryValue = document.getElementById("settings-hardware-entry-value");
+      const settingsCloseBtn = document.getElementById("settings-close-btn");
+      const settingsRestoreBtn = document.getElementById("settings-restore-btn");
+      const settingsTutorialEntryToggle = document.getElementById("settings-tutorial-entry-toggle");
+      const settingsTutorialEntryThumb = document.getElementById("settings-tutorial-entry-thumb");
+      const settingsChoiceButtons = document.querySelectorAll(".settings-choice-btn");
+      const settingsAngleRange = document.getElementById("settings-angle-range");
+      const settingsAngleDisplay = document.getElementById("settings-angle-display");
+      const settingsAngleSegments = document.getElementById("settings-angle-segments");
+      const settingsAnglePointer = document.getElementById("settings-angle-pointer");
+      const settingsAngleSliderTrack = document.getElementById("settings-angle-slider-track");
+      const settingsAngleSliderThumb = document.getElementById("settings-angle-slider-thumb");
+      const deviceEl = document.getElementById("device");
+      const btnTutorial = document.getElementById("btn-tutorial");
+      const btnSettings = document.getElementById("btn-settings");
+      const btnRecord = document.getElementById("btn-record");
+      const recordInner = document.getElementById("record-inner");
+      const settingsToggleConfig = {
+        timeWatermark: {
+          toggle: document.getElementById("settings-time-watermark-toggle"),
+          thumb: document.getElementById("settings-time-watermark-thumb"),
+        },
+        audioRecording: {
+          toggle: document.getElementById("settings-audio-recording-toggle"),
+          thumb: document.getElementById("settings-audio-recording-thumb"),
+        },
+        autoZoom: {
+          toggle: document.getElementById("settings-auto-zoom-toggle"),
+          thumb: document.getElementById("settings-auto-zoom-thumb"),
+        },
+        autoTracking: {
+          toggle: document.getElementById("settings-auto-tracking-toggle"),
+          thumb: document.getElementById("settings-auto-tracking-thumb"),
+        },
+      };
+
+      const guideSteps = [
+        {
+          targetId: "btn-live",
+          title: "Tap to start live streaming",
+          desc: "Recording can run in parallel during live streaming.",
+        },
+        {
+          targetId: "btn-record",
+          title: "Tap the red button to start recording",
+          desc: "Tap again to stop. This clip will be saved automatically.",
+        },
+      ];
+      const hallGuideSteps = [
+        {
+          title: "Align with the center line first",
+          desc: "After calibration, rotate the device manually to align with the center line and keep it steady.",
+          image: "../image-20890a7b-a3c3-47ba-b03c-0ea9eba3e53a.png",
+        },
+        {
+          title: "Confirm setup height for midfield",
+          desc: "A setup height around 2.5m is recommended for better midfield coverage and stable tracking.",
+          image: "../image-257628d3-f8ed-4e17-a147-014d124b481a.png",
+        },
+      ];
+      function isNewUser() {
+        return localStorage.getItem(LS_ONBOARDING_DONE) !== "1";
+      }
+      function shouldAutoShowGuides() {
+        return isNewUser() || !guidesHidden() || state.isGuideFlowManual;
+      }
+      function guidesHidden() {
+        return localStorage.getItem(LS_GUIDES_HIDDEN) === "1";
+      }
+      function setGuidesHidden(isHidden) {
+        if (isHidden) {
+          localStorage.setItem(LS_GUIDES_HIDDEN, "1");
+        } else {
+          localStorage.removeItem(LS_GUIDES_HIDDEN);
+        }
+      }
+      function syncGuideNeverState(checked) {
+        if (guideNever) guideNever.checked = !!checked;
+        if (hallGuideNever) hallGuideNever.checked = !!checked;
+      }
+      function shouldPromptReturningGuideChoice() {
+        return !isNewUser() && !guidesHidden() && !state.isGuideFlowManual && localStorage.getItem(LS_RETURNING_GUIDE_PROMPT) === "1";
+      }
+      function openReturningGuideChoice() {
+        if (!returningGuideChoiceModal) return;
+        returningGuideChoiceModal.classList.remove("hidden");
+        returningGuideChoiceModal.classList.add("flex");
+      }
+      function closeReturningGuideChoice() {
+        if (!returningGuideChoiceModal) return;
+        returningGuideChoiceModal.classList.add("hidden");
+        returningGuideChoiceModal.classList.remove("flex");
+      }
+      function setGuideLine(x1, y1, x2, y2) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const ang = Math.atan2(dy, dx) * (180 / Math.PI);
+        guideLine.style.left = x1 + "px";
+        guideLine.style.top = y1 + "px";
+        guideLine.style.width = len + "px";
+        guideLine.style.transform = "rotate(" + ang + "deg)";
+        guideLineHead.style.left = x2 - 5 + "px";
+        guideLineHead.style.top = y2 - 5 + "px";
+        guideLineHead.style.transform = "rotate(" + (ang + 45) + "deg)";
+      }
+
+      function renderGuideStep(stepIndex) {
+        if (stepIndex < 0 || stepIndex >= guideSteps.length) return;
+        state.guideStep = stepIndex;
+        const step = guideSteps[stepIndex];
+        const target = document.getElementById(step.targetId);
+        if (!target || !deviceEl) return;
+
+        const tRect = target.getBoundingClientRect();
+        const cRect = deviceEl.getBoundingClientRect();
+        guideTitle.textContent = step.title;
+        guideDesc.textContent = step.desc;
+        guideProgress.textContent = stepIndex + 1 + "/" + guideSteps.length;
+        guideNextBtn.textContent = stepIndex === guideSteps.length - 1 ? "Done" : "Next";
+        const allowSkipOrOptOut = !isNewUser() || state.isGuideFlowManual;
+        if (guideSkipBtn) guideSkipBtn.classList.toggle("hidden", !allowSkipOrOptOut);
+        if (guideNever) {
+          guideNever.disabled = false;
+          guideNever.closest("label")?.classList.remove("opacity-40");
+          syncGuideNeverState(guidesHidden());
+        }
+
+        const tx = tRect.left - cRect.left + tRect.width / 2;
+        const ty = tRect.top - cRect.top + tRect.height / 2;
+        const isRight = tx > cRect.width * 0.6;
+        const textX = isRight ? Math.max(30, tx - 260) : Math.min(cRect.width - 250, tx + 36);
+        const textY = Math.max(42, Math.min(cRect.height - 68, ty - 30));
+        guideTextBox.style.left = textX + "px";
+        guideTextBox.style.top = textY + "px";
+
+        const fromX = isRight ? textX + 230 : textX + 6;
+        const fromY = textY + 18;
+        setGuideLine(fromX, fromY, tx, ty);
+      }
+
+      function renderHallGuideStep(stepIndex) {
+        if (!hallGuideSteps[stepIndex]) return;
+        state.hallGuideStep = stepIndex;
+        hallGuideTitle.textContent = hallGuideSteps[stepIndex].title;
+        hallGuideDesc.textContent = hallGuideSteps[stepIndex].desc;
+        if (hallGuideVisual && hallGuideSteps[stepIndex].image) {
+          hallGuideVisual.style.backgroundImage = "url('" + hallGuideSteps[stepIndex].image + "')";
+        }
+        hallGuideProgress.textContent = stepIndex + 1 + "/" + hallGuideSteps.length;
+        if (hallGuideNextBtn) hallGuideNextBtn.classList.toggle("hidden", stepIndex >= hallGuideSteps.length - 1);
+        hallGuideOkBtn.classList.remove("hidden");
+        const allowSkipOrOptOut = !isNewUser() || state.isGuideFlowManual;
+        if (hallGuideSkipBtn) hallGuideSkipBtn.classList.toggle("hidden", !allowSkipOrOptOut);
+        if (hallGuideNeverWrap) hallGuideNeverWrap.classList.remove("hidden");
+        if (hallGuideNever) hallGuideNever.disabled = false;
+        if (hallGuideOkBtn) hallGuideOkBtn.classList.toggle("hidden", stepIndex < hallGuideSteps.length - 1);
+        syncGuideNeverState(guidesHidden());
+      }
+      function showHallGuideModal() {
+        // Prevent UI guide and Hall guide from stacking
+        closeGuideUI();
+        hallGuideModal.classList.remove("hidden");
+        renderHallGuideStep(0);
+      }
+      function closeHallGuideModal() {
+        hallGuideModal.classList.add("hidden");
+      }
+      function completeHallGuideAndRecord() {
+        closeHallGuideModal();
+        if (shouldAutoShowGuides()) {
+          startUIGuide();
+        }
+      }
+
+      function checkAndShowGuide() {
+        if (guidesHidden() && !state.isGuideFlowManual) {
+          return;
+        }
+        if (isNewUser() && !state.hasAutoCalibrationFlowRun && !state.isGuideFlowManual) {
+          return;
+        }
+        if (!calibrationModal.classList.contains("hidden")) {
+          return;
+        }
+        if (!hallGuideModal.classList.contains("hidden")) {
+          return;
+        }
+        if (!shouldAutoShowGuides()) return;
+        if (localStorage.getItem(LS_NEVER) === "1") {
+          return;
+        }
+        if (localStorage.getItem(LS_DONE) === "1") {
+          return;
+        }
+        if (localStorage.getItem(LS_CAL) === "1") {
+          state.isHardwareCalibrated = true;
+        }
+        setTimeout(function () {
+          deviceEl.setAttribute("data-guide-active", "true");
+          uiGuideOverlay.classList.remove("hidden", "pointer-events-none");
+          uiGuideOverlay.classList.add("pointer-events-auto");
+          uiGuideOverlay.removeAttribute("aria-hidden");
+          renderGuideStep(0);
+        }, 500);
+      }
+
+      function nextGuideStep() {
+        if (state.guideStep < guideSteps.length - 1) {
+          renderGuideStep(state.guideStep + 1);
+        } else {
+          completeGuide();
+        }
+      }
+
+      function completeGuide() {
+        const never = (guideNever && guideNever.checked) || (hallGuideNever && hallGuideNever.checked);
+        if (never) {
+          setGuidesHidden(true);
+          localStorage.setItem(LS_NEVER, "1");
+        } else {
+          setGuidesHidden(false);
+          localStorage.setItem(LS_DONE, "1");
+        }
+        if (isNewUser() || state.isGuideFlowManual) {
+          localStorage.setItem(LS_ONBOARDING_DONE, "1");
+        }
+        state.isGuideFlowManual = false;
+        closeGuideUI();
+      }
+
+      function skipUIGuide() {
+        if (isNewUser() && !state.isGuideFlowManual) return;
+        const never = (guideNever && guideNever.checked) || (hallGuideNever && hallGuideNever.checked);
+        if (never) {
+          setGuidesHidden(true);
+          localStorage.setItem(LS_NEVER, "1");
+        } else {
+          setGuidesHidden(false);
+          localStorage.setItem(LS_DONE, "1");
+        }
+        state.isGuideFlowManual = false;
+        closeGuideUI();
+      }
+
+      function startUIGuide() {
+        deviceEl.setAttribute("data-guide-active", "true");
+        uiGuideOverlay.classList.remove("hidden", "pointer-events-none");
+        uiGuideOverlay.classList.add("pointer-events-auto");
+        uiGuideOverlay.removeAttribute("aria-hidden");
+        renderGuideStep(0);
+      }
+
+      function closeGuideUI() {
+        if (deviceEl) deviceEl.removeAttribute("data-guide-active");
+        uiGuideOverlay.classList.add("pointer-events-none", "hidden");
+        uiGuideOverlay.setAttribute("aria-hidden", "true");
+      }
+
+      function bindEvents() {
+        btnRecord.addEventListener("click", handleRecordClick);
+        bindDraggableTutorialHandle();
+        if (btnSettings) btnSettings.addEventListener("click", toggleSettingsPanel);
+        if (settingsCloseBtn) settingsCloseBtn.addEventListener("click", closeSettingsPanel);
+        if (settingsBackBtn) settingsBackBtn.addEventListener("click", openSettingsMainView);
+        if (settingsHardwareEntry) settingsHardwareEntry.addEventListener("click", openSettingsHardwareView);
+        if (tutorialFloatCloseBtn) {
+          tutorialFloatCloseBtn.addEventListener("click", function () {
+            tutorialFloatWindow.classList.add("hidden");
+          });
+        }
+        bindDraggableFloatWindow();
+        Object.keys(settingsToggleConfig).forEach(function (key) {
+          var config = settingsToggleConfig[key];
+          if (!config.toggle) return;
+          config.toggle.addEventListener("click", function () {
+            updateSetting(key, !settingsState[key]);
+          });
+        });
+        settingsChoiceButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            var group = button.getAttribute("data-setting-group");
+            var value = button.getAttribute("data-setting-value");
+            if (group === "resolution") updateSetting("resolution", value);
+            if (group === "anti-flicker") updateSetting("antiFlicker", value);
+          });
+        });
+        if (settingsAngleRange) {
+          settingsAngleRange.addEventListener("input", function (e) {
+            updateSetting("deviceRotationAngle", Number(e.target.value));
+          });
+        }
+        if (settingsTutorialEntryToggle) {
+          settingsTutorialEntryToggle.addEventListener("click", function () {
+            var isOn = settingsTutorialEntryToggle.getAttribute("aria-pressed") !== "true";
+            setTutorialEntryEnabled(isOn);
+          });
+        }
+        if (settingsRestoreBtn) {
+          settingsRestoreBtn.addEventListener("click", function () {
+            settingsState = {
+              ...defaultSettingsState,
+            };
+            renderSettingsPanel();
+            setTutorialEntryEnabled(localStorage.getItem(LS_TUTORIAL_ENTRY) !== "0");
+          });
+        }
+        if (guideNever) {
+          guideNever.addEventListener("change", function () {
+            syncGuideNeverState(guideNever.checked);
+          });
+        }
+        if (hallGuideNever) {
+          hallGuideNever.addEventListener("change", function () {
+            syncGuideNeverState(hallGuideNever.checked);
+          });
+        }
+        if (tutorialModal) {
+          var btnOpenAllGuides = document.getElementById("btn-open-all-guides");
+          if (btnOpenAllGuides) {
+            btnOpenAllGuides.addEventListener("click", function () {
+              closeTutorial();
+              replayAllGuidesWithoutCalibration();
+            });
+          }
+        }
+        if (guideSkipBtn) guideSkipBtn.addEventListener("click", skipUIGuide);
+        if (hallGuideOkBtn) {
+          hallGuideOkBtn.addEventListener("click", completeHallGuideAndRecord);
+        }
+        if (hallGuideNextBtn) {
+          hallGuideNextBtn.addEventListener("click", function () {
+            if (state.hallGuideStep < hallGuideSteps.length - 1) renderHallGuideStep(state.hallGuideStep + 1);
+          });
+        }
+        if (hallGuideSkipBtn) {
+          hallGuideSkipBtn.addEventListener("click", function () {
+            if (isNewUser()) return;
+            closeHallGuideModal();
+            if (state.isGuideFlowManual) {
+              startUIGuide();
+            }
+          });
+        }
+        if (returningChoiceSkipBtn) {
+          returningChoiceSkipBtn.addEventListener("click", function () {
+            setGuidesHidden(true);
+            localStorage.setItem(LS_NEVER, "1");
+            localStorage.removeItem(LS_RETURNING_GUIDE_PROMPT);
+            closeReturningGuideChoice();
+          });
+        }
+        if (returningChoiceViewBtn) {
+          returningChoiceViewBtn.addEventListener("click", function () {
+            localStorage.removeItem(LS_RETURNING_GUIDE_PROMPT);
+            closeReturningGuideChoice();
+            showHallGuideModal();
+          });
+        }
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            if (!uiGuideOverlay.classList.contains("hidden") && !isNewUser()) skipUIGuide();
+            if (!calibrationModal.classList.contains("hidden")) closeCalibration();
+            if (!tutorialModal.classList.contains("hidden")) closeTutorial();
+          }
+        });
+      }
+
+      function handleRecordClick() {
+        if (!uiGuideOverlay.classList.contains("hidden")) return;
+        if (!hallGuideModal.classList.contains("hidden")) return;
+        if (!calibrationModal.classList.contains("hidden")) return;
+        toggleRecording();
+      }
+
+      function showCalibrationModal() {
+        // Prevent UI guide and calibration modal from stacking
+        closeGuideUI();
+        calibrationModal.classList.remove("hidden");
+        requestAnimationFrame(function () {
+          calibrationModal.classList.remove("opacity-0");
+          calibrationModal.classList.add("opacity-100");
+        });
+        calibrationContent.classList.remove("translate-y-4");
+      }
+      function closeCalibration() {
+        calibrationModal.classList.add("opacity-0");
+        calibrationModal.classList.remove("opacity-100");
+        calibrationContent.classList.add("translate-y-4");
+        setTimeout(function () {
+          calibrationModal.classList.add("hidden");
+        }, 300);
+      }
+
+      function startCalibration() {
+        progressBar.style.width = "0%";
+        if (calibCountdown) calibCountdown.textContent = "3s";
+        calibrationActions.classList.add("hidden");
+        calibrationProgress.classList.remove("hidden");
+        var remaining = 3;
+        var countdownTimer = setInterval(function () {
+          remaining -= 1;
+          if (calibCountdown) calibCountdown.textContent = Math.max(remaining, 0) + "s";
+          if (remaining <= 0) clearInterval(countdownTimer);
+        }, 1000);
+        setTimeout(function () {
+          void progressBar.offsetWidth;
+          progressBar.style.width = "100%";
+        }, 50);
+        setTimeout(function () {
+          clearInterval(countdownTimer);
+          state.isHardwareCalibrated = true;
+          localStorage.setItem(LS_CAL, "1");
+          closeCalibration();
+          setTimeout(function () {
+            calibrationActions.classList.remove("hidden");
+            calibrationProgress.classList.add("hidden");
+            progressBar.style.width = "0%";
+            if (calibCountdown) calibCountdown.textContent = "3s";
+            if (shouldPromptReturningGuideChoice()) {
+              openReturningGuideChoice();
+            } else if (shouldAutoShowGuides()) {
+              showHallGuideModal();
+            }
+          }, 350);
+        }, 3000);
+      }
+      function maybeRunAutoCalibrationFlow() {
+        if (state.hasAutoCalibrationFlowRun) return;
+        state.hasAutoCalibrationFlowRun = true;
+        showCalibrationModal();
+        startCalibration();
+      }
+      function replayAllGuidesWithoutCalibration() {
+        state.isGuideFlowManual = true;
+        state.hasAutoCalibrationFlowRun = true;
+        if (settingsPanel) settingsPanel.classList.add("hidden");
+        closeGuideUI();
+        closeHallGuideModal();
+        closeTutorial();
+        showHallGuideModal();
+      }
+
+      function toggleRecording() {
+        state.isRecording = !state.isRecording;
+        const timeDisplay = document.getElementById("recording-time");
+        if (state.isRecording) {
+          recordInner.classList.remove("h-12", "w-12", "rounded-full");
+          recordInner.classList.add("h-6", "w-6", "rounded-sm");
+          timeDisplay.classList.add("text-red-400", "font-semibold");
+          btnRecord.classList.add("recording-active", "ring-2", "ring-red-500/50");
+          document.getElementById("btn-record").setAttribute("aria-pressed", "true");
+          startTimer();
+        } else {
+          recordInner.classList.add("h-12", "w-12", "rounded-full");
+          recordInner.classList.remove("h-6", "w-6", "rounded-sm");
+          timeDisplay.classList.remove("text-red-400", "font-semibold");
+          btnRecord.classList.remove("recording-active", "ring-2", "ring-red-500/50");
+          document.getElementById("btn-record").setAttribute("aria-pressed", "false");
+          stopTimer();
+        }
+      }
+
+      function startTimer() {
+        state.seconds = 0;
+        const timeDisplay = document.getElementById("recording-time");
+        clearInterval(state.timerInterval);
+        state.timerInterval = setInterval(function () {
+          state.seconds += 1;
+          var s = state.seconds;
+          var h = String(Math.floor(s / 3600)).padStart(2, "0");
+          var m = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+          var sec = String(s % 60).padStart(2, "0");
+          timeDisplay.textContent = h + ":" + m + ":" + sec;
+        }, 1000);
+      }
+      function stopTimer() {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+        document.getElementById("recording-time").textContent = "00:00:00";
+      }
+
+      function openTutorial() {
+        tutorialModal.classList.remove("hidden");
+        requestAnimationFrame(function () {
+          tutorialModal.classList.remove("-translate-x-full");
+        });
+      }
+      function closeTutorial() {
+        tutorialModal.classList.add("-translate-x-full");
+        setTimeout(function () {
+          tutorialModal.classList.add("hidden");
+        }, 300);
+      }
+      function toggleSettingsPanel() {
+        if (!settingsPanel) return;
+        settingsView = "main";
+        renderSettingsPanel();
+        settingsPanel.classList.toggle("hidden");
+        settingsPanel.classList.toggle("flex", !settingsPanel.classList.contains("hidden"));
+      }
+      function closeSettingsPanel() {
+        if (settingsPanel) {
+          settingsPanel.classList.add("hidden");
+          settingsPanel.classList.remove("flex");
+        }
+        settingsView = "main";
+      }
+      function openSettingsHardwareView() {
+        settingsView = "hardware";
+        renderSettingsPanel();
+      }
+      function openSettingsMainView() {
+        settingsView = "main";
+        renderSettingsPanel();
+      }
+      function mapAngleValueToVisualAngle(val) {
+        var minVal = 60;
+        var maxVal = 150;
+        var percentage = (val - minVal) / (maxVal - minVal);
+        return -70 + percentage * 140;
+      }
+      function getAngleSliderPercentage() {
+        return ((settingsState.deviceRotationAngle - 60) / (150 - 60)) * 100;
+      }
+      function renderAngleSegments() {
+        if (!settingsAngleSegments) return;
+        var segments = [];
+        var totalSegments = 24;
+        for (var i = 0; i <= totalSegments; i++) {
+          var segAngle = -70 + i * (140 / totalSegments);
+          var innerRadius = 55;
+          var outerRadius = 85;
+          var angleRad = (segAngle - 90) * (Math.PI / 180);
+          var x1 = 150 + innerRadius * Math.cos(angleRad);
+          var y1 = 100 + innerRadius * Math.sin(angleRad);
+          var x2 = 150 + outerRadius * Math.cos(angleRad);
+          var y2 = 100 + outerRadius * Math.sin(angleRad);
+          var isBlue = i <= totalSegments / 2;
+          segments.push(
+            '<line x1="' +
+              x1 +
+              '" y1="' +
+              y1 +
+              '" x2="' +
+              x2 +
+              '" y2="' +
+              y2 +
+              '" stroke="' +
+              (isBlue ? "#5d8ef0" : "#d9e6ff") +
+              '" stroke-width="3" stroke-linecap="round" class="' +
+              (isBlue ? "opacity-95" : "opacity-80") +
+              '"></line>'
+          );
+        }
+        settingsAngleSegments.innerHTML = segments.join("");
+      }
+      function renderToggleButton(toggleEl, thumbEl, isEnabled) {
+        if (!toggleEl || !thumbEl) return;
+        toggleEl.setAttribute("aria-pressed", isEnabled ? "true" : "false");
+        toggleEl.classList.toggle("bg-[#ff5500]", isEnabled);
+        toggleEl.classList.toggle("bg-gray-500", !isEnabled);
+        thumbEl.style.transform = isEnabled ? "translateX(18px)" : "translateX(4px)";
+      }
+      function updateSetting(key, value) {
+        settingsState[key] = value;
+        renderSettingsPanel();
+      }
+      function renderSettingsPanel() {
+        if (settingsMainView) settingsMainView.classList.toggle("hidden", settingsView !== "main");
+        if (settingsHardwareView) settingsHardwareView.classList.toggle("hidden", settingsView !== "hardware");
+        if (settingsFooter) settingsFooter.classList.toggle("hidden", settingsView === "hardware");
+        if (settingsBackBtn) settingsBackBtn.classList.toggle("hidden", settingsView !== "hardware");
+        Object.keys(settingsToggleConfig).forEach(function (key) {
+          renderToggleButton(settingsToggleConfig[key].toggle, settingsToggleConfig[key].thumb, settingsState[key]);
+        });
+        settingsChoiceButtons.forEach(function (button) {
+          var group = button.getAttribute("data-setting-group");
+          var value = button.getAttribute("data-setting-value");
+          var isActive =
+            (group === "resolution" && value === settingsState.resolution) ||
+            (group === "anti-flicker" && value === settingsState.antiFlicker);
+          button.classList.toggle("border-[#de6b32]", isActive);
+          button.classList.toggle("text-white", isActive);
+          button.classList.toggle("text-white/78", !isActive);
+          button.classList.toggle("shadow-[inset_0_0_0_1px_rgba(222,107,50,0.15)]", isActive);
+        });
+        if (settingsAngleRange) settingsAngleRange.value = settingsState.deviceRotationAngle;
+        if (settingsAngleDisplay) settingsAngleDisplay.textContent = settingsState.deviceRotationAngle + "\u00B0";
+        if (settingsHardwareEntryValue) settingsHardwareEntryValue.textContent = settingsState.deviceRotationAngle + "\u00B0";
+        if (settingsAnglePointer) {
+          settingsAnglePointer.setAttribute(
+            "transform",
+            "rotate(" + mapAngleValueToVisualAngle(settingsState.deviceRotationAngle) + " 150 100)"
+          );
+        }
+        var percentage = getAngleSliderPercentage();
+        if (settingsAngleSliderTrack) {
+          settingsAngleSliderTrack.style.background =
+            "linear-gradient(to right, #de6b32 " + percentage + "%, #9a9a9a " + percentage + "%)";
+        }
+        if (settingsAngleSliderThumb) {
+          settingsAngleSliderThumb.style.left = percentage + "%";
+        }
+      }
+      function setTutorialEntryEnabled(isEnabled) {
+        if (!settingsTutorialEntryToggle || !btnTutorial) return;
+        renderToggleButton(settingsTutorialEntryToggle, settingsTutorialEntryThumb, isEnabled);
+        if (isEnabled) {
+          btnTutorial.classList.remove("hidden");
+        } else {
+          btnTutorial.classList.add("hidden");
+          closeTutorial();
+          if (tutorialFloatWindow) tutorialFloatWindow.classList.add("hidden");
+        }
+        localStorage.setItem(LS_TUTORIAL_ENTRY, isEnabled ? "1" : "0");
+      }
+      function showTutorialFloatWindow(videoKey) {
+        if (!tutorialFloatWindow) return;
+        var titleMap = {
+          "live-record": "Live streaming and recording workflow",
+        };
+        tutorialFloatTitle.textContent = titleMap[videoKey] || "Tutorial playing";
+        tutorialFloatWindow.classList.remove("hidden");
+      }
+      function bindDraggableFloatWindow() {
+        if (!tutorialFloatWindow || !deviceEl || !floatCloseZone) return;
+        var drag = {
+          pointerId: null,
+          startX: 0,
+          startY: 0,
+          originLeft: 0,
+          originTop: 0,
+          moved: false,
+        };
+
+        function clamp(value, min, max) {
+          return Math.min(max, Math.max(min, value));
+        }
+        function isOverCloseZone() {
+          if (floatCloseZone.classList.contains("hidden")) return false;
+          var fRect = tutorialFloatWindow.getBoundingClientRect();
+          var zRect = floatCloseZone.getBoundingClientRect();
+          var cx = fRect.left + fRect.width / 2;
+          var cy = fRect.top + fRect.height / 2;
+          return cx >= zRect.left && cx <= zRect.right && cy >= zRect.top && cy <= zRect.bottom;
+        }
+        function setFloatPosition(left, top) {
+          var maxLeft = deviceEl.clientWidth - tutorialFloatWindow.offsetWidth;
+          var maxTop = deviceEl.clientHeight - tutorialFloatWindow.offsetHeight;
+          tutorialFloatWindow.style.left = clamp(left, 0, maxLeft) + "px";
+          tutorialFloatWindow.style.top = clamp(top, 0, maxTop) + "px";
+          tutorialFloatWindow.style.right = "auto";
+          tutorialFloatWindow.style.bottom = "auto";
+        }
+
+        tutorialFloatWindow.addEventListener("pointerdown", function (e) {
+          if (e.target && e.target.id === "tutorial-float-close") return;
+          drag.pointerId = e.pointerId;
+          drag.startX = e.clientX;
+          drag.startY = e.clientY;
+          drag.originLeft = tutorialFloatWindow.offsetLeft;
+          drag.originTop = tutorialFloatWindow.offsetTop;
+          drag.moved = false;
+          floatCloseZone.classList.remove("hidden");
+          floatCloseZone.classList.add("flex");
+          tutorialFloatWindow.setPointerCapture(e.pointerId);
+        });
+
+        tutorialFloatWindow.addEventListener("pointermove", function (e) {
+          if (drag.pointerId !== e.pointerId) return;
+          var dx = e.clientX - drag.startX;
+          var dy = e.clientY - drag.startY;
+          if (!drag.moved && Math.hypot(dx, dy) > 3) {
+            drag.moved = true;
+          }
+          if (drag.moved) {
+            setFloatPosition(drag.originLeft + dx, drag.originTop + dy);
+            floatCloseZone.classList.toggle("ring-2", isOverCloseZone());
+          }
+        });
+
+        tutorialFloatWindow.addEventListener("pointerup", function (e) {
+          if (drag.pointerId !== e.pointerId) return;
+          tutorialFloatWindow.releasePointerCapture(e.pointerId);
+          if (drag.moved && isOverCloseZone()) {
+            tutorialFloatWindow.classList.add("hidden");
+          }
+          drag.pointerId = null;
+          drag.moved = false;
+          floatCloseZone.classList.remove("flex", "ring-2");
+          floatCloseZone.classList.add("hidden");
+        });
+
+        tutorialFloatWindow.addEventListener("pointercancel", function () {
+          drag.pointerId = null;
+          drag.moved = false;
+          floatCloseZone.classList.remove("flex", "ring-2");
+          floatCloseZone.classList.add("hidden");
+        });
+      }
+
+      function maybeAutoOpenTutorialList() {
+        if (guidesHidden()) return;
+        if (!isNewUser()) return;
+        if (localStorage.getItem(LS_TUTORIAL_ENTRY) === "0") return;
+        setTimeout(function () {
+          openTutorial();
+        }, 800);
+      }
+
+      function simulateFirstEntry() {
+        localStorage.removeItem(LS_ONBOARDING_DONE);
+        localStorage.removeItem(LS_DONE);
+        localStorage.removeItem(LS_NEVER);
+        localStorage.removeItem(LS_GUIDES_HIDDEN);
+        localStorage.removeItem(LS_CAL);
+        localStorage.removeItem(LS_RETURNING_GUIDE_PROMPT);
+        localStorage.removeItem(LS_TUTORIAL_AUTO_OPENED);
+        location.reload();
+      }
+
+      function simulateReturningEntry(hideGuides) {
+        localStorage.setItem(LS_ONBOARDING_DONE, "1");
+        localStorage.setItem(LS_DONE, "1");
+        localStorage.setItem(LS_CAL, "1");
+        localStorage.setItem(LS_TUTORIAL_AUTO_OPENED, "1");
+        if (hideGuides) {
+          localStorage.setItem(LS_GUIDES_HIDDEN, "1");
+          localStorage.removeItem(LS_RETURNING_GUIDE_PROMPT);
+        } else {
+          localStorage.removeItem(LS_GUIDES_HIDDEN);
+          localStorage.setItem(LS_RETURNING_GUIDE_PROMPT, "1");
+        }
+        location.reload();
+      }
+
+      function bindDraggableTutorialHandle() {
+        if (!btnTutorial || !deviceEl) return;
+        var drag = {
+          pointerId: null,
+          originLeft: 0,
+          originTop: 0,
+          startX: 0,
+          startY: 0,
+          moved: false,
+          suppressClick: false,
+        };
+
+        function clamp(value, min, max) {
+          return Math.min(max, Math.max(min, value));
+        }
+
+        function positionHandle(left, top) {
+          var maxLeft = deviceEl.clientWidth - btnTutorial.offsetWidth;
+          var maxTop = deviceEl.clientHeight - btnTutorial.offsetHeight;
+          btnTutorial.style.left = clamp(left, 0, maxLeft) + "px";
+          btnTutorial.style.top = clamp(top, 0, maxTop) + "px";
+        }
+        function isOverCloseZone() {
+          if (!floatCloseZone || floatCloseZone.classList.contains("hidden")) return false;
+          var bRect = btnTutorial.getBoundingClientRect();
+          var zRect = floatCloseZone.getBoundingClientRect();
+          var cx = bRect.left + bRect.width / 2;
+          var cy = bRect.top + bRect.height / 2;
+          return cx >= zRect.left && cx <= zRect.right && cy >= zRect.top && cy <= zRect.bottom;
+        }
+
+        function initHandlePosition() {
+          var initLeft = deviceEl.clientWidth - btnTutorial.offsetWidth - 2;
+          var initTop = Math.round(deviceEl.clientHeight * 0.34);
+          positionHandle(initLeft, initTop);
+        }
+
+        btnTutorial.addEventListener("pointerdown", function (e) {
+          drag.pointerId = e.pointerId;
+          drag.startX = e.clientX;
+          drag.startY = e.clientY;
+          drag.originLeft = btnTutorial.offsetLeft;
+          drag.originTop = btnTutorial.offsetTop;
+          drag.moved = false;
+          if (floatCloseZone) {
+            floatCloseZone.textContent = "Drag here to hide tutorial entry";
+            floatCloseZone.classList.remove("hidden");
+            floatCloseZone.classList.add("flex");
+          }
+          btnTutorial.setPointerCapture(e.pointerId);
+        });
+
+        btnTutorial.addEventListener("pointermove", function (e) {
+          if (drag.pointerId !== e.pointerId) return;
+          var dx = e.clientX - drag.startX;
+          var dy = e.clientY - drag.startY;
+          if (!drag.moved && Math.hypot(dx, dy) > 4) {
+            drag.moved = true;
+            drag.suppressClick = true;
+          }
+          if (drag.moved) {
+            positionHandle(drag.originLeft + dx, drag.originTop + dy);
+            if (floatCloseZone) {
+              floatCloseZone.classList.toggle("ring-2", isOverCloseZone());
+            }
+          }
+        });
+
+        btnTutorial.addEventListener("pointerup", function (e) {
+          if (drag.pointerId !== e.pointerId) return;
+          btnTutorial.releasePointerCapture(e.pointerId);
+          drag.pointerId = null;
+          if (drag.moved && isOverCloseZone()) {
+            setTutorialEntryEnabled(false);
+          } else if (drag.moved) {
+            var snapLeft = btnTutorial.offsetLeft < deviceEl.clientWidth / 2 ? 2 : deviceEl.clientWidth - btnTutorial.offsetWidth - 2;
+            positionHandle(snapLeft, btnTutorial.offsetTop);
+          }
+          if (floatCloseZone) {
+            floatCloseZone.classList.remove("flex", "ring-2");
+            floatCloseZone.classList.add("hidden");
+            floatCloseZone.textContent = "Drag here to close floating player";
+          }
+        });
+
+        btnTutorial.addEventListener("click", function (e) {
+          if (drag.suppressClick) {
+            e.preventDefault();
+            drag.suppressClick = false;
+            return;
+          }
+          openTutorial();
+        });
+
+        window.addEventListener("resize", function () {
+          positionHandle(btnTutorial.offsetLeft, btnTutorial.offsetTop);
+        });
+
+        initHandlePosition();
+      }
+
+      function resetPrototype() {
+        if (state.isRecording) {
+          toggleRecording();
+        }
+        closeGuideUI();
+        closeCalibration();
+        closeHallGuideModal();
+        closeTutorial();
+        if (settingsPanel) settingsPanel.classList.add("hidden");
+        if (tutorialFloatWindow) tutorialFloatWindow.classList.add("hidden");
+        if (floatCloseZone) {
+          floatCloseZone.classList.remove("flex", "ring-2");
+          floatCloseZone.classList.add("hidden");
+        }
+        closeReturningGuideChoice();
+        setGuidesHidden(false);
+        localStorage.removeItem(LS_DONE);
+        localStorage.removeItem(LS_NEVER);
+        localStorage.removeItem(LS_CAL);
+        localStorage.removeItem(LS_ONBOARDING_DONE);
+        localStorage.removeItem(LS_RETURNING_GUIDE_PROMPT);
+        state.isHardwareCalibrated = false;
+        state.hasAutoCalibrationFlowRun = false;
+        state.isGuideFlowManual = false;
+        state.hallGuideStep = 0;
+        state.seconds = 0;
+        stopTimer();
+        recordInner.className =
+          "h-12 w-12 rounded-full bg-[#b30000] shadow-inner transition duration-300 group-active:scale-95";
+        btnRecord.classList.remove("recording-active", "ring-2", "ring-red-500/50");
+        if (guideNever) guideNever.checked = false;
+        setTimeout(function () {
+          checkAndShowGuide();
+          maybeRunAutoCalibrationFlow();
+        }, 500);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (localStorage.getItem(LS_CAL) === "1") {
+          state.isHardwareCalibrated = true;
+        }
+        renderAngleSegments();
+        renderSettingsPanel();
+        bindEvents();
+        setTutorialEntryEnabled(localStorage.getItem(LS_TUTORIAL_ENTRY) !== "0");
+        checkAndShowGuide();
+        maybeAutoOpenTutorialList();
+        setTimeout(maybeRunAutoCalibrationFlow, 900);
+      });
+    </script>
+  </body>
+</html>
