@@ -496,7 +496,7 @@
           <button
             type="button"
             id="settings-back-btn"
-            class="absolute left-4 hidden h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white"
+            class="absolute left-4 hidden flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:bg-white/10"
             aria-label="Back to settings overview"
           >
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -1455,7 +1455,7 @@
         toggleEl.setAttribute("aria-pressed", isEnabled ? "true" : "false");
         toggleEl.classList.toggle("bg-[#ff5500]", isEnabled);
         toggleEl.classList.toggle("bg-gray-500", !isEnabled);
-        thumbEl.style.transform = isEnabled ? "translateX(18px)" : "translateX(4px)";
+        thumbEl.style.transform = isEnabled ? "translateX(23px)" : "translateX(3px)";
       }
       function updateSetting(key, value) {
         settingsState[key] = value;
