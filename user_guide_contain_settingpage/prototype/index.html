@@ -19,6 +19,15 @@
         border-radius: 40px;
         overflow: hidden;
         position: relative;
+        transition: max-width 240ms ease, height 240ms ease;
+      }
+      #device[data-orientation="landscape"] {
+        max-width: 812px;
+        height: 375px;
+      }
+      #device[data-orientation="portrait"] {
+        max-width: 375px;
+        height: 812px;
       }
       .camera-bg {
         background-image: radial-gradient(circle at 50% 50%, #475569 0%, #0f172a 100%);
@@ -51,14 +60,333 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
+      .proto-orientation-btn[data-orientation="portrait"] .proto-orientation-label::after {
+        content: "Portrait";
+      }
+      .proto-orientation-btn[data-orientation="landscape"] .proto-orientation-label::after {
+        content: "Landscape";
+      }
+      #device[data-orientation="portrait"] #settings-content {
+        overflow-y: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
+      }
+      #device[data-orientation="portrait"] #settings-panel {
+        background: #000;
+      }
+      #device[data-orientation="portrait"] #settings-header {
+        min-height: 3.25rem;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(18px);
+      }
+      #device[data-orientation="portrait"] #settings-title {
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      #device[data-orientation="portrait"] #settings-main-view {
+        display: flex;
+        flex-direction: column;
+        gap: 0.82rem;
+      }
+      #device[data-orientation="portrait"] #settings-main-view.hidden {
+        display: none !important;
+      }
+      #device[data-orientation="portrait"] #settings-main-view > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0;
+      }
+      #device[data-orientation="portrait"] #settings-main-view > section {
+        gap: 0.52rem;
+      }
+      #device[data-orientation="portrait"] #settings-main-view > section > h3,
+      #device[data-orientation="portrait"] #settings-hardware-view h3,
+      #device[data-orientation="portrait"] .settings-detail-view h3 {
+        padding-left: 1rem;
+        padding-top: 0.5rem;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.96);
+      }
+      #device[data-orientation="portrait"] #settings-general-section > h3 {
+        display: none !important;
+      }
+      #device[data-orientation="portrait"] #settings-general-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin-top: 0.1rem;
+      }
+      #device[data-orientation="portrait"] #settings-general-grid > label {
+        min-height: 2.95rem;
+        align-items: center;
+        flex-direction: row;
+        gap: 0.75rem;
+        padding: 0.72rem 1rem;
+        border-radius: 0;
+        background: transparent;
+      }
+      #device[data-orientation="portrait"] #settings-general-grid > label > button {
+        align-self: flex-end;
+      }
+      #device[data-orientation="portrait"] #settings-general-section,
+      #device[data-orientation="portrait"] #settings-portrait-nav-section,
+      #device[data-orientation="portrait"] #settings-tutorial-card,
+      #device[data-orientation="portrait"] #settings-hardware-card {
+        overflow: hidden;
+        border-radius: 0.9rem;
+        background: #1c1c1e;
+      }
+      #device[data-orientation="portrait"] #settings-general-grid > label > button:last-child {
+        margin-left: auto;
+      }
+      #device[data-orientation="portrait"] #settings-choice-grid {
+        display: none;
+      }
+      #device[data-orientation="portrait"] #settings-portrait-nav-section {
+        display: block !important;
+      }
+      #device[data-orientation="portrait"] #settings-portrait-nav-section > h3 {
+        display: none !important;
+        padding-left: 1rem;
+        padding-top: 0.18rem;
+        padding-bottom: 0.22rem;
+      }
+      #device[data-orientation="portrait"] #settings-portrait-nav-section {
+        margin-top: -0.2rem;
+      }
+      #device[data-orientation="portrait"] #settings-choice-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      #device[data-orientation="portrait"] #settings-choice-grid > div {
+        padding: 0.95rem 1rem;
+      }
+      #device[data-orientation="portrait"] #settings-choice-grid > div > div {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      #device[data-orientation="portrait"] #settings-choice-grid .settings-choice-btn {
+        min-height: 2rem;
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-card,
+      #device[data-orientation="portrait"] #settings-hardware-card {
+        padding: 0.78rem 1rem;
+      }
+      #device[data-orientation="portrait"] .settings-nav-row,
+      #device[data-orientation="portrait"] .settings-list-choice-row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        min-height: 2.95rem;
+        padding: 0.72rem 1rem;
+        text-align: left;
+      }
+      #device[data-orientation="portrait"] .settings-nav-row + .settings-nav-row,
+      #device[data-orientation="portrait"] .settings-list-choice-row + .settings-list-choice-row,
+      #device[data-orientation="portrait"] #settings-general-grid > label + label {
+        border-top: 0.5px solid rgba(255, 255, 255, 0.11);
+      }
+      #device[data-orientation="portrait"] .settings-nav-row {
+        background: transparent;
+      }
+      #device[data-orientation="portrait"] .settings-nav-row > span:first-child,
+      #device[data-orientation="portrait"] #settings-general-grid > label > span,
+      #device[data-orientation="portrait"] #settings-general-grid > label > div > span,
+      #device[data-orientation="portrait"] .settings-choice-label {
+        font-size: 14px;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      #device[data-orientation="portrait"] .settings-nav-row-value {
+        color: rgba(235, 235, 245, 0.45);
+        font-size: 14px;
+        letter-spacing: -0.01em;
+      }
+      #device[data-orientation="portrait"] .settings-nav-row svg:last-child,
+      #device[data-orientation="portrait"] #settings-hardware-entry svg:last-child {
+        color: rgba(235, 235, 245, 0.32);
+      }
+      #device[data-orientation="portrait"] .settings-list-choice-row {
+        border-radius: 0;
+        background: transparent;
+        padding-right: 0.85rem;
+      }
+      #device[data-orientation="portrait"] .settings-list-choice-row .settings-choice-check {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      #device[data-orientation="portrait"] .settings-list-choice-row.is-active .settings-choice-check {
+        opacity: 1;
+      }
+      #device[data-orientation="portrait"] .settings-list-choice-row.is-active .settings-choice-label {
+        color: #fff;
+      }
+      #device[data-orientation="portrait"] #settings-back-btn {
+        left: 0.5rem;
+        gap: 0.1rem;
+        width: auto;
+        padding: 0 0.35rem;
+        color: rgba(255, 255, 255, 0.88);
+      }
+      #device[data-orientation="portrait"] #settings-back-btn svg {
+        height: 1.2rem;
+        width: 1.2rem;
+        stroke-width: 2.1;
+      }
+      #device[data-orientation="portrait"] #settings-back-label {
+        display: none;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+      }
+      #device[data-orientation="portrait"] #settings-close-btn {
+        right: 0.55rem;
+      }
+      #device[data-orientation="portrait"] #settings-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      #device[data-orientation="portrait"] #settings-footer #settings-restore-btn {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      #device[data-orientation="portrait"] #settings-hardware-entry,
+      #device[data-orientation="portrait"] #settings-tutorial-entry-row {
+        padding: 0;
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-card,
+      #device[data-orientation="portrait"] #settings-hardware-card {
+        padding: 0;
+      }
+      #device[data-orientation="portrait"] #settings-hardware-entry {
+        min-height: 2.95rem;
+        padding: 0.72rem 1rem !important;
+      }
+      #device[data-orientation="portrait"] #settings-hardware-entry > span:first-child {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      #device[data-orientation="portrait"] #settings-hardware-entry > div:last-child {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      #device[data-orientation="portrait"] #settings-hardware-entry > div:last-child svg {
+        height: 1rem;
+        width: 1rem;
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-section {
+        margin-top: -0.15rem;
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-entry-row {
+        min-height: 2.95rem;
+        padding: 0.72rem 1rem !important;
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-entry-row > span {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      #device[data-orientation="portrait"] #settings-tutorial-entry-row > button:last-child {
+        margin-left: auto;
+      }
+      #device[data-orientation="portrait"] #settings-hardware-view .settings-angle-panel {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      #device[data-orientation="portrait"] .settings-detail-view {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      #device[data-orientation="portrait"] .settings-detail-view.hidden {
+        display: none !important;
+      }
+      #device[data-orientation="portrait"] .settings-detail-card {
+        overflow: hidden;
+        border-radius: 0.9rem;
+        background: #1c1c1e;
+      }
+      #device[data-orientation="portrait"] .settings-detail-copy {
+        padding: 0 0.25rem;
+      }
+      #device[data-orientation="portrait"] .settings-detail-copy p {
+        font-size: 13px;
+        line-height: 1.45;
+        color: rgba(235, 235, 245, 0.6);
+      }
+      #device[data-orientation="portrait"] .settings-detail-note {
+        padding: 0.85rem 1rem;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.11);
+      }
+      #device[data-orientation="portrait"] .settings-detail-note-title {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      #device[data-orientation="portrait"] .settings-detail-note-copy {
+        margin-top: 0.2rem;
+        font-size: 12px;
+        line-height: 1.45;
+        color: rgba(235, 235, 245, 0.52);
+      }
+      #device[data-orientation="portrait"] #settings-angle-legend {
+        width: auto;
+        padding-left: 0;
+        padding-top: 0.25rem;
+      }
+      #device[data-orientation="portrait"] #settings-angle-visual {
+        position: relative;
+        left: auto;
+        transform: none;
+        margin-top: 0.5rem;
+      }
+      #device[data-orientation="portrait"] #settings-angle-visual svg {
+        transform: scale(0.72);
+        transform-origin: top center;
+      }
+      .settings-info-btn {
+        display: inline-flex;
+        height: 1rem;
+        width: 1rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+      }
+      .settings-info-btn:hover {
+        border-color: rgba(255, 255, 255, 0.44);
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #fff;
+      }
     </style>
   </head>
   <body
     class="min-h-screen select-none bg-slate-200 p-4 [padding:max(1rem,env(safe-area-inset-top))] flex flex-col items-center justify-center gap-6 lg:flex-row lg:items-start lg:justify-center lg:py-8"
   >
     <div
-      class="device-mockup flex h-[375px] w-full max-w-[812px] shrink-0 flex-col overflow-hidden bg-black text-white"
+      class="device-mockup flex w-full shrink-0 flex-col overflow-hidden bg-black text-white"
       id="device"
+      data-orientation="landscape"
       data-testid="device"
     >
       <!-- 假状态栏（装饰） -->
@@ -492,7 +820,43 @@
         aria-modal="false"
         aria-label="Capture settings panel"
       >
-        <div class="relative flex items-center justify-center px-6 pb-2 pt-10">
+        <div
+          id="settings-info-modal"
+          class="absolute inset-0 z-[60] hidden items-center justify-center bg-black/45 p-4 backdrop-blur-[2px]"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="settings-info-title"
+        >
+          <div class="w-full max-w-[19rem] rounded-[22px] border border-white/12 bg-[#232323] p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h3 id="settings-info-title" class="text-[18px] font-semibold text-white">Auto Zoom</h3>
+              </div>
+              <button
+                type="button"
+                id="settings-info-close-btn"
+                class="flex h-8 w-8 items-center justify-center rounded-full text-white/75 transition hover:bg-white/10 hover:text-white"
+                aria-label="Close setting information"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <p id="settings-info-body" class="mt-3 text-[13px] leading-relaxed text-white/86"></p>
+            <div class="mt-3 rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-2.5">
+              <p id="settings-info-tip" class="text-[12px] leading-relaxed text-white/72"></p>
+            </div>
+            <button
+              type="button"
+              id="settings-info-ok-btn"
+              class="mt-4 w-full rounded-full bg-white px-3 py-2 text-[13px] font-semibold text-black transition hover:bg-white/90"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+        <div id="settings-header" class="relative flex items-center justify-center px-6 pb-2 pt-10">
           <button
             type="button"
             id="settings-back-btn"
@@ -502,8 +866,9 @@
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="m15 18-6-6 6-6" />
             </svg>
+            <span id="settings-back-label" class="hidden text-[15px]">Settings</span>
           </button>
-          <div class="text-[18px] font-semibold tracking-[0.01em] text-white">Recording Settings</div>
+          <div id="settings-title" class="text-[18px] font-semibold tracking-[0.01em] text-white">Recording Settings</div>
           <button
             type="button"
             id="settings-close-btn"
@@ -516,11 +881,11 @@
           </button>
         </div>
 
-        <div class="flex-1 overflow-hidden px-5 pb-3 pt-2">
+        <div id="settings-content" class="settings-scrollbar-hide flex-1 overflow-hidden px-5 pb-3 pt-2">
           <div id="settings-main-view" class="space-y-3">
-            <section class="space-y-2">
+            <section id="settings-general-section" class="space-y-2">
               <h3 class="text-[14px] font-semibold text-white">General Settings</h3>
-              <div class="grid grid-cols-4 gap-2">
+              <div id="settings-general-grid" class="grid grid-cols-4 gap-2">
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
                   <span class="leading-none">Timestamp</span>
                   <button
@@ -552,7 +917,17 @@
                 </label>
 
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <span class="leading-none">Auto Zoom</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="leading-none">Auto Zoom</span>
+                    <button
+                      type="button"
+                      class="settings-info-btn"
+                      data-settings-info="auto-zoom"
+                      aria-label="About Auto Zoom"
+                    >
+                      i
+                    </button>
+                  </div>
                   <button
                     type="button"
                     id="settings-auto-zoom-toggle"
@@ -567,7 +942,17 @@
                 </label>
 
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <span class="leading-none">Auto Tracking</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="leading-none">Auto Tracking</span>
+                    <button
+                      type="button"
+                      class="settings-info-btn"
+                      data-settings-info="auto-tracking"
+                      aria-label="About Auto Tracking"
+                    >
+                      i
+                    </button>
+                  </div>
                   <button
                     type="button"
                     id="settings-auto-tracking-toggle"
@@ -584,10 +969,20 @@
             </section>
 
             <section class="space-y-2">
-              <div class="grid grid-cols-2 gap-2">
+              <div id="settings-choice-grid" class="grid grid-cols-2 gap-2">
                 <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
                   <div class="flex items-center justify-between gap-2">
-                    <div class="min-w-[5.5rem] text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
+                    <div class="flex min-w-[5.5rem] items-center gap-1.5 text-[12px] font-medium leading-none text-gray-100">
+                      <span>Anti-Flicker</span>
+                      <button
+                        type="button"
+                        class="settings-info-btn"
+                        data-settings-info="anti-flicker"
+                        aria-label="About Anti-Flicker"
+                      >
+                        i
+                      </button>
+                    </div>
                     <div class="flex items-center gap-1">
                       <button
                         type="button"
@@ -651,48 +1046,84 @@
               </div>
             </section>
 
-            <section class="space-y-0">
-              <div class="flex w-full items-center justify-between px-1 py-1.5 text-[13px] text-gray-100">
-                <span class="text-[14px] font-semibold leading-none text-white">Tutorial Center Entry</span>
-                <button
-                  type="button"
-                  id="settings-tutorial-entry-toggle"
-                  class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                  aria-pressed="true"
-                >
-                  <span
-                    id="settings-tutorial-entry-thumb"
-                    class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
-                  ></span>
-                </button>
-              </div>
-            </section>
-
-            <section class="space-y-0 pb-3">
+            <section id="settings-portrait-nav-section" class="hidden space-y-0">
+              <h3 class="hidden text-[14px] font-semibold text-white">Capture</h3>
               <button
                 type="button"
-                id="settings-hardware-entry"
-                class="flex w-full items-center justify-between px-1 py-1.5 text-left text-[13px] text-gray-100 transition hover:text-white/90"
+                id="settings-anti-flicker-entry"
+                class="settings-nav-row"
               >
-                <span class="text-[14px] font-semibold leading-none text-white">Hardware Settings</span>
-                <div class="flex items-center gap-2 text-[12px] text-white/60">
-                  <span id="settings-hardware-entry-value">110&deg;</span>
-                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <span class="text-[14px] text-white">Anti-Flicker</span>
+                <div class="flex items-center gap-2">
+                  <span id="settings-anti-flicker-entry-value" class="settings-nav-row-value">Auto</span>
+                  <svg class="h-4 w-4 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="m9 6 6 6-6 6" />
+                  </svg>
+                </div>
+              </button>
+              <button
+                type="button"
+                id="settings-resolution-entry"
+                class="settings-nav-row"
+              >
+                <span class="text-[14px] text-white">Resolution</span>
+                <div class="flex items-center gap-2">
+                  <span id="settings-resolution-entry-value" class="settings-nav-row-value">1080P/30fps</span>
+                  <svg class="h-4 w-4 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <path d="m9 6 6 6-6 6" />
                   </svg>
                 </div>
               </button>
             </section>
+
+            <section id="settings-tutorial-section" class="space-y-0">
+              <div id="settings-tutorial-card">
+                <div id="settings-tutorial-entry-row" class="settings-nav-row flex w-full items-center justify-between px-1 py-1.5 text-[13px] text-gray-100">
+                  <span class="text-[14px] font-semibold leading-none text-white">Tutorial Center Entry</span>
+                  <button
+                    type="button"
+                    id="settings-tutorial-entry-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-tutorial-entry-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-0 pb-3">
+              <div id="settings-hardware-card">
+                <button
+                  type="button"
+                  id="settings-hardware-entry"
+                  class="settings-nav-row flex w-full items-center justify-between px-1 py-1.5 text-left text-[13px] text-gray-100 transition hover:text-white/90"
+                >
+                  <span class="text-[14px] font-semibold leading-none text-white">Hardware Settings</span>
+                  <div class="flex items-center gap-2">
+                    <span id="settings-hardware-entry-value" class="settings-nav-row-value">110&deg;</span>
+                    <svg class="h-4 w-4 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <path d="m9 6 6 6-6 6" />
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </section>
           </div>
 
-          <div id="settings-hardware-view" class="hidden space-y-2">
+          <div id="settings-hardware-view" class="settings-detail-view hidden space-y-2">
             <section class="space-y-1">
-              <h3 class="text-[14px] font-semibold text-white">Hardware Settings</h3>
-              <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
+              <div class="px-1 text-[12px] leading-relaxed text-white/62">
+                Adjust the device angle to match your shooting setup and coverage range.
+              </div>
+              <div class="settings-angle-panel settings-detail-card rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
                 <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
 
                 <div class="relative mt-2 min-h-[8.5rem]">
-                  <div class="w-[10.5rem] shrink-0 pl-2 pt-4">
+                  <div id="settings-angle-legend" class="w-[10.5rem] shrink-0 pl-2 pt-4">
                     <div class="flex flex-col gap-2">
                       <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
                         <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
@@ -705,7 +1136,7 @@
                     </div>
                   </div>
 
-                  <div class="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center justify-center">
+                  <div id="settings-angle-visual" class="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center justify-center">
                     <svg width="214" height="118" viewBox="0 0 300 130" class="overflow-visible scale-[0.82] origin-top">
                       <path
                         d="M 60 100 A 90 90 0 0 1 240 100"
@@ -753,6 +1184,92 @@
               </div>
             </section>
           </div>
+
+          <div id="settings-anti-flicker-view" class="settings-detail-view hidden space-y-2">
+            <section class="space-y-1">
+              <div class="px-1 text-[12px] leading-relaxed text-white/62">
+                Reduce flicker caused by indoor lighting and electronic displays.
+              </div>
+              <div class="settings-detail-card overflow-hidden rounded-[1rem] bg-[#2f2f2f]">
+                <button
+                  type="button"
+                  data-setting-group="anti-flicker"
+                  data-setting-value="Auto"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">Auto</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  data-setting-group="anti-flicker"
+                  data-setting-value="50Hz"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">50Hz</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  data-setting-group="anti-flicker"
+                  data-setting-value="60Hz"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">60Hz</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <div id="settings-resolution-view" class="settings-detail-view hidden space-y-2">
+            <section class="space-y-1">
+              <div class="px-1 text-[12px] leading-relaxed text-white/62">
+                Choose the recording quality that best fits your detail and frame rate needs.
+              </div>
+              <div class="settings-detail-card overflow-hidden rounded-[1rem] bg-[#2f2f2f]">
+                <button
+                  type="button"
+                  data-setting-group="resolution"
+                  data-setting-value="1080P/30fps"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">1080P/30fps</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  data-setting-group="resolution"
+                  data-setting-value="1080P/60fps"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">1080P/60fps</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  data-setting-group="resolution"
+                  data-setting-value="4K/30fps"
+                  class="settings-choice-btn settings-list-choice-row"
+                >
+                  <span class="settings-choice-label text-[15px] text-white/88">4K/30fps</span>
+                  <svg class="settings-choice-check h-4 w-4 text-[#de6b32]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+                </button>
+              </div>
+            </section>
+          </div>
         </div>
 
         <div id="settings-footer" class="relative z-10 flex flex-col gap-2 px-5 pb-3 pt-1">
@@ -777,6 +1294,14 @@
       <h3 class="border-b border-slate-200 pb-1.5 text-sm font-bold">原型控制</h3>
       <p class="mb-2 mt-1 text-xs text-slate-500">重放引导流程并重置本地状态。</p>
       <div class="space-y-1.5">
+        <button
+          type="button"
+          id="orientation-toggle-btn"
+          class="proto-orientation-btn w-full rounded border border-slate-200 bg-slate-50 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100"
+          data-orientation="portrait"
+        >
+          Switch to <span class="proto-orientation-label"></span>
+        </button>
         <button
           type="button"
           onclick="resetPrototype()"
@@ -851,6 +1376,7 @@
         ...defaultSettingsState,
       };
       let settingsView = "main";
+      let deviceOrientation = "landscape";
 
       const uiGuideOverlay = document.getElementById("ui-guide-overlay");
       const guideTextBox = document.getElementById("guide-text");
@@ -890,15 +1416,29 @@
       const settingsPanel = document.getElementById("settings-panel");
       const settingsMainView = document.getElementById("settings-main-view");
       const settingsHardwareView = document.getElementById("settings-hardware-view");
+      const settingsAntiFlickerView = document.getElementById("settings-anti-flicker-view");
+      const settingsResolutionView = document.getElementById("settings-resolution-view");
       const settingsFooter = document.getElementById("settings-footer");
       const settingsBackBtn = document.getElementById("settings-back-btn");
+      const settingsTitle = document.getElementById("settings-title");
       const settingsHardwareEntry = document.getElementById("settings-hardware-entry");
       const settingsHardwareEntryValue = document.getElementById("settings-hardware-entry-value");
+      const settingsAntiFlickerEntry = document.getElementById("settings-anti-flicker-entry");
+      const settingsAntiFlickerEntryValue = document.getElementById("settings-anti-flicker-entry-value");
+      const settingsResolutionEntry = document.getElementById("settings-resolution-entry");
+      const settingsResolutionEntryValue = document.getElementById("settings-resolution-entry-value");
       const settingsCloseBtn = document.getElementById("settings-close-btn");
       const settingsRestoreBtn = document.getElementById("settings-restore-btn");
       const settingsTutorialEntryToggle = document.getElementById("settings-tutorial-entry-toggle");
       const settingsTutorialEntryThumb = document.getElementById("settings-tutorial-entry-thumb");
       const settingsChoiceButtons = document.querySelectorAll(".settings-choice-btn");
+      const settingsInfoButtons = document.querySelectorAll("[data-settings-info]");
+      const settingsInfoModal = document.getElementById("settings-info-modal");
+      const settingsInfoTitle = document.getElementById("settings-info-title");
+      const settingsInfoBody = document.getElementById("settings-info-body");
+      const settingsInfoTip = document.getElementById("settings-info-tip");
+      const settingsInfoCloseBtn = document.getElementById("settings-info-close-btn");
+      const settingsInfoOkBtn = document.getElementById("settings-info-ok-btn");
       const settingsAngleRange = document.getElementById("settings-angle-range");
       const settingsAngleDisplay = document.getElementById("settings-angle-display");
       const settingsAngleSegments = document.getElementById("settings-angle-segments");
@@ -906,6 +1446,7 @@
       const settingsAngleSliderTrack = document.getElementById("settings-angle-slider-track");
       const settingsAngleSliderThumb = document.getElementById("settings-angle-slider-thumb");
       const deviceEl = document.getElementById("device");
+      const orientationToggleBtn = document.getElementById("orientation-toggle-btn");
       const btnTutorial = document.getElementById("btn-tutorial");
       const btnSettings = document.getElementById("btn-settings");
       const btnRecord = document.getElementById("btn-record");
@@ -926,6 +1467,23 @@
         autoTracking: {
           toggle: document.getElementById("settings-auto-tracking-toggle"),
           thumb: document.getElementById("settings-auto-tracking-thumb"),
+        },
+      };
+      const settingsInfoContent = {
+        "anti-flicker": {
+          title: "Anti-Flicker",
+          body: "Reduces flicker from lights and displays.",
+          tip: "Use Auto in most cases. Choose 50Hz or 60Hz only if needed.",
+        },
+        "auto-zoom": {
+          title: "Auto Zoom",
+          body: "Keeps your subject framed automatically.",
+          tip: "Useful when distance changes during recording.",
+        },
+        "auto-tracking": {
+          title: "Auto Tracking",
+          body: "Keeps your subject in frame as they move.",
+          tip: "Turn off for a fixed composition.",
         },
       };
 
@@ -1156,9 +1714,12 @@
         btnRecord.addEventListener("click", handleRecordClick);
         bindDraggableTutorialHandle();
         if (btnSettings) btnSettings.addEventListener("click", toggleSettingsPanel);
+        if (orientationToggleBtn) orientationToggleBtn.addEventListener("click", toggleDeviceOrientation);
         if (settingsCloseBtn) settingsCloseBtn.addEventListener("click", closeSettingsPanel);
         if (settingsBackBtn) settingsBackBtn.addEventListener("click", openSettingsMainView);
         if (settingsHardwareEntry) settingsHardwareEntry.addEventListener("click", openSettingsHardwareView);
+        if (settingsAntiFlickerEntry) settingsAntiFlickerEntry.addEventListener("click", openSettingsAntiFlickerView);
+        if (settingsResolutionEntry) settingsResolutionEntry.addEventListener("click", openSettingsResolutionView);
         if (tutorialFloatCloseBtn) {
           tutorialFloatCloseBtn.addEventListener("click", function () {
             tutorialFloatWindow.classList.add("hidden");
@@ -1180,6 +1741,20 @@
             if (group === "anti-flicker") updateSetting("antiFlicker", value);
           });
         });
+        settingsInfoButtons.forEach(function (button) {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openSettingsInfoModal(button.getAttribute("data-settings-info"));
+          });
+        });
+        if (settingsInfoCloseBtn) settingsInfoCloseBtn.addEventListener("click", closeSettingsInfoModal);
+        if (settingsInfoOkBtn) settingsInfoOkBtn.addEventListener("click", closeSettingsInfoModal);
+        if (settingsInfoModal) {
+          settingsInfoModal.addEventListener("click", function (e) {
+            if (e.target === settingsInfoModal) closeSettingsInfoModal();
+          });
+        }
         if (settingsAngleRange) {
           settingsAngleRange.addEventListener("input", function (e) {
             updateSetting("deviceRotationAngle", Number(e.target.value));
@@ -1254,6 +1829,10 @@
         }
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape") {
+            if (settingsInfoModal && !settingsInfoModal.classList.contains("hidden")) {
+              closeSettingsInfoModal();
+              return;
+            }
             if (!uiGuideOverlay.classList.contains("hidden") && !isNewUser()) skipUIGuide();
             if (!calibrationModal.classList.contains("hidden")) closeCalibration();
             if (!tutorialModal.classList.contains("hidden")) closeTutorial();
@@ -1387,6 +1966,43 @@
           tutorialModal.classList.add("hidden");
         }, 300);
       }
+      function renderDeviceOrientation() {
+        if (deviceEl) {
+          deviceEl.setAttribute("data-orientation", deviceOrientation);
+        }
+        if (orientationToggleBtn) {
+          var nextOrientation = deviceOrientation === "landscape" ? "portrait" : "landscape";
+          orientationToggleBtn.setAttribute("data-orientation", nextOrientation);
+          orientationToggleBtn.setAttribute("aria-label", "Switch device to " + nextOrientation + " mode");
+        }
+        window.dispatchEvent(new Event("resize"));
+      }
+      function toggleDeviceOrientation() {
+        deviceOrientation = deviceOrientation === "landscape" ? "portrait" : "landscape";
+        renderDeviceOrientation();
+      }
+      function openSettingsAntiFlickerView() {
+        settingsView = "anti-flicker";
+        renderSettingsPanel();
+      }
+      function openSettingsResolutionView() {
+        settingsView = "resolution";
+        renderSettingsPanel();
+      }
+      function openSettingsInfoModal(key) {
+        var content = settingsInfoContent[key];
+        if (!content || !settingsInfoModal) return;
+        if (settingsInfoTitle) settingsInfoTitle.textContent = content.title;
+        if (settingsInfoBody) settingsInfoBody.textContent = content.body;
+        if (settingsInfoTip) settingsInfoTip.textContent = content.tip;
+        settingsInfoModal.classList.remove("hidden");
+        settingsInfoModal.classList.add("flex");
+      }
+      function closeSettingsInfoModal() {
+        if (!settingsInfoModal) return;
+        settingsInfoModal.classList.add("hidden");
+        settingsInfoModal.classList.remove("flex");
+      }
       function toggleSettingsPanel() {
         if (!settingsPanel) return;
         settingsView = "main";
@@ -1399,6 +2015,7 @@
           settingsPanel.classList.add("hidden");
           settingsPanel.classList.remove("flex");
         }
+        closeSettingsInfoModal();
         settingsView = "main";
       }
       function openSettingsHardwareView() {
@@ -1464,8 +2081,20 @@
       function renderSettingsPanel() {
         if (settingsMainView) settingsMainView.classList.toggle("hidden", settingsView !== "main");
         if (settingsHardwareView) settingsHardwareView.classList.toggle("hidden", settingsView !== "hardware");
-        if (settingsFooter) settingsFooter.classList.toggle("hidden", settingsView === "hardware");
-        if (settingsBackBtn) settingsBackBtn.classList.toggle("hidden", settingsView !== "hardware");
+        if (settingsAntiFlickerView) settingsAntiFlickerView.classList.toggle("hidden", settingsView !== "anti-flicker");
+        if (settingsResolutionView) settingsResolutionView.classList.toggle("hidden", settingsView !== "resolution");
+        if (settingsFooter) settingsFooter.classList.toggle("hidden", settingsView !== "main");
+        if (settingsBackBtn) settingsBackBtn.classList.toggle("hidden", settingsView === "main");
+        if (settingsTitle) {
+          settingsTitle.textContent =
+            settingsView === "hardware"
+              ? "Hardware Settings"
+              : settingsView === "anti-flicker"
+                ? "Anti-Flicker"
+                : settingsView === "resolution"
+                  ? "Resolution"
+                  : "Recording Settings";
+        }
         Object.keys(settingsToggleConfig).forEach(function (key) {
           renderToggleButton(settingsToggleConfig[key].toggle, settingsToggleConfig[key].thumb, settingsState[key]);
         });
@@ -1475,14 +2104,20 @@
           var isActive =
             (group === "resolution" && value === settingsState.resolution) ||
             (group === "anti-flicker" && value === settingsState.antiFlicker);
-          button.classList.toggle("border-[#de6b32]", isActive);
-          button.classList.toggle("text-white", isActive);
-          button.classList.toggle("text-white/78", !isActive);
-          button.classList.toggle("shadow-[inset_0_0_0_1px_rgba(222,107,50,0.15)]", isActive);
+          if (button.classList.contains("settings-list-choice-row")) {
+            button.classList.toggle("is-active", isActive);
+          } else {
+            button.classList.toggle("border-[#de6b32]", isActive);
+            button.classList.toggle("text-white", isActive);
+            button.classList.toggle("text-white/78", !isActive);
+            button.classList.toggle("shadow-[inset_0_0_0_1px_rgba(222,107,50,0.15)]", isActive);
+          }
         });
         if (settingsAngleRange) settingsAngleRange.value = settingsState.deviceRotationAngle;
         if (settingsAngleDisplay) settingsAngleDisplay.textContent = settingsState.deviceRotationAngle + "\u00B0";
         if (settingsHardwareEntryValue) settingsHardwareEntryValue.textContent = settingsState.deviceRotationAngle + "\u00B0";
+        if (settingsAntiFlickerEntryValue) settingsAntiFlickerEntryValue.textContent = settingsState.antiFlicker;
+        if (settingsResolutionEntryValue) settingsResolutionEntryValue.textContent = settingsState.resolution;
         if (settingsAnglePointer) {
           settingsAnglePointer.setAttribute(
             "transform",
@@ -1739,6 +2374,7 @@
         closeCalibration();
         closeHallGuideModal();
         closeTutorial();
+        closeSettingsInfoModal();
         if (settingsPanel) settingsPanel.classList.add("hidden");
         if (tutorialFloatWindow) tutorialFloatWindow.classList.add("hidden");
         if (floatCloseZone) {
@@ -1772,6 +2408,7 @@
         if (localStorage.getItem(LS_CAL) === "1") {
           state.isHardwareCalibrated = true;
         }
+        renderDeviceOrientation();
         renderAngleSegments();
         renderSettingsPanel();
         bindEvents();
