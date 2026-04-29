@@ -69,6 +69,11 @@
       #device[data-orientation="landscape"] #settings-general-grid {
         gap: 0.5rem;
       }
+      #device[data-orientation="landscape"] #settings-header {
+        min-height: 3.25rem;
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+      }
       #device[data-orientation="landscape"] #settings-general-grid > label {
         min-width: 0;
         gap: 0.55rem;
@@ -1000,7 +1005,7 @@
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
                   <div>
                     <span class="leading-none">Timestamp</span>
-                    <div class="settings-help-copy">Adds a timestamp to recorded video.</div>
+                    <div class="settings-help-copy">Shows a timestamp while recording.</div>
                   </div>
                   <button
                     type="button"
