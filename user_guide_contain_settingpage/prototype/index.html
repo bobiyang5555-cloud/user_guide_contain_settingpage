@@ -66,6 +66,57 @@
       .proto-orientation-btn[data-orientation="landscape"] .proto-orientation-label::after {
         content: "Landscape";
       }
+      #device[data-orientation="landscape"] #settings-general-grid {
+        gap: 0.5rem;
+      }
+      #device[data-orientation="landscape"] #settings-general-grid > label {
+        min-width: 0;
+        gap: 0.55rem;
+        padding: 0.65rem 0.8rem;
+      }
+      #device[data-orientation="landscape"] #settings-general-grid > label > div:first-child {
+        min-width: 0;
+        flex: 1;
+      }
+      #device[data-orientation="landscape"] #settings-general-grid > label > div > span {
+        display: block;
+        font-size: 11px;
+        line-height: 1.1;
+      }
+      #device[data-orientation="landscape"] #settings-general-grid .settings-help-copy {
+        margin-top: 0.24rem;
+        font-size: 10px;
+        line-height: 1.25;
+      }
+      #device[data-orientation="landscape"] #settings-choice-grid > div {
+        min-width: 0;
+      }
+      #device[data-orientation="landscape"] .settings-choice-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.65rem;
+        min-width: 0;
+      }
+      #device[data-orientation="landscape"] .settings-choice-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        min-width: 0;
+        flex-shrink: 0;
+      }
+      #device[data-orientation="landscape"] .settings-choice-actions .settings-choice-btn {
+        padding: 0.22rem 0.5rem;
+        font-size: 10px;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+      #device[data-orientation="landscape"] .settings-choice-copy {
+        margin-top: 0.42rem;
+      }
+      #device[data-orientation="landscape"] #settings-tutorial-section {
+        display: none;
+      }
       #device[data-orientation="portrait"] #settings-content {
         overflow-y: auto;
         padding-left: 1rem;
@@ -129,7 +180,14 @@
         background: transparent;
       }
       #device[data-orientation="portrait"] #settings-general-grid > label > button {
-        align-self: flex-end;
+        align-self: center;
+        flex-shrink: 0;
+        margin-left: auto;
+        margin-top: 0;
+      }
+      #device[data-orientation="portrait"] #settings-general-grid > label > div:first-child {
+        flex: 1;
+        min-width: 0;
       }
       #device[data-orientation="portrait"] #settings-general-section,
       #device[data-orientation="portrait"] #settings-portrait-nav-section,
@@ -253,8 +311,8 @@
         padding-right: 1rem;
       }
       #device[data-orientation="portrait"] #settings-footer #settings-restore-btn {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 13px;
+        color: #b86a3a;
+        font-size: 14px;
         font-weight: 600;
       }
       #device[data-orientation="portrait"] #settings-hardware-entry,
@@ -302,6 +360,23 @@
       }
       #device[data-orientation="portrait"] #settings-tutorial-entry-row > button:last-child {
         margin-left: auto;
+      }
+      .settings-help-copy {
+        margin-top: 0.32rem;
+        font-size: 11px;
+        line-height: 1.35;
+        color: rgba(255, 255, 255, 0.56);
+      }
+      .settings-choice-copy {
+        margin-top: 0.38rem;
+        font-size: 11px;
+        line-height: 1.35;
+        color: rgba(255, 255, 255, 0.56);
+      }
+      #device[data-orientation="portrait"] .settings-help-copy,
+      #device[data-orientation="portrait"] .settings-choice-copy {
+        font-size: 12px;
+        line-height: 1.42;
       }
       #device[data-orientation="portrait"] #settings-hardware-view .settings-angle-panel {
         padding-left: 1rem;
@@ -887,46 +962,27 @@
               <h3 class="text-[14px] font-semibold text-white">General Settings</h3>
               <div id="settings-general-grid" class="grid grid-cols-4 gap-2">
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <span class="leading-none">Timestamp</span>
+                  <div>
+                    <span class="leading-none">Auto Tracking</span>
+                    <div class="settings-help-copy">Keeps your subject in frame as they move.</div>
+                  </div>
                   <button
                     type="button"
-                    id="settings-time-watermark-toggle"
+                    id="settings-auto-tracking-toggle"
                     class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
                     aria-pressed="true"
                   >
                     <span
-                      id="settings-time-watermark-thumb"
+                      id="settings-auto-tracking-thumb"
                       class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
                     ></span>
                   </button>
                 </label>
 
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <span class="leading-none">Microphone</span>
-                  <button
-                    type="button"
-                    id="settings-audio-recording-toggle"
-                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                    aria-pressed="true"
-                  >
-                    <span
-                      id="settings-audio-recording-thumb"
-                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
-                    ></span>
-                  </button>
-                </label>
-
-                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <div class="flex items-center gap-1.5">
+                  <div>
                     <span class="leading-none">Auto Zoom</span>
-                    <button
-                      type="button"
-                      class="settings-info-btn"
-                      data-settings-info="auto-zoom"
-                      aria-label="About Auto Zoom"
-                    >
-                      i
-                    </button>
+                    <div class="settings-help-copy">Keeps your subject framed automatically.</div>
                   </div>
                   <button
                     type="button"
@@ -942,25 +998,36 @@
                 </label>
 
                 <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
-                  <div class="flex items-center gap-1.5">
-                    <span class="leading-none">Auto Tracking</span>
-                    <button
-                      type="button"
-                      class="settings-info-btn"
-                      data-settings-info="auto-tracking"
-                      aria-label="About Auto Tracking"
-                    >
-                      i
-                    </button>
+                  <div>
+                    <span class="leading-none">Timestamp</span>
+                    <div class="settings-help-copy">Adds a timestamp watermark when enabled.</div>
                   </div>
                   <button
                     type="button"
-                    id="settings-auto-tracking-toggle"
+                    id="settings-time-watermark-toggle"
                     class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
                     aria-pressed="true"
                   >
                     <span
-                      id="settings-auto-tracking-thumb"
+                      id="settings-time-watermark-thumb"
+                      class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
+                    ></span>
+                  </button>
+                </label>
+
+                <label class="flex min-h-[3.1rem] items-center justify-between rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2 text-[12px] text-gray-100 transition hover:bg-white/5">
+                  <div>
+                    <span class="leading-none">Microphone</span>
+                    <div class="settings-help-copy">Records audio when enabled. Turn it off for silent recording.</div>
+                  </div>
+                  <button
+                    type="button"
+                    id="settings-audio-recording-toggle"
+                    class="relative inline-flex h-6 w-[2.9rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                    aria-pressed="true"
+                  >
+                    <span
+                      id="settings-audio-recording-thumb"
                       class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"
                     ></span>
                   </button>
@@ -971,51 +1038,9 @@
             <section class="space-y-2">
               <div id="settings-choice-grid" class="grid grid-cols-2 gap-2">
                 <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="flex min-w-[5.5rem] items-center gap-1.5 text-[12px] font-medium leading-none text-gray-100">
-                      <span>Anti-Flicker</span>
-                      <button
-                        type="button"
-                        class="settings-info-btn"
-                        data-settings-info="anti-flicker"
-                        aria-label="About Anti-Flicker"
-                      >
-                        i
-                      </button>
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <button
-                        type="button"
-                        data-setting-group="anti-flicker"
-                        data-setting-value="Auto"
-                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
-                      >
-                        Auto
-                      </button>
-                      <button
-                        type="button"
-                        data-setting-group="anti-flicker"
-                        data-setting-value="50Hz"
-                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
-                      >
-                        50Hz
-                      </button>
-                      <button
-                        type="button"
-                        data-setting-group="anti-flicker"
-                        data-setting-value="60Hz"
-                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
-                      >
-                        60Hz
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
-                  <div class="flex items-center justify-between gap-2">
-                  <div class="min-w-[5.5rem] text-[12px] font-medium leading-none text-gray-100">Resolution</div>
-                    <div class="flex items-center gap-1">
+                  <div class="settings-choice-head">
+                    <div class="text-[12px] font-medium leading-none text-gray-100">Resolution</div>
+                    <div class="settings-choice-actions">
                       <button
                         type="button"
                         data-setting-group="resolution"
@@ -1042,6 +1067,40 @@
                       </button>
                     </div>
                   </div>
+                  <div class="settings-choice-copy">Choose the recording quality that best fits your detail and frame rate needs.</div>
+                </div>
+
+                <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
+                  <div class="settings-choice-head">
+                    <div class="text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
+                    <div class="settings-choice-actions">
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="Auto"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        Auto
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="50Hz"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        50Hz
+                      </button>
+                      <button
+                        type="button"
+                        data-setting-group="anti-flicker"
+                        data-setting-value="60Hz"
+                        class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition"
+                      >
+                        60Hz
+                      </button>
+                    </div>
+                  </div>
+                  <div class="settings-choice-copy">Reduce flicker caused by indoor lighting and electronic displays.</div>
                 </div>
               </div>
             </section>
@@ -1050,12 +1109,12 @@
               <h3 class="hidden text-[14px] font-semibold text-white">Capture</h3>
               <button
                 type="button"
-                id="settings-anti-flicker-entry"
+                id="settings-resolution-entry"
                 class="settings-nav-row"
               >
-                <span class="text-[14px] text-white">Anti-Flicker</span>
+                <span class="text-[14px] text-white">Resolution</span>
                 <div class="flex items-center gap-2">
-                  <span id="settings-anti-flicker-entry-value" class="settings-nav-row-value">Auto</span>
+                  <span id="settings-resolution-entry-value" class="settings-nav-row-value">1080P/30fps</span>
                   <svg class="h-4 w-4 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <path d="m9 6 6 6-6 6" />
                   </svg>
@@ -1063,12 +1122,12 @@
               </button>
               <button
                 type="button"
-                id="settings-resolution-entry"
+                id="settings-anti-flicker-entry"
                 class="settings-nav-row"
               >
-                <span class="text-[14px] text-white">Resolution</span>
+                <span class="text-[14px] text-white">Anti-Flicker</span>
                 <div class="flex items-center gap-2">
-                  <span id="settings-resolution-entry-value" class="settings-nav-row-value">1080P/30fps</span>
+                  <span id="settings-anti-flicker-entry-value" class="settings-nav-row-value">Auto</span>
                   <svg class="h-4 w-4 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <path d="m9 6 6 6-6 6" />
                   </svg>
@@ -1100,7 +1159,7 @@
                 <button
                   type="button"
                   id="settings-hardware-entry"
-                  class="settings-nav-row flex w-full items-center justify-between px-1 py-1.5 text-left text-[13px] text-gray-100 transition hover:text-white/90"
+                  class="settings-nav-row flex w-full items-center justify-between px-1 py-2 text-left text-[13px] text-gray-100 transition hover:text-white/90"
                 >
                   <span class="text-[14px] font-semibold leading-none text-white">Hardware Settings</span>
                   <div class="flex items-center gap-2">
@@ -1110,6 +1169,17 @@
                     </svg>
                   </div>
                 </button>
+              </div>
+              <div id="settings-footer" class="relative z-10 flex flex-col gap-2 px-1 pb-0 pt-1.5">
+                <div class="flex justify-start">
+                  <button
+                    type="button"
+                    id="settings-restore-btn"
+                    class="border-0 bg-transparent px-0 py-1 text-left text-[14px] font-semibold text-[#b86a3a] shadow-none outline-none transition hover:text-[#c97946]"
+                  >
+                    Restore Defaults
+                  </button>
+                </div>
               </div>
             </section>
           </div>
@@ -1272,17 +1342,6 @@
           </div>
         </div>
 
-        <div id="settings-footer" class="relative z-10 flex flex-col gap-2 px-5 pb-3 pt-1">
-          <div class="flex justify-end">
-            <button
-              type="button"
-              id="settings-restore-btn"
-              class="text-[13px] font-semibold text-white transition hover:text-gray-300"
-            >
-              Restore Defaults
-            </button>
-          </div>
-        </div>
       </div>
     </div>
 
