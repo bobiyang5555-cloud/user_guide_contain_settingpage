@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -59,6 +59,161 @@
       .settings-scrollbar-hide {
         -ms-overflow-style: none;
         scrollbar-width: none;
+      }
+      #btn-tilt-control.is-active {
+        color: rgba(255, 255, 255, 0.98);
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 9999px;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+      }
+      #left-rail [role="group"] > button:nth-of-type(5)[disabled] {
+        display: none;
+      }
+      #left-rail > *,
+      #left-rail [role="group"] > * {
+        transition: opacity 180ms ease, visibility 180ms ease;
+      }
+      #device.is-tilt-control-open #left-rail > :not([role="group"]),
+      #device.is-tilt-control-open #left-rail [role="group"] > :not(#btn-tilt-control) {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #tilt-control-popover {
+        position: absolute;
+        z-index: 42;
+        width: auto;
+        border: 0;
+        background: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
+        padding: 0;
+        color: rgba(255, 255, 255, 0.94);
+      }
+      #tilt-control-popover.hidden {
+        display: none !important;
+      }
+      .tilt-zoom-control {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.55rem;
+      }
+      .tilt-angle-value-side {
+        min-width: 3.2rem;
+        text-align: left;
+        font-size: 15px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+        color: rgba(255, 234, 138, 0.95);
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+      }
+      .tilt-zoom-pill-vertical {
+        position: relative;
+        width: 3rem;
+        height: 12.25rem;
+        border-radius: 9999px;
+        overflow: hidden;
+        background: rgba(26, 26, 26, 0.62);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+        backdrop-filter: blur(20px);
+        touch-action: none;
+        user-select: none;
+      }
+      .tilt-wheel-window {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+      .tilt-wheel-window::before {
+        content: "";
+        position: absolute;
+        left: 0.3rem;
+        right: 0.3rem;
+        top: 50%;
+        height: 2.15rem;
+        transform: translateY(-50%);
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        pointer-events: none;
+      }
+      .tilt-wheel-track {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.08rem;
+        padding: 0.56rem 0.38rem;
+        transition: transform 180ms ease;
+      }
+      .tilt-wheel-track.is-dragging {
+        transition: none;
+      }
+      .tilt-zoom-chip {
+        display: inline-flex;
+        width: 2.08rem;
+        height: 0.7rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        border: 0;
+        background: transparent;
+        color: transparent;
+        font-size: 11px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+        transition: transform 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+        opacity: 0.3;
+        transform: scale(0.76);
+        box-shadow: none;
+        position: relative;
+      }
+      .tilt-zoom-chip::before {
+        content: "";
+        width: 0.82rem;
+        height: 0.12rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.18);
+        transition: width 160ms ease, background-color 160ms ease, opacity 160ms ease;
+      }
+      .tilt-zoom-chip.tilt-wheel-major {
+        height: 1.6rem;
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.84);
+      }
+      .tilt-zoom-chip.tilt-wheel-major::before {
+        display: none;
+      }
+      .tilt-zoom-chip.is-near {
+        opacity: 0.62;
+        transform: scale(0.88);
+      }
+      .tilt-zoom-chip.is-active {
+        transform: scale(1.08);
+        background: rgba(54, 54, 54, 0.92);
+        color: rgba(255, 221, 98, 0.98);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        opacity: 1;
+      }
+      .tilt-zoom-chip.is-active::before {
+        width: 1.18rem;
+        background: rgba(255, 221, 98, 0.98);
+      }
+      .tilt-zoom-chip.tilt-wheel-minor.is-near::before {
+        width: 0.98rem;
+        background: rgba(255, 255, 255, 0.34);
+      }
+      .tilt-zoom-chip:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.55);
+        outline-offset: 2px;
       }
       .proto-orientation-btn[data-orientation="portrait"] .proto-orientation-label::after {
         content: "Portrait";
@@ -905,6 +1060,18 @@
           >
             live
           </button>
+          <button
+            type="button"
+            id="btn-tilt-control"
+            class="hud-btn flex h-10 w-10 items-center justify-center text-white/75 transition hover:text-white"
+            title="Tilt Angle"
+            aria-label="Open tilt angle control"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="tilt-control-popover"
+          >
+            ✥
+          </button>
           <button type="button" class="h-10 w-10" disabled title="方向" aria-hidden="true">✥</button>
           <button type="button" class="h-10 w-10" disabled title="网格" aria-hidden="true">▦</button>
           <button
@@ -925,6 +1092,17 @@
       </div>
 
       <!-- 教程常驻入口：贴边小标签，避免占用主控件区域 -->
+      <div id="tilt-control-popover" class="hidden" role="dialog" aria-label="Tilt Angle">
+        <div class="tilt-zoom-control vertical">
+          <div id="tilt-zoom-pill" class="tilt-zoom-pill-vertical" aria-label="Tilt angle control">
+            <div class="tilt-wheel-window">
+              <div id="tilt-wheel-track" class="tilt-wheel-track"></div>
+            </div>
+          </div>
+          <div id="tilt-angle-value" class="tilt-angle-value-side">0&deg;</div>
+        </div>
+      </div>
+
       <button
         type="button"
         id="btn-tutorial"
@@ -1982,6 +2160,13 @@
       let settingsView = "main";
       let landscapeSettingsPage = 0;
       let landscapeActivePanel = "general";
+      let tiltAngle = 0;
+      const tiltMin = -30;
+      const tiltMax = 30;
+      const tiltStep = 1;
+      const tiltOptions = [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30];
+      let isTiltPopoverOpen = false;
+      let tiltDragState = null;
       let deviceOrientation = "landscape";
 
       const uiGuideOverlay = document.getElementById("ui-guide-overlay");
@@ -2068,7 +2253,13 @@
       const settingsAngleSliderTrackLandscape = document.getElementById("settings-angle-slider-track-landscape");
       const settingsAngleSliderThumbLandscape = document.getElementById("settings-angle-slider-thumb-landscape");
       const deviceEl = document.getElementById("device");
+      const leftRail = document.getElementById("left-rail");
       const orientationToggleBtn = document.getElementById("orientation-toggle-btn");
+      const btnTiltControl = document.getElementById("btn-tilt-control");
+      const tiltControlPopover = document.getElementById("tilt-control-popover");
+      const tiltAngleValue = document.getElementById("tilt-angle-value");
+      const tiltZoomPill = document.getElementById("tilt-zoom-pill");
+      const tiltWheelTrack = document.getElementById("tilt-wheel-track");
       const btnTutorial = document.getElementById("btn-tutorial");
       const btnSettings = document.getElementById("btn-settings");
       const btnRecord = document.getElementById("btn-record");
@@ -2337,6 +2528,43 @@
         bindDraggableTutorialHandle();
         if (btnSettings) btnSettings.addEventListener("click", toggleSettingsPanel);
         if (orientationToggleBtn) orientationToggleBtn.addEventListener("click", toggleDeviceOrientation);
+        if (btnTiltControl) {
+          btnTiltControl.addEventListener("click", function (e) {
+            e.stopPropagation();
+            toggleTiltPopover();
+          });
+        }
+        if (tiltZoomPill) {
+          tiltZoomPill.addEventListener("click", function (e) {
+            var chip = e.target.closest(".tilt-zoom-chip");
+            if (!chip) return;
+            var value = Number(chip.getAttribute("data-tilt"));
+            if (!Number.isNaN(value)) setTiltAngle(value);
+          });
+          tiltZoomPill.addEventListener("pointerdown", function (e) {
+            e.preventDefault();
+            tiltDragState = {
+              pointerId: e.pointerId,
+              startY: e.clientY,
+              startAngle: tiltAngle,
+            };
+            tiltZoomPill.setPointerCapture(e.pointerId);
+            if (tiltWheelTrack) tiltWheelTrack.classList.add("is-dragging");
+          });
+          tiltZoomPill.addEventListener("pointermove", function (e) {
+            if (!tiltDragState || tiltDragState.pointerId !== e.pointerId) return;
+            updateTiltAngleFromClientY(e.clientY);
+          });
+          ["pointerup", "pointercancel", "pointerleave"].forEach(function (eventName) {
+            tiltZoomPill.addEventListener(eventName, function (e) {
+              if (!tiltDragState || tiltDragState.pointerId !== e.pointerId) return;
+              updateTiltAngleFromClientY(e.clientY);
+              if (tiltWheelTrack) tiltWheelTrack.classList.remove("is-dragging");
+              tiltDragState = null;
+              setTiltAngle(tiltAngle);
+            });
+          });
+        }
         if (settingsCloseBtn) settingsCloseBtn.addEventListener("click", closeSettingsPanel);
         if (settingsBackBtn) settingsBackBtn.addEventListener("click", openSettingsMainView);
         if (settingsHardwareEntry) settingsHardwareEntry.addEventListener("click", openSettingsHardwareView);
@@ -2492,6 +2720,10 @@
         }
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape") {
+            if (isTiltPopoverOpen) {
+              closeTiltPopover();
+              return;
+            }
             if (settingsInfoModal && !settingsInfoModal.classList.contains("hidden")) {
               closeSettingsInfoModal();
               return;
@@ -2501,6 +2733,13 @@
             if (!tutorialModal.classList.contains("hidden")) closeTutorial();
           }
         });
+        document.addEventListener("pointerdown", function (e) {
+          if (!isTiltPopoverOpen) return;
+          if (tiltControlPopover && tiltControlPopover.contains(e.target)) return;
+          if (btnTiltControl && btnTiltControl.contains(e.target)) return;
+          closeTiltPopover();
+        });
+        window.addEventListener("resize", positionTiltPopover);
       }
 
       function handleRecordClick() {
@@ -2618,6 +2857,7 @@
       }
 
       function openTutorial() {
+        closeTiltPopover();
         tutorialModal.classList.remove("hidden");
         requestAnimationFrame(function () {
           tutorialModal.classList.remove("-translate-x-full");
@@ -2638,7 +2878,120 @@
           orientationToggleBtn.setAttribute("data-orientation", nextOrientation);
           orientationToggleBtn.setAttribute("aria-label", "Switch device to " + nextOrientation + " mode");
         }
+        positionTiltPopover();
         window.dispatchEvent(new Event("resize"));
+      }
+      function clampTiltAngle(value) {
+        return Math.max(tiltMin, Math.min(tiltMax, value));
+      }
+      function formatTiltAngle(value) {
+        if (value === 0) return "0\u00B0";
+        return (value > 0 ? "+" : "") + value + "\u00B0";
+      }
+      function getTiltChipStep() {
+        if (!tiltWheelTrack) return 36;
+        var chips = tiltWheelTrack.querySelectorAll(".tilt-zoom-chip");
+        if (chips.length > 1) {
+          return chips[1].offsetTop - chips[0].offsetTop;
+        }
+        return chips.length ? chips[0].offsetHeight + 4 : 36;
+      }
+      function renderTiltWheel() {
+        if (!tiltWheelTrack) return;
+        var orderedAngles = Array.from({ length: tiltMax - tiltMin + 1 }, function (_, index) {
+          return tiltMax - index;
+        });
+        tiltWheelTrack.innerHTML = orderedAngles
+          .map(function (value) {
+            var distance = Math.abs(value - tiltAngle);
+            var className = "tilt-zoom-chip " + (value % 5 === 0 ? "tilt-wheel-major" : "tilt-wheel-minor");
+            if (distance === 0) className += " is-active";
+            else if (distance <= 2) className += " is-near";
+            return (
+              '<button type="button" class="' +
+              className +
+              '" data-tilt="' +
+              value +
+              '" aria-pressed="' +
+              (value === tiltAngle ? "true" : "false") +
+              '">' +
+              (value % 5 === 0 ? formatTiltAngle(value) : "") +
+              "</button>"
+            );
+          })
+          .join("");
+        var chips = tiltWheelTrack.querySelectorAll(".tilt-zoom-chip");
+        if (!chips.length) return;
+        var activeChipIndex = orderedAngles.indexOf(tiltAngle);
+        var activeChip = chips[activeChipIndex];
+        if (!activeChip || !tiltZoomPill) return;
+        var offset = tiltZoomPill.clientHeight / 2 - (activeChip.offsetTop + activeChip.offsetHeight / 2);
+        tiltWheelTrack.style.transform = "translateY(" + offset + "px)";
+      }
+      function updateTiltAngleFromClientY(clientY) {
+        if (!tiltDragState) return;
+        var step = getTiltChipStep();
+        var deltaY = clientY - tiltDragState.startY;
+        var nextAngle = tiltDragState.startAngle + Math.round(-deltaY / step);
+        setTiltAngle(nextAngle);
+      }
+      function renderTiltControl() {
+        if (tiltAngleValue) tiltAngleValue.textContent = formatTiltAngle(tiltAngle);
+        if (btnTiltControl) {
+          btnTiltControl.classList.toggle("is-active", isTiltPopoverOpen);
+          btnTiltControl.setAttribute("aria-expanded", isTiltPopoverOpen ? "true" : "false");
+        }
+        if (deviceEl) {
+          deviceEl.classList.toggle("is-tilt-control-open", isTiltPopoverOpen);
+        }
+        renderTiltWheel();
+      }
+      function setTiltAngle(nextAngle) {
+        tiltAngle = Math.round(clampTiltAngle(nextAngle));
+        renderTiltControl();
+      }
+      function positionTiltPopover() {
+        if (!tiltControlPopover || !btnTiltControl || !deviceEl) return;
+        var deviceRect = deviceEl.getBoundingClientRect();
+        var railRect = leftRail ? leftRail.getBoundingClientRect() : btnTiltControl.getBoundingClientRect();
+        if (tiltZoomPill) {
+          var targetHeight = Math.max(196, Math.min(railRect.height - 60, deviceRect.height - 48));
+          tiltZoomPill.style.height = targetHeight + "px";
+        }
+        var popoverWidth = tiltControlPopover.offsetWidth || 96;
+        var popoverHeight = tiltControlPopover.offsetHeight || 188;
+        var left = railRect.left - deviceRect.left + Math.max(0, (railRect.width - popoverWidth) / 2) - 4;
+        var top = railRect.top - deviceRect.top + (railRect.height - popoverHeight) / 2;
+        if (deviceOrientation === "portrait") {
+          left = railRect.left - deviceRect.left + Math.max(0, (railRect.width - popoverWidth) / 2) - 2;
+          top = railRect.top - deviceRect.top + (railRect.height - popoverHeight) / 2;
+        }
+        left = Math.max(4, Math.min(left, deviceRect.width - popoverWidth - 8));
+        top = Math.max(18, Math.min(top, deviceRect.height - popoverHeight - 16));
+        tiltControlPopover.style.left = left + "px";
+        tiltControlPopover.style.top = top + "px";
+      }
+      function openTiltPopover() {
+        if (!tiltControlPopover) return;
+        isTiltPopoverOpen = true;
+        tiltControlPopover.classList.remove("hidden");
+        positionTiltPopover();
+        renderTiltControl();
+      }
+      function closeTiltPopover() {
+        if (!tiltControlPopover) return;
+        isTiltPopoverOpen = false;
+        tiltControlPopover.classList.add("hidden");
+        if (tiltWheelTrack) tiltWheelTrack.classList.remove("is-dragging");
+        tiltDragState = null;
+        renderTiltControl();
+      }
+      function toggleTiltPopover() {
+        if (isTiltPopoverOpen) {
+          closeTiltPopover();
+        } else {
+          openTiltPopover();
+        }
       }
       function toggleDeviceOrientation() {
         deviceOrientation = deviceOrientation === "landscape" ? "portrait" : "landscape";
@@ -2677,6 +3030,7 @@
       }
       function toggleSettingsPanel() {
         if (!settingsPanel) return;
+        closeTiltPopover();
         settingsView = "main";
         landscapeSettingsPage = 0;
         landscapeActivePanel = "general";
@@ -2689,6 +3043,7 @@
           settingsPanel.classList.add("hidden");
           settingsPanel.classList.remove("flex");
         }
+        closeTiltPopover();
         closeSettingsInfoModal();
         settingsView = "main";
         landscapeSettingsPage = 0;
@@ -3122,6 +3477,8 @@
         if (state.isRecording) {
           toggleRecording();
         }
+        closeTiltPopover();
+        setTiltAngle(0);
         closeGuideUI();
         closeCalibration();
         closeHallGuideModal();
@@ -3162,6 +3519,7 @@
         }
         renderDeviceOrientation();
         renderAngleSegments();
+        renderTiltControl();
         renderSettingsPanel();
         bindEvents();
         setTutorialEntryEnabled(localStorage.getItem(LS_TUTORIAL_ENTRY) !== "0");
@@ -3173,3 +3531,4 @@
   </body>
 
 </html>
+
