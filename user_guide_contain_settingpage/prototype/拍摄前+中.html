@@ -411,37 +411,6 @@
         padding-top: 0.72rem;
         padding-bottom: 0.34rem;
       }
-      #device[data-orientation="landscape"] #settings-back-btn {
-        display: inline-flex;
-        left: 1rem;
-        width: 2rem;
-        height: 2rem;
-        color: rgba(255, 255, 255, 0.95);
-      }
-      #device[data-orientation="landscape"] #settings-back-btn svg {
-        width: 1.2rem;
-        height: 1.2rem;
-        stroke-width: 2.1;
-      }
-      #device[data-orientation="landscape"] #settings-back-label {
-        display: none !important;
-      }
-      #device[data-orientation="landscape"] #settings-close-btn {
-        right: 1rem;
-        width: auto;
-        height: auto;
-        border-radius: 0;
-        padding: 0.2rem 0.1rem;
-        color: #0a84ff;
-        font-size: 14px;
-        font-weight: 600;
-      }
-      #device[data-orientation="landscape"] #settings-close-btn svg {
-        display: none;
-      }
-      #device[data-orientation="landscape"] #settings-close-text {
-        display: inline;
-      }
       #device[data-orientation="landscape"] #settings-content {
         overflow: hidden;
         padding: 0.28rem 1.25rem 1.1rem;
@@ -642,6 +611,7 @@
         padding-top: 0.12rem;
         padding-bottom: 0.12rem;
       }
+      #device[data-orientation="landscape"] #settings-back-btn,
       #device[data-orientation="landscape"] #settings-page-indicators,
       #device[data-orientation="landscape"] #settings-landscape-viewport,
       #device[data-orientation="landscape"] #settings-anti-flicker-view,
@@ -697,7 +667,13 @@
         padding: 0.8rem 0.45rem 0 0.45rem;
       }
       #device[data-orientation="landscape"] #settings-restore-btn-landscape {
-        margin-left: 0;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        margin-left: 1rem;
+        font-size: 14px;
+        font-weight: 600;
+        color: #ff453a;
       }
       #device[data-orientation="landscape"] #settings-ipad-detail {
         min-width: 0;
@@ -715,12 +691,6 @@
         padding: 0.3rem 0.8rem 0.6rem 0.45rem;
         -ms-overflow-style: none;
         scrollbar-width: none;
-      }
-      #device[data-orientation="landscape"] .settings-ipad-detail-panel-inner {
-        display: flex;
-        min-height: 100%;
-        flex-direction: column;
-        gap: 0.72rem;
       }
       #device[data-orientation="landscape"] .settings-ipad-detail-panel::-webkit-scrollbar {
         display: none;
@@ -777,10 +747,6 @@
         display: flex;
         flex-direction: column;
         gap: 0.72rem;
-      }
-      #device[data-orientation="landscape"] .settings-ipad-restore-wrap {
-        margin-top: auto;
-        padding-top: 0.2rem;
       }
       #device[data-orientation="landscape"] .settings-ipad-choice-card {
         overflow: hidden;
@@ -847,27 +813,6 @@
         font-weight: 600;
         letter-spacing: -0.01em;
       }
-      #device[data-orientation="portrait"] #settings-portrait-tabs {
-        display: flex !important;
-        gap: 0.35rem;
-        margin-bottom: 0.9rem;
-        padding-top: 0.15rem;
-      }
-      #device[data-orientation="portrait"] .settings-portrait-tab {
-        flex: 1;
-        min-width: 0;
-        border-radius: 9999px;
-        padding: 0.48rem 0.75rem;
-        font-size: 12px;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.66);
-        background: #1c1c1e;
-        transition: background-color 160ms ease, color 160ms ease;
-      }
-      #device[data-orientation="portrait"] .settings-portrait-tab.is-active {
-        background: #2f2f2f;
-        color: rgba(255, 255, 255, 0.98);
-      }
       #device[data-orientation="portrait"] #settings-main-view {
         display: flex;
         flex-direction: column;
@@ -927,23 +872,11 @@
         border-radius: 0.9rem;
         background: #1c1c1e;
       }
-      #device[data-orientation="portrait"] #settings-general-section {
-        overflow: visible;
-        border-radius: 0;
-        background: transparent;
-      }
-      #device[data-orientation="portrait"] #settings-general-grid {
-        overflow: hidden;
-        border-radius: 0.9rem;
-        background: #1c1c1e;
-      }
       #device[data-orientation="portrait"] #settings-general-grid > label > button:last-child {
         margin-left: auto;
       }
       #device[data-orientation="portrait"] #settings-choice-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.72rem;
+        display: none;
       }
       #device[data-orientation="portrait"] .settings-landscape-only {
         display: none !important;
@@ -972,7 +905,7 @@
         width: 100%;
       }
       #device[data-orientation="portrait"] #settings-portrait-nav-section {
-        display: none !important;
+        display: block !important;
       }
       #device[data-orientation="portrait"] #settings-portrait-nav-section > h3 {
         display: none !important;
@@ -1073,23 +1006,15 @@
       }
       #device[data-orientation="portrait"] #settings-close-btn {
         right: 0.55rem;
-        width: auto;
-        height: auto;
-        border-radius: 0;
-        padding: 0.2rem 0.1rem;
-        color: #0a84ff;
-        font-size: 14px;
-        font-weight: 600;
-      }
-      #device[data-orientation="portrait"] #settings-close-btn svg {
-        display: none;
-      }
-      #device[data-orientation="portrait"] #settings-close-text {
-        display: inline;
       }
       #device[data-orientation="portrait"] #settings-footer {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      #device[data-orientation="portrait"] #settings-footer #settings-restore-btn {
+        color: #ff453a;
+        font-size: 14px;
+        font-weight: 600;
       }
       #device[data-orientation="portrait"] #settings-hardware-entry,
       #device[data-orientation="portrait"] #settings-tutorial-entry-row {
@@ -1121,7 +1046,7 @@
         width: 1rem;
       }
       #device[data-orientation="portrait"] #settings-tutorial-section {
-        display: none !important;
+        margin-top: -0.15rem;
       }
       #device[data-orientation="portrait"] #settings-tutorial-entry-row {
         min-height: 2.95rem;
@@ -1157,71 +1082,6 @@
       #device[data-orientation="portrait"] #settings-hardware-view .settings-angle-panel {
         padding-left: 1rem;
         padding-right: 1rem;
-      }
-      #device[data-orientation="portrait"] #settings-capture-section > h3,
-      #device[data-orientation="portrait"] #settings-tutorial-section > h3,
-      #device[data-orientation="portrait"] #settings-hardware-entry-section {
-        display: none !important;
-      }
-      #device[data-orientation="portrait"] .settings-choice-card-compact,
-      #device[data-orientation="portrait"] .settings-ipad-choice-card {
-        border-radius: 0.9rem;
-        background: #1c1c1e;
-        padding: 0.95rem 1rem;
-      }
-      #device[data-orientation="portrait"] #settings-choice-grid .settings-choice-head {
-        display: flex;
-        flex-direction: column;
-        gap: 0.62rem;
-      }
-      #device[data-orientation="portrait"] #settings-choice-grid .settings-choice-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-      }
-      #device[data-orientation="portrait"] #settings-choice-grid .settings-choice-copy {
-        margin-top: -0.15rem;
-        font-size: 12px;
-        line-height: 1.42;
-        color: rgba(255, 255, 255, 0.58);
-      }
-      #device[data-orientation="portrait"] #settings-general-section .settings-restore-btn-solid,
-      #device[data-orientation="portrait"] #settings-capture-section .settings-restore-btn-solid {
-        margin-top: 0.4rem;
-      }
-      #device[data-orientation="portrait"] #settings-general-section .settings-restore-btn-solid {
-        display: block;
-        margin-top: 0.75rem;
-      }
-      #device[data-orientation="portrait"] #settings-anti-flicker-card {
-        display: none !important;
-      }
-      #device[data-orientation="portrait"] #settings-hardware-view {
-        display: flex;
-        flex-direction: column;
-        gap: 0.72rem;
-      }
-      #device[data-orientation="portrait"] #settings-hardware-view.hidden {
-        display: none !important;
-      }
-      .settings-restore-btn-solid {
-        width: 100%;
-        min-height: 2.25rem;
-        border-radius: 0.6rem;
-        border: 1px solid rgba(255, 69, 58, 0.18);
-        background: rgba(255, 69, 58, 0.1);
-        color: #ff453a;
-        font-size: 13px;
-        font-weight: 600;
-        text-align: center;
-        transition: background-color 160ms ease, border-color 160ms ease;
-      }
-      .settings-restore-btn-solid:hover {
-        background: rgba(255, 69, 58, 0.14);
-        border-color: rgba(255, 69, 58, 0.24);
-      }
-      #settings-close-text {
-        display: none;
       }
       #device[data-orientation="portrait"] .settings-detail-view {
         display: flex;
@@ -1836,7 +1696,6 @@
             class="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:bg-white/10"
             aria-label="Close settings panel"
           >
-            <span id="settings-close-text">Done</span>
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
@@ -1864,165 +1723,145 @@
 
             <div id="settings-ipad-detail">
               <div class="settings-ipad-detail-panel is-active" data-settings-detail="general">
-                <div class="settings-ipad-detail-panel-inner">
-                  <div class="settings-ipad-detail-title">General</div>
-                  <div class="settings-ipad-card">
-                    <div class="settings-ipad-list-row">
-                      <div class="settings-ipad-list-row-label">
-                        <span>Auto Tracking</span>
-                        <div>Keeps the subject centered as it moves.</div>
-                      </div>
-                      <button
-                        type="button"
-                        data-settings-toggle-key="autoTracking"
-                        class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                        aria-pressed="true"
-                      >
-                        <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
-                      </button>
+                <div class="settings-ipad-detail-title">General</div>
+                <div class="settings-ipad-card">
+                  <div class="settings-ipad-list-row">
+                    <div class="settings-ipad-list-row-label">
+                      <span>Auto Tracking</span>
+                      <div>Keeps the subject centered as it moves.</div>
                     </div>
-                    <div class="settings-ipad-list-row">
-                      <div class="settings-ipad-list-row-label">
-                        <span>Auto Zoom</span>
-                        <div>Adjusts framing automatically.</div>
-                      </div>
-                      <button
-                        type="button"
-                        data-settings-toggle-key="autoZoom"
-                        class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                        aria-pressed="true"
-                      >
-                        <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
-                      </button>
-                    </div>
-                    <div class="settings-ipad-list-row">
-                      <div class="settings-ipad-list-row-label flex items-center self-center">
-                        <span>Timestamp</span>
-                      </div>
-                      <button
-                        type="button"
-                        data-settings-toggle-key="timeWatermark"
-                        class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                        aria-pressed="true"
-                      >
-                        <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
-                      </button>
-                    </div>
-                    <div class="settings-ipad-list-row">
-                      <div class="settings-ipad-list-row-label">
-                        <span>Microphone</span>
-                        <div>Records audio when enabled. Turn it off for silent recording.</div>
-                      </div>
-                      <button
-                        type="button"
-                        data-settings-toggle-key="audioRecording"
-                        class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
-                        aria-pressed="true"
-                      >
-                        <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      data-settings-toggle-key="autoTracking"
+                      class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                      aria-pressed="true"
+                    >
+                      <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
+                    </button>
                   </div>
-                  <div class="settings-ipad-restore-wrap">
-                    <button type="button" class="settings-restore-btn-solid settings-restore-shared">Restore Defaults</button>
+                  <div class="settings-ipad-list-row">
+                    <div class="settings-ipad-list-row-label">
+                      <span>Auto Zoom</span>
+                      <div>Adjusts framing automatically.</div>
+                    </div>
+                    <button
+                      type="button"
+                      data-settings-toggle-key="autoZoom"
+                      class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                      aria-pressed="true"
+                    >
+                      <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
+                    </button>
+                  </div>
+                  <div class="settings-ipad-list-row">
+                    <div class="settings-ipad-list-row-label flex items-center self-center">
+                      <span>Timestamp</span>
+                    </div>
+                    <button
+                      type="button"
+                      data-settings-toggle-key="timeWatermark"
+                      class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                      aria-pressed="true"
+                    >
+                      <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
+                    </button>
+                  </div>
+                  <div class="settings-ipad-list-row">
+                    <div class="settings-ipad-list-row-label">
+                      <span>Microphone</span>
+                      <div>Records audio when enabled. Turn it off for silent recording.</div>
+                    </div>
+                    <button
+                      type="button"
+                      data-settings-toggle-key="audioRecording"
+                      class="settings-ipad-toggle relative inline-flex h-5 w-[2.5rem] items-center rounded-full bg-gray-500 transition-colors duration-300 ease-in-out"
+                      aria-pressed="true"
+                    >
+                      <span data-settings-toggle-thumb class="inline-block h-4 w-4 translate-x-1 rounded-full bg-white shadow-[0_2px_8px_rgba(255,255,255,0.18)] transition-transform duration-300 ease-in-out"></span>
+                    </button>
                   </div>
                 </div>
               </div>
 
               <div class="settings-ipad-detail-panel" data-settings-detail="capture">
-                <div class="settings-ipad-detail-panel-inner">
-                  <div class="settings-ipad-detail-title">Capture</div>
-                  <div class="settings-ipad-stack">
-                    <div class="settings-ipad-choice-card">
-                      <div class="settings-choice-head">
-                        <div class="text-[12px] font-medium leading-none text-gray-100">Resolution</div>
-                        <div class="settings-choice-actions">
-                          <button type="button" data-setting-group="resolution" data-setting-value="1080P/30fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">1080P/30fps</button>
-                          <button type="button" data-setting-group="resolution" data-setting-value="1080P/60fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">1080P/60fps</button>
-                          <button type="button" data-setting-group="resolution" data-setting-value="4K/30fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">4K/30fps</button>
-                        </div>
+                <div class="settings-ipad-detail-title">Capture</div>
+                <div class="settings-ipad-stack">
+                  <div class="settings-ipad-choice-card">
+                    <div class="settings-choice-head">
+                      <div class="text-[12px] font-medium leading-none text-gray-100">Resolution</div>
+                      <div class="settings-choice-actions">
+                        <button type="button" data-setting-group="resolution" data-setting-value="1080P/30fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">1080P/30fps</button>
+                        <button type="button" data-setting-group="resolution" data-setting-value="1080P/60fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">1080P/60fps</button>
+                        <button type="button" data-setting-group="resolution" data-setting-value="4K/30fps" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2 py-1 text-[10px] font-medium text-white/78 transition">4K/30fps</button>
                       </div>
-                    </div>
-                    <div class="settings-ipad-choice-card">
-                      <div class="settings-choice-head">
-                        <div class="text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
-                        <div class="settings-choice-copy">Helps keep video more stable under indoor lights and screens.</div>
-                        <div class="settings-choice-actions">
-                          <button type="button" data-setting-group="anti-flicker" data-setting-value="Auto" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">Auto</button>
-                          <button type="button" data-setting-group="anti-flicker" data-setting-value="50Hz" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">50Hz</button>
-                          <button type="button" data-setting-group="anti-flicker" data-setting-value="60Hz" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">60Hz</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="settings-ipad-restore-wrap">
-                      <button type="button" id="settings-restore-btn-landscape" class="settings-restore-btn-solid">Restore Defaults</button>
                     </div>
                   </div>
+                  <div class="settings-ipad-choice-card">
+                    <div class="settings-choice-head">
+                      <div class="text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
+                      <div class="settings-choice-copy">Helps keep video more stable under indoor lights and screens.</div>
+                      <div class="settings-choice-actions">
+                        <button type="button" data-setting-group="anti-flicker" data-setting-value="Auto" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">Auto</button>
+                        <button type="button" data-setting-group="anti-flicker" data-setting-value="50Hz" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">50Hz</button>
+                        <button type="button" data-setting-group="anti-flicker" data-setting-value="60Hz" class="settings-choice-btn rounded-full border border-transparent bg-[#1f1f1f] px-2.5 py-1 text-[11px] font-medium text-white/78 transition">60Hz</button>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" id="settings-restore-btn-landscape" class="px-0 pt-1 text-left text-[14px] font-semibold text-[#ff453a]">Restore Defaults</button>
                 </div>
               </div>
 
               <div class="settings-ipad-detail-panel" data-settings-detail="hardware">
-                <div class="settings-ipad-detail-panel-inner">
-                  <div class="settings-ipad-detail-title">Hardware Settings</div>
-                  <div class="settings-ipad-hardware-copy">Adjust the device angle for your shooting setup and coverage area.</div>
-                  <div class="settings-angle-panel settings-detail-card rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
-                    <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
+                <div class="settings-ipad-detail-title">Hardware Settings</div>
+                <div class="settings-ipad-hardware-copy">Adjust the device angle for your shooting setup and coverage area.</div>
+                <div class="settings-angle-panel settings-detail-card rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
+                  <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
 
-                    <div class="relative mt-2 min-h-[8.5rem]">
-                      <div class="w-[10.5rem] shrink-0 pl-2 pt-4">
-                        <div class="flex flex-col gap-2">
-                          <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
-                            <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
-                            <span>Device Rotation Angle</span>
-                          </div>
-                          <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
-                            <div class="h-3 w-3 rounded-[3px] bg-[#dbe8ff]"></div>
-                            <span>Video Recording Range</span>
-                          </div>
+                  <div class="relative mt-2 min-h-[8.5rem]">
+                    <div class="w-[10.5rem] shrink-0 pl-2 pt-4">
+                      <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
+                          <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
+                          <span>Device Rotation Angle</span>
                         </div>
-                      </div>
-
-                      <div class="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center justify-center">
-                        <svg width="214" height="118" viewBox="0 0 300 130" class="overflow-visible scale-[0.82] origin-top">
-                          <path d="M 60 100 A 90 90 0 0 1 240 100" fill="none" stroke="#444" stroke-width="1" stroke-dasharray="4 4" />
-                          <g id="settings-angle-segments-landscape"></g>
-                          <path d="M 60 105 L 240 105" stroke="#444" stroke-width="1" stroke-dasharray="2 2" />
-                          <g id="settings-angle-pointer-landscape" transform="rotate(7.7777777778 150 100)">
-                            <path d="M 150 100 L 110 30 A 80 80 0 0 1 190 30 Z" fill="rgba(255, 85, 0, 0.15)" />
-                            <line x1="150" y1="100" x2="110" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
-                            <line x1="150" y1="100" x2="190" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
-                            <circle cx="150" cy="100" r="6" fill="#ff5500" />
-                            <path d="M 147 96 L 153 96 L 155 104 L 145 104 Z" fill="#ff5500" />
-                            <circle cx="150" cy="100" r="2" fill="white" />
-                          </g>
-                        </svg>
-                        <div id="settings-angle-display-landscape" class="mt-[-10px] text-[12px] font-medium text-white">110&deg;</div>
+                        <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
+                          <div class="h-3 w-3 rounded-[3px] bg-[#dbe8ff]"></div>
+                          <span>Video Recording Range</span>
+                        </div>
                       </div>
                     </div>
 
-                    <div class="mt-2.5 flex items-center gap-2.5">
-                      <span class="w-9 text-[10px] text-white/90">60&deg;</span>
-                      <div class="relative flex h-7 flex-1 items-center">
-                        <input type="range" id="settings-angle-range-landscape" min="60" max="150" value="110" class="absolute z-20 h-full w-full cursor-pointer opacity-0" />
-                        <div id="settings-angle-slider-track-landscape" class="relative h-1 w-full rounded-full bg-[#7b7b7b]">
-                          <div id="settings-angle-slider-thumb-landscape" class="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-[4px] border-white/20 bg-white shadow-[0_0_0_8px_rgba(255,255,255,0.18)]" style="left:55.5556%;transform:translate(-50%, -50%)"></div>
-                        </div>
-                      </div>
-                      <span class="w-9 text-right text-[10px] text-white/90">150&deg;</span>
+                    <div class="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center justify-center">
+                      <svg width="214" height="118" viewBox="0 0 300 130" class="overflow-visible scale-[0.82] origin-top">
+                        <path d="M 60 100 A 90 90 0 0 1 240 100" fill="none" stroke="#444" stroke-width="1" stroke-dasharray="4 4" />
+                        <g id="settings-angle-segments-landscape"></g>
+                        <path d="M 60 105 L 240 105" stroke="#444" stroke-width="1" stroke-dasharray="2 2" />
+                        <g id="settings-angle-pointer-landscape" transform="rotate(7.7777777778 150 100)">
+                          <path d="M 150 100 L 110 30 A 80 80 0 0 1 190 30 Z" fill="rgba(255, 85, 0, 0.15)" />
+                          <line x1="150" y1="100" x2="110" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+                          <line x1="150" y1="100" x2="190" y2="30" stroke="#ff5500" stroke-width="1" stroke-dasharray="3 3" opacity="0.5" />
+                          <circle cx="150" cy="100" r="6" fill="#ff5500" />
+                          <path d="M 147 96 L 153 96 L 155 104 L 145 104 Z" fill="#ff5500" />
+                          <circle cx="150" cy="100" r="2" fill="white" />
+                        </g>
+                      </svg>
+                      <div id="settings-angle-display-landscape" class="mt-[-10px] text-[12px] font-medium text-white">110&deg;</div>
                     </div>
                   </div>
-                  <div class="settings-ipad-restore-wrap">
-                    <button type="button" class="settings-restore-btn-solid settings-restore-shared">Restore Defaults</button>
+
+                  <div class="mt-2.5 flex items-center gap-2.5">
+                    <span class="w-9 text-[10px] text-white/90">60&deg;</span>
+                    <div class="relative flex h-7 flex-1 items-center">
+                      <input type="range" id="settings-angle-range-landscape" min="60" max="150" value="110" class="absolute z-20 h-full w-full cursor-pointer opacity-0" />
+                      <div id="settings-angle-slider-track-landscape" class="relative h-1 w-full rounded-full bg-[#7b7b7b]">
+                        <div id="settings-angle-slider-thumb-landscape" class="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-[4px] border-white/20 bg-white shadow-[0_0_0_8px_rgba(255,255,255,0.18)]" style="left:55.5556%;transform:translate(-50%, -50%)"></div>
+                      </div>
+                    </div>
+                    <span class="w-9 text-right text-[10px] text-white/90">150&deg;</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div id="settings-portrait-tabs" class="hidden">
-            <button type="button" class="settings-portrait-tab is-active" data-settings-panel="general">General</button>
-            <button type="button" class="settings-portrait-tab" data-settings-panel="capture">Capture</button>
-            <button type="button" class="settings-portrait-tab" data-settings-panel="hardware">Hardware</button>
           </div>
 
           <div id="settings-page-indicators" hidden>
@@ -2118,10 +1957,9 @@
                 </label>
 
               </div>
-              <button type="button" class="settings-restore-btn-solid settings-restore-shared">Restore Defaults</button>
             </section>
 
-            <section id="settings-capture-section" class="space-y-2">
+            <section class="space-y-2">
               <h3 class="text-[14px] font-semibold text-white">Capture</h3>
               <div id="settings-choice-grid" class="grid grid-cols-2 gap-2">
                 <div class="settings-choice-card-compact rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
@@ -2156,7 +1994,7 @@
                   </div>
                 </div>
 
-                <div id="settings-anti-flicker-card" class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
+                <div class="rounded-[1rem] bg-[#2f2f2f] px-3.5 py-2.5">
                   <div class="settings-choice-head">
                     <div class="text-[12px] font-medium leading-none text-gray-100">Anti-Flicker</div>
                     <div class="settings-choice-actions">
@@ -2189,7 +2027,6 @@
                   <div class="settings-choice-copy">Helps keep video more stable under indoor lights and screens.</div>
                 </div>
               </div>
-              <button type="button" class="settings-restore-btn-solid settings-restore-shared">Restore Defaults</button>
             </section>
 
             <section id="settings-portrait-nav-section" class="hidden space-y-0">
@@ -2241,7 +2078,7 @@
               </div>
             </section>
 
-            <section id="settings-hardware-entry-section" class="space-y-0 pb-3">
+            <section class="space-y-0 pb-3">
               <div id="settings-hardware-card">
                 <button
                   type="button"
@@ -2262,7 +2099,7 @@
                   <button
                     type="button"
                     id="settings-restore-btn"
-                    class="settings-restore-btn-solid border-0 shadow-none outline-none"
+                    class="border-0 bg-transparent px-0 py-1 text-left text-[14px] font-semibold text-[#ff453a] shadow-none outline-none transition hover:text-[#ff453a]"
                   >
                     Restore Defaults
                   </button>
@@ -2340,7 +2177,6 @@
                   <span class="w-9 text-right text-[10px] text-white/90">150&deg;</span>
                 </div>
               </div>
-              <button type="button" class="settings-restore-btn-solid settings-restore-shared">Restore Defaults</button>
             </section>
           </div>
           </div>
@@ -2588,15 +2424,10 @@
       const settingsLandscapePages = document.getElementById("settings-landscape-pages");
       const settingsPageDots = document.querySelectorAll("[data-settings-page]");
       const settingsMainView = document.getElementById("settings-main-view");
-      const settingsGeneralSection = document.getElementById("settings-general-section");
-      const settingsCaptureSection = document.getElementById("settings-capture-section");
-      const settingsTutorialSection = document.getElementById("settings-tutorial-section");
-      const settingsHardwareEntrySection = document.getElementById("settings-hardware-entry-section");
       const settingsHardwareView = document.getElementById("settings-hardware-view");
       const settingsAntiFlickerView = document.getElementById("settings-anti-flicker-view");
       const settingsResolutionView = document.getElementById("settings-resolution-view");
       const settingsFooter = document.getElementById("settings-footer");
-      const settingsPortraitTabs = document.getElementById("settings-portrait-tabs");
       const settingsBackBtn = document.getElementById("settings-back-btn");
       const settingsTitle = document.getElementById("settings-title");
       const settingsHardwareEntry = document.getElementById("settings-hardware-entry-portrait");
@@ -2608,7 +2439,6 @@
       const settingsCloseBtn = document.getElementById("settings-close-btn");
       const settingsRestoreBtn = document.getElementById("settings-restore-btn");
       const settingsRestoreBtnLandscape = document.getElementById("settings-restore-btn-landscape");
-      const settingsRestoreSharedButtons = document.querySelectorAll(".settings-restore-shared");
       const settingsTutorialEntryToggle = document.getElementById("settings-tutorial-entry-toggle");
       const settingsTutorialEntryThumb = document.getElementById("settings-tutorial-entry-thumb");
       const settingsTutorialEntryToggleLandscape = document.getElementById("settings-tutorial-entry-toggle-landscape");
@@ -2988,7 +2818,7 @@
           });
         }
         if (settingsCloseBtn) settingsCloseBtn.addEventListener("click", closeSettingsPanel);
-        if (settingsBackBtn) settingsBackBtn.addEventListener("click", handleSettingsBackAction);
+        if (settingsBackBtn) settingsBackBtn.addEventListener("click", openSettingsMainView);
         if (settingsHardwareEntry) settingsHardwareEntry.addEventListener("click", openSettingsHardwareView);
         if (settingsAntiFlickerEntry) settingsAntiFlickerEntry.addEventListener("click", openSettingsAntiFlickerView);
         if (settingsResolutionEntry) settingsResolutionEntry.addEventListener("click", openSettingsResolutionView);
@@ -3088,15 +2918,6 @@
             setTutorialEntryEnabled(localStorage.getItem(LS_TUTORIAL_ENTRY) !== "0");
           });
         }
-        settingsRestoreSharedButtons.forEach(function (button) {
-          button.addEventListener("click", function () {
-            settingsState = {
-              ...defaultSettingsState,
-            };
-            renderSettingsPanel();
-            setTutorialEntryEnabled(localStorage.getItem(LS_TUTORIAL_ENTRY) !== "0");
-          });
-        });
         if (guideNever) {
           guideNever.addEventListener("change", function () {
             syncGuideNeverState(guideNever.checked);
@@ -3578,18 +3399,16 @@
           setLandscapeActivePanel("hardware");
           return;
         }
-        landscapeActivePanel = "hardware";
-        settingsView = "main";
+        settingsView = "hardware";
         renderSettingsPanel();
       }
       function openSettingsMainView() {
-        landscapeActivePanel = "general";
+        if (deviceOrientation === "landscape") {
+          landscapeActivePanel = "general";
+        }
         settingsView = "main";
         landscapeSettingsPage = 0;
         renderSettingsPanel();
-      }
-      function handleSettingsBackAction() {
-        closeSettingsPanel();
       }
       function bindLandscapeSettingsPager() {}
       function mapAngleValueToVisualAngle(val) {
@@ -3663,14 +3482,13 @@
         var isLandscape = deviceOrientation === "landscape";
         var isLandscapePagerMode = false;
         if (settingsIpadLayout) settingsIpadLayout.classList.toggle("hidden", !isLandscape);
-        if (settingsPortraitTabs) settingsPortraitTabs.classList.toggle("hidden", isLandscape);
         if (isLandscape) {
           if (settingsMainView) settingsMainView.classList.add("hidden");
           if (settingsHardwareView) settingsHardwareView.classList.add("hidden");
           if (settingsAntiFlickerView) settingsAntiFlickerView.classList.add("hidden");
           if (settingsResolutionView) settingsResolutionView.classList.add("hidden");
           if (settingsFooter) settingsFooter.classList.add("hidden");
-          if (settingsBackBtn) settingsBackBtn.classList.remove("hidden");
+          if (settingsBackBtn) settingsBackBtn.classList.add("hidden");
           if (settingsPageIndicators) settingsPageIndicators.hidden = true;
           settingsIpadSidebarButtons.forEach(function (button) {
             var panel = button.getAttribute("data-settings-panel");
@@ -3681,22 +3499,23 @@
           });
           if (settingsTitle) settingsTitle.textContent = "Recording Settings";
         } else {
-          if (settingsMainView) settingsMainView.classList.toggle("hidden", landscapeActivePanel === "hardware");
-          if (settingsHardwareView) settingsHardwareView.classList.toggle("hidden", landscapeActivePanel !== "hardware");
-          if (settingsAntiFlickerView) settingsAntiFlickerView.classList.add("hidden");
-          if (settingsResolutionView) settingsResolutionView.classList.add("hidden");
-          if (settingsFooter) settingsFooter.classList.toggle("hidden", landscapeActivePanel === "hardware");
-          if (settingsBackBtn) settingsBackBtn.classList.remove("hidden");
+          if (settingsMainView) settingsMainView.classList.toggle("hidden", settingsView !== "main");
+          if (settingsHardwareView) settingsHardwareView.classList.toggle("hidden", settingsView !== "hardware");
+          if (settingsAntiFlickerView) settingsAntiFlickerView.classList.toggle("hidden", settingsView !== "anti-flicker");
+          if (settingsResolutionView) settingsResolutionView.classList.toggle("hidden", settingsView !== "resolution");
+          if (settingsFooter) settingsFooter.classList.toggle("hidden", settingsView !== "main");
+          if (settingsBackBtn) settingsBackBtn.classList.toggle("hidden", settingsView === "main");
           if (settingsPageIndicators) settingsPageIndicators.hidden = true;
-          if (settingsGeneralSection) settingsGeneralSection.classList.toggle("hidden", landscapeActivePanel !== "general");
-          if (settingsTutorialSection) settingsTutorialSection.classList.toggle("hidden", landscapeActivePanel !== "general");
-          if (settingsCaptureSection) settingsCaptureSection.classList.toggle("hidden", landscapeActivePanel !== "capture");
-          if (settingsHardwareEntrySection) settingsHardwareEntrySection.classList.add("hidden");
-          settingsIpadSidebarButtons.forEach(function (button) {
-            var panel = button.getAttribute("data-settings-panel");
-            button.classList.toggle("is-active", panel === landscapeActivePanel);
-          });
-          if (settingsTitle) settingsTitle.textContent = "Recording Settings";
+          if (settingsTitle) {
+            settingsTitle.textContent =
+              settingsView === "hardware"
+                ? "Hardware Settings"
+                : settingsView === "anti-flicker"
+                  ? "Anti-Flicker"
+                  : settingsView === "resolution"
+                    ? "Resolution"
+                    : "Recording Settings";
+          }
         }
         if (settingsLandscapePages) {
           settingsLandscapePages.style.transform = "translateX(0)";
