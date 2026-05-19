@@ -255,8 +255,8 @@
       #left-rail [role="group"] > * {
         transition: opacity 180ms ease, visibility 180ms ease;
       }
-      #device.is-tilt-control-open #left-rail > :not([role="group"]),
-      #device.is-tilt-control-open #left-rail [role="group"] > :not(#btn-tilt-control) {
+      #device.is-tilt-control-open #left-rail > *,
+      #device.is-tilt-control-open #left-rail [role="group"] > * {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -271,131 +271,174 @@
         box-shadow: none;
         padding: 0;
         color: rgba(255, 255, 255, 0.94);
+        pointer-events: none;
       }
       #tilt-control-popover.hidden {
         display: none !important;
       }
       .tilt-zoom-control {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        gap: 0.55rem;
-      }
-      .tilt-angle-value-side {
-        min-width: 3.2rem;
-        text-align: left;
-        font-size: 15px;
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: -0.01em;
-        color: rgba(255, 234, 138, 0.95);
-        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+        justify-content: center;
+        width: 100%;
+        height: 100%;
       }
       .tilt-zoom-pill-vertical {
         position: relative;
-        width: 3rem;
-        height: 12.25rem;
+        width: 3.75rem;
+        height: 100%;
         border-radius: 9999px;
         overflow: hidden;
-        background: rgba(26, 26, 26, 0.62);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
-        backdrop-filter: blur(20px);
+        background: rgba(15, 18, 20, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(14px);
         touch-action: none;
         user-select: none;
+        -webkit-user-select: none;
+        pointer-events: auto;
+        --tilt-current-up-intensity: 0;
+        --tilt-current-down-intensity: 0;
+        --tilt-input-up-intensity: 0;
+        --tilt-input-down-intensity: 0;
+        --tilt-up-intensity: 0;
+        --tilt-down-intensity: 0;
+        --tilt-knob-up-intensity: 0;
+        --tilt-knob-down-intensity: 0;
+        --tilt-knob-offset: 0px;
       }
-      .tilt-wheel-window {
+      .tilt-stick-control {
         position: relative;
         height: 100%;
-        overflow: hidden;
+        width: 100%;
       }
-      .tilt-wheel-window::before {
-        content: "";
+      .tilt-stick-track {
         position: absolute;
-        left: 0.3rem;
-        right: 0.3rem;
-        top: 50%;
-        height: 2.15rem;
-        transform: translateY(-50%);
-        border-radius: 9999px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        inset: 0.28rem;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
         box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-        pointer-events: none;
       }
-      .tilt-wheel-track {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.08rem;
-        padding: 0.56rem 0.38rem;
-        transition: transform 180ms ease;
-      }
-      .tilt-wheel-track.is-dragging {
-        transition: none;
-      }
-      .tilt-zoom-chip {
-        display: inline-flex;
-        width: 2.08rem;
-        height: 0.7rem;
-        align-items: center;
-        justify-content: center;
-        border-radius: 9999px;
-        border: 0;
-        background: transparent;
-        color: transparent;
-        font-size: 11px;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: -0.01em;
-        transition: transform 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
-        opacity: 0.3;
-        transform: scale(0.76);
-        box-shadow: none;
-        position: relative;
-      }
-      .tilt-zoom-chip::before {
-        content: "";
-        width: 0.82rem;
-        height: 0.12rem;
-        border-radius: 9999px;
-        background: rgba(255, 255, 255, 0.18);
-        transition: width 160ms ease, background-color 160ms ease, opacity 160ms ease;
-      }
-      .tilt-zoom-chip.tilt-wheel-major {
-        height: 1.6rem;
-        background: rgba(255, 255, 255, 0.04);
-        color: rgba(255, 255, 255, 0.84);
-      }
-      .tilt-zoom-chip.tilt-wheel-major::before {
+      .tilt-stick-track::before {
         display: none;
       }
-      .tilt-zoom-chip.is-near {
-        opacity: 0.62;
-        transform: scale(0.88);
+      .tilt-stick-indicator {
+        position: absolute;
+        left: 50%;
+        width: 1.3rem;
+        height: 0.18rem;
+        border-radius: 9999px;
+        background: rgba(255, 140, 58, 0.96);
+        box-shadow: 0 0 10px rgba(255, 137, 48, 0.18);
+        transform: translateX(-50%) scaleX(0.72);
+        pointer-events: none;
       }
-      .tilt-zoom-chip.is-active {
-        transform: scale(1.08);
-        background: rgba(54, 54, 54, 0.92);
-        color: rgba(255, 221, 98, 0.98);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-        opacity: 1;
+      .tilt-stick-top-indicator {
+        top: 0.9rem;
+        opacity: calc(0.03 + 0.92 * var(--tilt-up-intensity));
+        transform: translateX(-50%) scaleX(calc(0.72 + 0.28 * var(--tilt-up-intensity)));
       }
-      .tilt-zoom-chip.is-active::before {
-        width: 1.18rem;
-        background: rgba(255, 221, 98, 0.98);
+      .tilt-stick-bottom-indicator {
+        bottom: 0.9rem;
+        opacity: calc(0.03 + 0.92 * var(--tilt-down-intensity));
+        transform: translateX(-50%) scaleX(calc(0.72 + 0.28 * var(--tilt-down-intensity)));
       }
-      .tilt-zoom-chip.tilt-wheel-minor.is-near::before {
-        width: 0.98rem;
-        background: rgba(255, 255, 255, 0.34);
+      .tilt-stick-arrow {
+        position: absolute;
+        left: 50%;
+        width: 1.45rem;
+        height: 1.45rem;
+        transform: translateX(-50%);
+        color: rgba(233, 238, 244, 0.38);
+        opacity: 0.44;
+        transition: color 140ms ease, opacity 140ms ease;
+        pointer-events: none;
       }
-      .tilt-zoom-chip:focus-visible {
-        outline: 2px solid rgba(255, 255, 255, 0.55);
+      .tilt-stick-arrow-up {
+        top: 1.5rem;
+      }
+      .tilt-stick-arrow-down {
+        bottom: 1.5rem;
+      }
+      .tilt-stick-knob {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 2.95rem;
+        height: 2.95rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: radial-gradient(circle at 35% 30%, rgba(68, 68, 72, 0.98), rgba(22, 22, 24, 0.98) 72%);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.035), inset 0 -5px 10px rgba(0, 0, 0, 0.16);
+        transform: translate(-50%, calc(-50% + var(--tilt-knob-offset)));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: ns-resize;
+        transition: transform 180ms ease-out;
+      }
+      .tilt-stick-knob::before {
+        content: "";
+        position: absolute;
+        inset: 0.28rem;
+        border-radius: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        pointer-events: none;
+      }
+      .tilt-stick-knob-glow {
+        position: absolute;
+        inset: -0.12rem;
+        border-radius: inherit;
+        pointer-events: none;
+        transition: opacity 160ms ease-out;
+        box-sizing: border-box;
+      }
+      .tilt-stick-knob-up-glow {
+        border: 3px solid transparent;
+        border-top-color: rgba(255, 150, 65, 0.96);
+        border-left-color: rgba(255, 150, 65, 0.6);
+        border-right-color: rgba(255, 150, 65, 0.6);
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+        mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+        clip-path: inset(0 18% 50% 18%);
+        opacity: var(--tilt-knob-up-intensity);
+      }
+      .tilt-stick-knob-down-glow {
+        border: 3px solid transparent;
+        border-bottom-color: rgba(255, 150, 65, 0.96);
+        border-left-color: rgba(255, 150, 65, 0.6);
+        border-right-color: rgba(255, 150, 65, 0.6);
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+        mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+        clip-path: inset(50% 18% 0 18%);
+        opacity: var(--tilt-knob-down-intensity);
+      }
+      .tilt-stick-logo {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 1.95rem;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.94);
+        font-size: 0.56rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.02;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.26);
+      }
+      .tilt-stick-control.is-dragging .tilt-stick-knob {
+        transition: none;
+      }
+      .tilt-stick-knob:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.5);
         outline-offset: 2px;
+      }
+      .tilt-stick-arrow svg {
+        width: 100%;
+        height: 100%;
       }
       .proto-orientation-btn[data-orientation="portrait"] .proto-orientation-label::after {
         content: "Portrait";
@@ -1439,11 +1482,33 @@
       <div id="tilt-control-popover" class="hidden" role="dialog" aria-label="Tilt Angle">
         <div class="tilt-zoom-control vertical">
           <div id="tilt-zoom-pill" class="tilt-zoom-pill-vertical" aria-label="Tilt angle control">
-            <div class="tilt-wheel-window">
-              <div id="tilt-wheel-track" class="tilt-wheel-track"></div>
+            <div class="tilt-stick-control">
+              <div class="tilt-stick-track">
+                <div class="tilt-stick-indicator tilt-stick-top-indicator" aria-hidden="true"></div>
+                <div class="tilt-stick-indicator tilt-stick-bottom-indicator" aria-hidden="true"></div>
+              </div>
+              <div id="tilt-stick-arrow-up" class="tilt-stick-arrow tilt-stick-arrow-up" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 14l5-5 5 5" />
+                </svg>
+              </div>
+              <button
+                type="button"
+                id="tilt-stick-knob"
+                class="tilt-stick-knob"
+                aria-label="Drag to adjust tilt"
+              >
+                <span class="tilt-stick-knob-glow tilt-stick-knob-up-glow" aria-hidden="true"></span>
+                <span class="tilt-stick-knob-glow tilt-stick-knob-down-glow" aria-hidden="true"></span>
+                <span class="tilt-stick-logo" aria-hidden="true">XbotGo</span>
+              </button>
+              <div id="tilt-stick-arrow-down" class="tilt-stick-arrow tilt-stick-arrow-down" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 10l5 5 5-5" />
+                </svg>
+              </div>
             </div>
           </div>
-          <div id="tilt-angle-value" class="tilt-angle-value-side">0&deg;</div>
         </div>
       </div>
 
@@ -2532,9 +2597,11 @@
       const tiltMin = -30;
       const tiltMax = 30;
       const tiltStep = 1;
-      const tiltOptions = [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30];
+      let inputPosition = 0;
+      let currentTiltState = 0;
       let isTiltPopoverOpen = false;
       let tiltDragState = null;
+      let isTiltStickDragging = false;
       let isScreenDirectionControlActive = false;
       let panAngle = 0;
       let recordingTiltAngle = 0;
@@ -2646,9 +2713,11 @@
       const orientationToggleBtn = document.getElementById("orientation-toggle-btn");
       const btnTiltControl = document.getElementById("btn-tilt-control");
       const tiltControlPopover = document.getElementById("tilt-control-popover");
-      const tiltAngleValue = document.getElementById("tilt-angle-value");
       const tiltZoomPill = document.getElementById("tilt-zoom-pill");
-      const tiltWheelTrack = document.getElementById("tilt-wheel-track");
+      const tiltStickControl = tiltZoomPill ? tiltZoomPill.querySelector(".tilt-stick-control") : null;
+      const tiltStickKnob = document.getElementById("tilt-stick-knob");
+      const tiltStickArrowUp = document.getElementById("tilt-stick-arrow-up");
+      const tiltStickArrowDown = document.getElementById("tilt-stick-arrow-down");
       const btnTutorial = document.getElementById("btn-tutorial");
       const btnSettings = document.getElementById("btn-settings");
       const btnRecord = document.getElementById("btn-record");
@@ -2928,21 +2997,18 @@
           });
         }
         if (tiltZoomPill) {
-          tiltZoomPill.addEventListener("click", function (e) {
-            var chip = e.target.closest(".tilt-zoom-chip");
-            if (!chip) return;
-            var value = Number(chip.getAttribute("data-tilt"));
-            if (!Number.isNaN(value)) setTiltAngle(value);
-          });
           tiltZoomPill.addEventListener("pointerdown", function (e) {
             e.preventDefault();
+            isTiltStickDragging = true;
             tiltDragState = {
               pointerId: e.pointerId,
               startY: e.clientY,
               startAngle: tiltAngle,
+              startInputPosition: inputPosition,
             };
             tiltZoomPill.setPointerCapture(e.pointerId);
-            if (tiltWheelTrack) tiltWheelTrack.classList.add("is-dragging");
+            if (tiltStickControl) tiltStickControl.classList.add("is-dragging");
+            updateTiltAngleFromClientY(e.clientY, e.target === tiltZoomPill || !e.target.closest("#tilt-stick-knob"));
           });
           tiltZoomPill.addEventListener("pointermove", function (e) {
             if (!tiltDragState || tiltDragState.pointerId !== e.pointerId) return;
@@ -2952,9 +3018,11 @@
             tiltZoomPill.addEventListener(eventName, function (e) {
               if (!tiltDragState || tiltDragState.pointerId !== e.pointerId) return;
               updateTiltAngleFromClientY(e.clientY);
-              if (tiltWheelTrack) tiltWheelTrack.classList.remove("is-dragging");
+              isTiltStickDragging = false;
+              if (tiltStickControl) tiltStickControl.classList.remove("is-dragging");
               tiltDragState = null;
-              setTiltAngle(tiltAngle);
+              inputPosition = 0;
+              renderTiltControl();
             });
           });
         }
@@ -3409,55 +3477,88 @@
           renderTiltControl();
         }
       }
-      function getTiltChipStep() {
-        if (!tiltWheelTrack) return 36;
-        var chips = tiltWheelTrack.querySelectorAll(".tilt-zoom-chip");
-        if (chips.length > 1) {
-          return chips[1].offsetTop - chips[0].offsetTop;
+      function clampTiltPosition(value) {
+        return Math.max(-1, Math.min(1, value));
+      }
+      function getTiltPositionFromAngle(angle) {
+        return clampTiltPosition(((clampTiltAngle(angle) - tiltMin) / (tiltMax - tiltMin)) * 2 - 1);
+      }
+      function getTiltAngleFromPosition(position) {
+        var normalized = (clampTiltPosition(position) + 1) / 2;
+        return tiltMin + normalized * (tiltMax - tiltMin);
+      }
+      function renderTiltStick() {
+        if (!tiltZoomPill) return;
+        var normalizedInput = clampTiltPosition(inputPosition);
+        var normalizedCurrent = clampTiltPosition(currentTiltState);
+        var inputUpIntensity = Math.max(0, normalizedInput);
+        var inputDownIntensity = Math.max(0, -normalizedInput);
+        var currentUpIntensity = Math.max(0, normalizedCurrent);
+        var currentDownIntensity = Math.max(0, -normalizedCurrent);
+        var upIntensity = Math.max(currentUpIntensity, inputUpIntensity);
+        var downIntensity = Math.max(currentDownIntensity, inputDownIntensity);
+        var knobUpIntensity = Math.max(inputUpIntensity, currentUpIntensity * 0.55);
+        var knobDownIntensity = Math.max(inputDownIntensity, currentDownIntensity * 0.55);
+        var knobTravel = Math.max(0, tiltZoomPill.clientHeight - 94);
+        var knobOffset = -normalizedInput * (knobTravel / 2);
+        tiltZoomPill.style.setProperty("--tilt-current-up-intensity", currentUpIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-current-down-intensity", currentDownIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-input-up-intensity", inputUpIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-input-down-intensity", inputDownIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-up-intensity", upIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-down-intensity", downIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-knob-up-intensity", knobUpIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-knob-down-intensity", knobDownIntensity.toFixed(3));
+        tiltZoomPill.style.setProperty("--tilt-knob-offset", knobOffset.toFixed(1) + "px");
+        if (tiltStickArrowUp) {
+          tiltStickArrowUp.style.color =
+            "rgba(" +
+            Math.round(233 + (255 - 233) * upIntensity) +
+            ", " +
+            Math.round(238 + (145 - 238) * upIntensity) +
+            ", " +
+            Math.round(244 + (63 - 244) * upIntensity) +
+            ", 1)";
+          tiltStickArrowUp.style.opacity = (0.24 + 0.76 * upIntensity).toFixed(3);
         }
-        return chips.length ? chips[0].offsetHeight + 4 : 36;
+        if (tiltStickArrowDown) {
+          tiltStickArrowDown.style.color =
+            "rgba(" +
+            Math.round(233 + (255 - 233) * downIntensity) +
+            ", " +
+            Math.round(238 + (145 - 238) * downIntensity) +
+            ", " +
+            Math.round(244 + (63 - 244) * downIntensity) +
+            ", 1)";
+          tiltStickArrowDown.style.opacity = (0.24 + 0.76 * downIntensity).toFixed(3);
+        }
+        if (tiltStickControl) {
+          tiltStickControl.classList.toggle("is-dragging", isTiltStickDragging);
+        }
       }
-      function renderTiltWheel() {
-        if (!tiltWheelTrack) return;
-        var orderedAngles = Array.from({ length: tiltMax - tiltMin + 1 }, function (_, index) {
-          return tiltMax - index;
-        });
-        tiltWheelTrack.innerHTML = orderedAngles
-          .map(function (value) {
-            var distance = Math.abs(value - tiltAngle);
-            var className = "tilt-zoom-chip " + (value % 5 === 0 ? "tilt-wheel-major" : "tilt-wheel-minor");
-            if (distance === 0) className += " is-active";
-            else if (distance <= 2) className += " is-near";
-            return (
-              '<button type="button" class="' +
-              className +
-              '" data-tilt="' +
-              value +
-              '" aria-pressed="' +
-              (value === tiltAngle ? "true" : "false") +
-              '">' +
-              (value % 5 === 0 ? formatTiltAngle(value) : "") +
-              "</button>"
-            );
-          })
-          .join("");
-        var chips = tiltWheelTrack.querySelectorAll(".tilt-zoom-chip");
-        if (!chips.length) return;
-        var activeChipIndex = orderedAngles.indexOf(tiltAngle);
-        var activeChip = chips[activeChipIndex];
-        if (!activeChip || !tiltZoomPill) return;
-        var offset = tiltZoomPill.clientHeight / 2 - (activeChip.offsetTop + activeChip.offsetHeight / 2);
-        tiltWheelTrack.style.transform = "translateY(" + offset + "px)";
-      }
-      function updateTiltAngleFromClientY(clientY) {
-        if (!tiltDragState) return;
-        var step = getTiltChipStep();
-        var deltaY = clientY - tiltDragState.startY;
-        var nextAngle = tiltDragState.startAngle + Math.round(-deltaY / step);
-        setTiltAngle(nextAngle);
+      function updateTiltAngleFromClientY(clientY, snapToPointer) {
+        if (!tiltDragState || !tiltZoomPill) return;
+        var pillRect = tiltZoomPill.getBoundingClientRect();
+        var knobSize = tiltStickKnob ? tiltStickKnob.offsetHeight : 44;
+        var minCenter = knobSize / 2 + 18;
+        var maxCenter = pillRect.height - knobSize / 2 - 18;
+        var nextPosition;
+        if (snapToPointer) {
+          var pointerCenter = Math.max(minCenter, Math.min(maxCenter, clientY - pillRect.top));
+          var ratioFromTop = (pointerCenter - minCenter) / Math.max(1, maxCenter - minCenter);
+          nextPosition = 1 - ratioFromTop * 2;
+          tiltDragState.startY = clientY;
+          tiltDragState.startInputPosition = clampTiltPosition(nextPosition);
+        } else {
+          var availableTravel = Math.max(1, maxCenter - minCenter);
+          var deltaY = clientY - tiltDragState.startY;
+          nextPosition = tiltDragState.startInputPosition - (deltaY / availableTravel) * 2;
+        }
+        inputPosition = clampTiltPosition(nextPosition);
+        var angleDelta = inputPosition * 16;
+        setTiltAngle(tiltDragState.startAngle + angleDelta);
       }
       function renderTiltControl() {
-        if (tiltAngleValue) tiltAngleValue.textContent = formatTiltAngle(tiltAngle);
         if (btnTiltControl) {
           btnTiltControl.classList.toggle("is-active", isTiltPopoverOpen || isScreenDirectionControlActive);
           btnTiltControl.setAttribute("aria-expanded", isTiltPopoverOpen ? "true" : "false");
@@ -3465,32 +3566,29 @@
         if (deviceEl) {
           deviceEl.classList.toggle("is-tilt-control-open", isTiltPopoverOpen);
         }
-        renderTiltWheel();
+        renderTiltStick();
       }
       function setTiltAngle(nextAngle) {
         tiltAngle = Math.round(clampTiltAngle(nextAngle));
+        currentTiltState = getTiltPositionFromAngle(tiltAngle);
         renderTiltControl();
       }
       function positionTiltPopover() {
         if (!tiltControlPopover || !btnTiltControl || !deviceEl) return;
         var deviceRect = deviceEl.getBoundingClientRect();
         var railRect = leftRail ? leftRail.getBoundingClientRect() : btnTiltControl.getBoundingClientRect();
-        if (tiltZoomPill) {
-          var targetHeight = Math.max(196, Math.min(railRect.height - 60, deviceRect.height - 48));
-          tiltZoomPill.style.height = targetHeight + "px";
-        }
-        var popoverWidth = tiltControlPopover.offsetWidth || 96;
-        var popoverHeight = tiltControlPopover.offsetHeight || 188;
-        var left = railRect.left - deviceRect.left + Math.max(0, (railRect.width - popoverWidth) / 2) - 4;
-        var top = railRect.top - deviceRect.top + (railRect.height - popoverHeight) / 2;
-        if (deviceOrientation === "portrait") {
-          left = railRect.left - deviceRect.left + Math.max(0, (railRect.width - popoverWidth) / 2) - 2;
-          top = railRect.top - deviceRect.top + (railRect.height - popoverHeight) / 2;
-        }
-        left = Math.max(4, Math.min(left, deviceRect.width - popoverWidth - 8));
-        top = Math.max(18, Math.min(top, deviceRect.height - popoverHeight - 16));
+        var targetHeight = Math.max(220, Math.min(280, railRect.height - 8, deviceRect.height - 8));
+        if (tiltZoomPill) tiltZoomPill.style.height = targetHeight + "px";
+        tiltControlPopover.style.height = targetHeight + "px";
+        var popoverWidth = Math.max(56, tiltControlPopover.offsetWidth || 60);
+        var popoverHeight = targetHeight;
+        var left = railRect.left - deviceRect.left + Math.round((railRect.width - popoverWidth) / 2);
+        var top = railRect.top - deviceRect.top + Math.round((railRect.height - popoverHeight) / 2);
+        left = Math.max(4, Math.min(left, deviceRect.width - popoverWidth - 6));
+        top = Math.max(4, Math.min(top, deviceRect.height - popoverHeight - 6));
         tiltControlPopover.style.left = left + "px";
         tiltControlPopover.style.top = top + "px";
+        tiltControlPopover.style.width = popoverWidth + "px";
       }
       function openTiltPopover() {
         if (!tiltControlPopover) return;
@@ -3503,8 +3601,10 @@
       function closeTiltPopover() {
         if (!tiltControlPopover) return;
         isTiltPopoverOpen = false;
+        isTiltStickDragging = false;
+        inputPosition = 0;
         tiltControlPopover.classList.add("hidden");
-        if (tiltWheelTrack) tiltWheelTrack.classList.remove("is-dragging");
+        if (tiltStickControl) tiltStickControl.classList.remove("is-dragging");
         tiltDragState = null;
         renderTiltControl();
       }
@@ -3539,6 +3639,7 @@
       function openSettingsInfoModal(key) {
         var content = settingsInfoContent[key];
         if (!content || !settingsInfoModal) return;
+        closeTiltPopover();
         if (settingsInfoTitle) settingsInfoTitle.textContent = content.title;
         if (settingsInfoBody) settingsInfoBody.textContent = content.body;
         if (settingsInfoTip) settingsInfoTip.textContent = content.tip;
