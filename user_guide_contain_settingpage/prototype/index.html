@@ -52,25 +52,26 @@
       }
       #direction-gyro-indicator {
         position: absolute;
-        left: 4.5rem;
-        bottom: 3.5rem;
+        left: 50%;
+        bottom: 2.2rem;
         z-index: 24;
-        display: flex;
-        align-items: flex-end;
-        gap: 0.65rem;
-        padding: 0.55rem 0.7rem 0.6rem;
-        border-radius: 1.1rem;
-        background: rgba(0, 0, 0, 0.42);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 10.2rem;
+        height: 5.1rem;
+        padding: 0.45rem 0.55rem 0.5rem;
+        border-radius: 1.05rem;
+        background: rgba(10, 10, 10, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         backdrop-filter: blur(12px);
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 180ms ease, visibility 180ms ease;
+        transform: translateX(-50%) translateY(8px);
+        transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
       }
-      #device.is-screen-direction-control-active #direction-gyro-indicator {
+      #device.is-screen-dragging #direction-gyro-indicator {
         opacity: 1;
         visibility: visible;
+        transform: translateX(-50%) translateY(0);
       }
       .direction-mode-hint {
         position: absolute;
@@ -105,115 +106,131 @@
         background: rgba(255, 230, 142, 0.98);
         box-shadow: 0 0 0 4px rgba(255, 230, 142, 0.12);
       }
-      .direction-pan-arc {
+      .direction-field-map {
         position: relative;
-        width: 4.8rem;
-        height: 2.6rem;
-        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
       }
-      .direction-pan-ring {
-        position: absolute;
-        left: 0.18rem;
-        right: 0.18rem;
-        bottom: 0.1rem;
-        height: 4.5rem;
-        border-radius: 9999px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-bottom: 0;
-      }
-      .direction-pan-axis {
+      .direction-field-svg {
         position: absolute;
         left: 50%;
-        bottom: 0.2rem;
-        height: 2rem;
-        width: 1px;
-        background: rgba(255, 255, 255, 0.14);
+        top: 0.25rem;
+        width: 9.4rem;
+        height: 3.8rem;
+        transform: translateX(-50%);
+        overflow: visible;
+      }
+      .direction-field-outline {
+        fill: rgba(255, 255, 255, 0.015);
+        stroke: rgba(255, 255, 255, 0.46);
+        stroke-width: 1;
+      }
+      .direction-field-line {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.42);
+        stroke-width: 1;
+      }
+      .direction-field-line.soft {
+        stroke: rgba(255, 255, 255, 0.26);
+      }
+      .direction-fov-area {
+        fill: rgba(255, 180, 55, 0.28);
+        stroke: rgba(255, 180, 55, 0.46);
+        stroke-width: 1;
+        opacity: 0;
+        transition: opacity 120ms ease, transform 120ms ease;
+        transform-origin: 50% 100%;
+      }
+      #direction-pan-sector.direction-fov-area {
+        transform: translateX(var(--direction-fov-shift, 0px)) translateY(var(--direction-fov-rise, 0px))
+          scaleY(calc(0.88 + var(--direction-fov-strength, 0) * 0.28));
+      }
+      #direction-gyro-indicator.is-tilt #direction-pan-sector.direction-fov-area {
+        opacity: 1;
+      }
+      #direction-gyro-indicator.is-tilt-up #direction-pan-sector.direction-fov-area {
+        transform: translateX(var(--direction-fov-shift, 0px)) translateY(-8px) scaleY(1.15);
+      }
+      #direction-gyro-indicator.is-tilt-neutral #direction-pan-sector.direction-fov-area {
+        transform: translateX(var(--direction-fov-shift, 0px)) translateY(-2px) scaleY(0.98);
+      }
+      #direction-gyro-indicator.is-tilt-down #direction-pan-sector.direction-fov-area {
+        transform: translateX(var(--direction-fov-shift, 0px)) translateY(6px) scaleY(0.78);
+      }
+      .direction-camera-marker {
+        position: absolute;
+        left: 50%;
+        bottom: 0.12rem;
+        width: 2.1rem;
+        height: 1.35rem;
+        transform: translateX(-50%) rotate(var(--direction-pan-angle, 0deg));
+        transform-origin: 50% 86%;
+        transition: transform 80ms linear;
+        z-index: 3;
+      }
+      .direction-camera-base {
+        position: relative;
+        margin: 0 auto;
+        width: 1.1rem;
+        height: 0.22rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+      .direction-camera-icon {
+        position: absolute;
+        left: 50%;
+        bottom: 0.18rem;
+        width: 1.2rem;
+        height: 0.9rem;
+        border: 1.5px solid rgba(255, 255, 255, 0.88);
+        border-radius: 0.32rem;
         transform: translateX(-50%);
       }
-      .direction-pan-center {
-        position: absolute;
-        left: 50%;
-        bottom: 0.08rem;
-        width: 0.28rem;
-        height: 0.28rem;
-        border-radius: 9999px;
-        background: rgba(255, 255, 255, 0.82);
-        transform: translate(-50%, -50%);
-      }
-      .direction-pan-sector {
-        position: absolute;
-        left: 50%;
-        bottom: 0.2rem;
-        width: 4rem;
-        height: 2rem;
-        border-radius: 9999px 9999px 0 0;
-        background: linear-gradient(180deg, rgba(255, 228, 120, 0.28), rgba(255, 228, 120, 0.06));
-        clip-path: polygon(50% 100%, 22% 16%, 78% 16%);
-        transform-origin: 50% 100%;
-        transform: translateX(-50%) rotate(0deg);
-        transition: transform 80ms linear;
-      }
-      .direction-pan-pointer {
-        position: absolute;
-        left: 50%;
-        bottom: 0.2rem;
-        width: 2px;
-        height: 1.85rem;
-        border-radius: 9999px;
-        background: rgba(255, 245, 190, 0.98);
-        box-shadow: 0 0 0 3px rgba(255, 230, 142, 0.08);
-        transform-origin: 50% 100%;
-        transform: translateX(-50%) rotate(0deg);
-        transition: transform 80ms linear;
-      }
-      .direction-gyro-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.24rem;
-        font-variant-numeric: tabular-nums;
-      }
-      .direction-tilt-row {
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-      }
-      .direction-tilt-scale {
-        position: relative;
-        width: 0.3rem;
-        height: 2.8rem;
-        border-radius: 9999px;
-        background: rgba(255, 255, 255, 0.1);
-        overflow: hidden;
-      }
-      .direction-tilt-scale::before {
+      .direction-camera-icon::before {
         content: "";
         position: absolute;
-        left: -0.22rem;
-        right: -0.22rem;
-        top: 50%;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.18);
-        transform: translateY(-50%);
+        left: -0.2rem;
+        top: 0.18rem;
+        width: 0.22rem;
+        height: 0.28rem;
+        border-radius: 0.14rem;
+        background: rgba(255, 255, 255, 0.88);
       }
-      .direction-tilt-fill {
+      .direction-camera-icon::after {
+        content: "";
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 50%;
-        height: 0;
-        border-radius: 9999px;
-        background: linear-gradient(180deg, rgba(255, 228, 120, 0.96), rgba(255, 228, 120, 0.45));
-        transition: height 80ms linear, bottom 80ms linear, top 80ms linear;
+        right: -0.34rem;
+        top: 0.18rem;
+        width: 0.44rem;
+        height: 0.28rem;
+        clip-path: polygon(0 0, 100% 50%, 0 100%);
+        background: rgba(255, 255, 255, 0.88);
       }
-      .direction-tilt-value {
-        font-size: 11px;
-        font-weight: 700;
-        color: rgba(255, 241, 184, 0.96);
-        letter-spacing: 0.02em;
+      .direction-pan-cue {
+        position: absolute;
+        bottom: 0.58rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-top: 2px solid rgba(255, 180, 55, 0.9);
+        opacity: 0;
+        transition: opacity 120ms ease;
+      }
+      .direction-pan-cue-left {
+        left: calc(50% - 1.95rem);
+        border-left: 2px solid rgba(255, 180, 55, 0.9);
+        border-top-left-radius: 0.9rem;
+      }
+      .direction-pan-cue-right {
+        right: calc(50% - 1.95rem);
+        border-right: 2px solid rgba(255, 180, 55, 0.9);
+        border-top-right-radius: 0.9rem;
+      }
+      #direction-gyro-indicator.is-pan .direction-pan-cue {
+        opacity: 1;
       }
       #device[data-orientation="portrait"] #direction-gyro-indicator {
-        left: 1rem;
-        bottom: 7.25rem;
+        bottom: 6.2rem;
       }
       @keyframes pulse-red {
         0% {
@@ -1369,21 +1386,32 @@
         <span class="direction-mode-hint-dot"></span>
         <span>Swipe on screen to adjust direction</span>
       </div>
-      <div id="direction-gyro-indicator" aria-hidden="true">
-        <div class="direction-pan-arc">
-          <div class="direction-pan-ring"></div>
-          <div class="direction-pan-axis"></div>
-          <div id="direction-pan-sector" class="direction-pan-sector"></div>
-          <div id="direction-pan-pointer" class="direction-pan-pointer"></div>
-          <div class="direction-pan-center"></div>
-        </div>
-        <div class="direction-gyro-meta">
-          <div class="direction-tilt-row">
-            <div class="direction-tilt-scale">
-              <div id="direction-tilt-fill" class="direction-tilt-fill"></div>
-            </div>
-            <div id="direction-tilt-value" class="direction-tilt-value">Tilt 0°</div>
+      <div id="direction-gyro-indicator" class="direction-field-indicator" aria-hidden="true">
+        <div class="direction-field-map">
+          <svg class="direction-field-svg" viewBox="0 0 180 86" aria-hidden="true">
+            <defs>
+              <clipPath id="direction-field-clip">
+                <path d="M38 8 L142 8 L166 62 L14 62 Z"></path>
+              </clipPath>
+            </defs>
+            <path class="direction-field-outline" d="M38 8 L142 8 L166 62 L14 62 Z"></path>
+            <path
+              id="direction-pan-sector"
+              class="direction-fov-area"
+              clip-path="url(#direction-field-clip)"
+              d="M90 70 L34 58 L52 24 L128 24 L146 58 Z"
+            ></path>
+            <line class="direction-field-line" x1="90" y1="8" x2="90" y2="62"></line>
+            <ellipse class="direction-field-line" cx="90" cy="35" rx="9" ry="6"></ellipse>
+            <path class="direction-field-line soft" d="M34 22 L56 22 L56 48 L26 48"></path>
+            <path class="direction-field-line soft" d="M146 22 L124 22 L124 48 L154 48"></path>
+          </svg>
+          <div id="direction-camera-marker" class="direction-camera-marker">
+            <div class="direction-camera-base"></div>
+            <div id="direction-pan-pointer" class="direction-camera-icon"></div>
           </div>
+          <div class="direction-pan-cue direction-pan-cue-left"></div>
+          <div class="direction-pan-cue direction-pan-cue-right"></div>
         </div>
       </div>
 
@@ -2603,6 +2631,7 @@
       let tiltDragState = null;
       let isTiltStickDragging = false;
       let isScreenDirectionControlActive = false;
+      let isScreenDirectionDragging = false;
       let panAngle = 0;
       let recordingTiltAngle = 0;
       const panMin = -90;
@@ -2707,8 +2736,7 @@
       const directionGyroIndicator = document.getElementById("direction-gyro-indicator");
       const directionPanSector = document.getElementById("direction-pan-sector");
       const directionPanPointer = document.getElementById("direction-pan-pointer");
-      const directionTiltFill = document.getElementById("direction-tilt-fill");
-      const directionTiltValue = document.getElementById("direction-tilt-value");
+      const directionCameraMarker = document.getElementById("direction-camera-marker");
       const leftRail = document.getElementById("left-rail");
       const orientationToggleBtn = document.getElementById("orientation-toggle-btn");
       const btnTiltControl = document.getElementById("btn-tilt-control");
@@ -3031,6 +3059,7 @@
             if (!isScreenDirectionControlActive) return;
             e.preventDefault();
             directionControlOverlay.setPointerCapture(e.pointerId);
+            isScreenDirectionDragging = true;
             tiltDragState = {
               pointerId: e.pointerId,
               startX: e.clientX,
@@ -3051,7 +3080,9 @@
             directionControlOverlay.addEventListener(eventName, function (e) {
               if (!tiltDragState || tiltDragState.pointerId !== e.pointerId) return;
               updateScreenDirectionFromPointer(e.clientX, e.clientY);
+              isScreenDirectionDragging = false;
               tiltDragState = null;
+              renderScreenDirectionControl();
             });
           });
         }
@@ -3403,32 +3434,43 @@
       function renderScreenDirectionControl() {
         if (deviceEl) {
           deviceEl.classList.toggle("is-screen-direction-control-active", isScreenDirectionControlActive);
+          deviceEl.classList.toggle("is-screen-dragging", isScreenDirectionDragging);
         }
         if (directionGyroIndicator) {
-          directionGyroIndicator.setAttribute("aria-hidden", isScreenDirectionControlActive ? "false" : "true");
+          directionGyroIndicator.setAttribute("aria-hidden", isScreenDirectionDragging ? "false" : "true");
+          directionGyroIndicator.classList.toggle("is-pan", !!(tiltDragState && tiltDragState.phase === "horizontal"));
+          directionGyroIndicator.classList.toggle("is-tilt", !!(tiltDragState && tiltDragState.phase === "vertical"));
+          directionGyroIndicator.classList.remove("is-tilt-up", "is-tilt-neutral", "is-tilt-down");
         }
-        var panVisualAngle = panAngle * 0.78;
-        if (directionPanSector) {
-          directionPanSector.style.transform = "translateX(-50%) rotate(" + panVisualAngle + "deg)";
-         }
+        var panVisualAngle = panAngle * 0.28;
         if (directionPanPointer) {
-          directionPanPointer.style.transform = "translateX(-50%) rotate(" + panVisualAngle + "deg)";
+          directionPanPointer.style.transform = "";
         }
-        if (directionTiltFill) {
-          var tiltRatio = Math.abs(recordingTiltAngle) / recordingTiltMax;
-          var fillHeight = tiltRatio * 50;
-          if (recordingTiltAngle >= 0) {
-            directionTiltFill.style.top = "auto";
-            directionTiltFill.style.bottom = "50%";
-            directionTiltFill.style.height = fillHeight + "%";
-          } else {
-            directionTiltFill.style.bottom = "auto";
-            directionTiltFill.style.top = "50%";
-            directionTiltFill.style.height = fillHeight + "%";
+        if (directionCameraMarker) {
+          directionCameraMarker.style.setProperty("--direction-pan-angle", panVisualAngle.toFixed(1) + "deg");
+        }
+        if (directionGyroIndicator) {
+          var tiltRatio = Math.min(1, Math.abs(recordingTiltAngle) / recordingTiltMax);
+          var tiltDirection = recordingTiltAngle >= 0 ? -1 : 1;
+          directionGyroIndicator.style.setProperty("--direction-pan-angle", panVisualAngle.toFixed(1) + "deg");
+          directionGyroIndicator.style.setProperty("--direction-fov-strength", tiltRatio.toFixed(3));
+          directionGyroIndicator.style.setProperty("--direction-fov-rise", (tiltDirection * tiltRatio * 6).toFixed(1) + "px");
+          directionGyroIndicator.style.setProperty("--direction-fov-shift", (panAngle * 0.04).toFixed(1) + "px");
+          if (tiltDragState && tiltDragState.phase === "vertical") {
+            var visualTiltDelta = tiltDragState.verticalStartY - (tiltDragState.lastClientY || tiltDragState.verticalStartY);
+            if (visualTiltDelta > 8) directionGyroIndicator.classList.add("is-tilt-up");
+            else if (visualTiltDelta < -8) directionGyroIndicator.classList.add("is-tilt-down");
+            else directionGyroIndicator.classList.add("is-tilt-neutral");
           }
         }
-        if (directionTiltValue) {
-          directionTiltValue.textContent = "Tilt " + formatTiltAngle(Math.round(recordingTiltAngle));
+        if (directionPanSector && directionPanSector.tagName.toLowerCase() === "path") {
+          var fovPath = "M90 70 L34 58 L52 24 L128 24 L146 58 Z";
+          if (directionGyroIndicator && directionGyroIndicator.classList.contains("is-tilt-up")) {
+            fovPath = "M90 70 L30 58 L44 14 L136 14 L150 58 Z";
+          } else if (directionGyroIndicator && directionGyroIndicator.classList.contains("is-tilt-down")) {
+            fovPath = "M90 70 L42 60 L62 38 L118 38 L138 60 Z";
+          }
+          directionPanSector.setAttribute("d", fovPath);
         }
         if (cameraStage) {
           var tx = panAngle * 0.18;
@@ -3455,13 +3497,16 @@
             tiltDragState.verticalStartY = clientY;
             tiltDragState.verticalStartTiltAngle = recordingTiltAngle;
           }
+          tiltDragState.lastClientY = clientY;
           return;
         }
         var verticalDelta = clientY - tiltDragState.verticalStartY;
+        tiltDragState.lastClientY = clientY;
         setScreenDirectionAngles(panAngle, tiltDragState.verticalStartTiltAngle - verticalDelta * 0.22);
       }
       function closeScreenDirectionControl() {
         isScreenDirectionControlActive = false;
+        isScreenDirectionDragging = false;
         tiltDragState = null;
         renderScreenDirectionControl();
         renderTiltControl();
