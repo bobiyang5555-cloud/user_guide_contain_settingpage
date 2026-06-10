@@ -1215,16 +1215,6 @@
         padding-left: 1rem;
         padding-right: 1rem;
       }
-      #device[data-orientation="portrait"] #settings-hardware-view .settings-hardware-note {
-        margin-top: 10px;
-        padding: 0 0.2rem;
-        font-size: 12px;
-        line-height: 1.42;
-        color: rgba(255, 255, 255, 0.92);
-      }
-      #device[data-orientation="portrait"] #settings-acceleration-card {
-        margin-top: 0.3rem;
-      }
       #device[data-orientation="portrait"] .settings-choice-card-compact,
       #device[data-orientation="portrait"] .settings-ipad-choice-card {
         border-radius: 0.9rem;
@@ -1283,25 +1273,6 @@
       #device[data-orientation="portrait"] #settings-hardware-card .settings-angle-panel {
         border-radius: 0.95rem;
         background: #2f2f2f;
-      }
-      #device[data-orientation="portrait"] #settings-acceleration-card {
-        border-radius: 0.95rem;
-        background: #262628;
-        padding: 0.95rem 1rem 1rem;
-      }
-      #device[data-orientation="portrait"] #settings-acceleration-value {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 2.6rem;
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 1;
-        color: rgba(255, 255, 255, 0.98);
-      }
-      #device[data-orientation="portrait"] #settings-acceleration-slider-track {
-        background: linear-gradient(90deg, #f08a23 0%, #b69f3f 48%, #17d2c7 100%);
       }
       #device[data-orientation="portrait"] #settings-tutorial-card .settings-ipad-tutorial-btn,
       #device[data-orientation="portrait"] #settings-tutorial-feature-card .settings-ipad-tutorial-btn,
@@ -2191,16 +2162,16 @@
 
               <div class="settings-ipad-detail-panel" data-settings-detail="hardware">
                 <div class="settings-ipad-detail-panel-inner">
-                  <div class="settings-ipad-hardware-copy">Adjust the camera angle for your shooting setup and coverage area.</div>
+                  <div class="settings-ipad-hardware-copy">Adjust the device angle for your shooting setup and coverage area.</div>
                   <div class="settings-angle-panel settings-detail-card rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
-                    <div class="text-[12px] text-gray-100">Camera Rotation Angle</div>
+                    <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
 
                     <div class="relative mt-2 min-h-[8.5rem]">
                       <div class="w-[10.5rem] shrink-0 pl-2 pt-4">
                         <div class="flex flex-col gap-2">
                           <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
                             <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
-                            <span>Camera Rotation Angle</span>
+                            <span>Device Rotation Angle</span>
                           </div>
                           <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
                             <div class="h-3 w-3 rounded-[3px] bg-[#dbe8ff]"></div>
@@ -2504,17 +2475,17 @@
             <section class="space-y-1">
               <h3 class="settings-landscape-only text-[14px] font-semibold text-white">Camera Motion</h3>
               <div class="px-1 text-[12px] leading-relaxed text-white/62">
-                Adjust the camera angle for your shooting setup and coverage area.
+                Adjust the device angle for your shooting setup and coverage area.
               </div>
               <div class="settings-angle-panel settings-detail-card rounded-[1rem] bg-[#2f2f2f] px-3.5 pb-3 pt-2.5">
-                <div class="text-[12px] text-gray-100">Camera Rotation Angle</div>
+                <div class="text-[12px] text-gray-100">Device Rotation Angle</div>
 
                 <div class="relative mt-2 min-h-[8.5rem]">
                   <div id="settings-angle-legend" class="w-[10.5rem] shrink-0 pl-2 pt-4">
                     <div class="flex flex-col gap-2">
                       <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
                         <div class="h-3 w-3 rounded-[3px] bg-[#4b87f0]"></div>
-                        <span>Camera Rotation Angle</span>
+                        <span>Device Rotation Angle</span>
                       </div>
                       <div class="flex items-center gap-2 whitespace-nowrap text-[10px] text-gray-300">
                         <div class="h-3 w-3 rounded-[3px] bg-[#dbe8ff]"></div>
@@ -2567,36 +2538,6 @@
                     </div>
                   </div>
                   <span class="w-9 text-right text-[10px] text-white/90">150&deg;</span>
-                </div>
-              </div>
-              <div class="settings-hardware-note">
-                Adjust how quickly the camera turns left or right.
-              </div>
-              <div id="settings-acceleration-card">
-                <div class="text-[12px] text-gray-100">Acceleration</div>
-                <div class="mt-2 flex justify-center">
-                  <div id="settings-acceleration-value">800</div>
-                </div>
-                <div class="mt-4 flex items-center gap-2.5">
-                  <span class="w-9 text-[10px] text-white/90">200</span>
-                  <div class="relative flex h-7 flex-1 items-center">
-                    <input
-                      type="range"
-                      id="settings-acceleration-range"
-                      min="200"
-                      max="1000"
-                      value="800"
-                      class="absolute z-20 h-full w-full cursor-pointer opacity-0"
-                    />
-                    <div id="settings-acceleration-slider-track" class="relative h-1 w-full rounded-full">
-                      <div
-                        id="settings-acceleration-slider-thumb"
-                        class="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-[4px] border-white/20 bg-white shadow-[0_0_0_8px_rgba(255,255,255,0.18)]"
-                        style="left:75%;transform:translate(-50%, -50%)"
-                      ></div>
-                    </div>
-                  </div>
-                  <span class="w-9 text-right text-[10px] text-white/90">1000</span>
                 </div>
               </div>
             </section>
@@ -2867,7 +2808,6 @@
         antiFlicker: "Auto",
         autoSaveDuration: "30 min",
         deviceRotationAngle: 110,
-        acceleration: 800,
       };
       let settingsState = {
         ...defaultSettingsState,
@@ -2985,10 +2925,6 @@
       const settingsAnglePointer = document.getElementById("settings-angle-pointer");
       const settingsAngleSliderTrack = document.getElementById("settings-angle-slider-track");
       const settingsAngleSliderThumb = document.getElementById("settings-angle-slider-thumb");
-      const settingsAccelerationRange = document.getElementById("settings-acceleration-range");
-      const settingsAccelerationValue = document.getElementById("settings-acceleration-value");
-      const settingsAccelerationSliderTrack = document.getElementById("settings-acceleration-slider-track");
-      const settingsAccelerationSliderThumb = document.getElementById("settings-acceleration-slider-thumb");
       const settingsAngleRangeLandscape = document.getElementById("settings-angle-range-landscape");
       const settingsAngleDisplayLandscape = document.getElementById("settings-angle-display-landscape");
       const settingsAngleSegmentsLandscape = document.getElementById("settings-angle-segments-landscape");
@@ -3070,7 +3006,7 @@
       const hallGuideSteps = [
         {
           title: "Align with the center line first",
-          desc: "After calibration, rotate the camera manually to align with the center line and keep it steady.",
+          desc: "After calibration, rotate the device manually to align with the center line and keep it steady.",
           image: "../image-20890a7b-a3c3-47ba-b03c-0ea9eba3e53a.png",
         },
         {
@@ -3437,11 +3373,6 @@
             updateSetting("deviceRotationAngle", Number(e.target.value));
           });
         }
-        if (settingsAccelerationRange) {
-          settingsAccelerationRange.addEventListener("input", function (e) {
-            updateSetting("acceleration", Number(e.target.value));
-          });
-        }
         if (settingsAngleRangeLandscape) {
           settingsAngleRangeLandscape.addEventListener("input", function (e) {
             updateSetting("deviceRotationAngle", Number(e.target.value));
@@ -3703,7 +3634,7 @@
         if (orientationToggleBtn) {
           var nextOrientation = deviceOrientation === "landscape" ? "portrait" : "landscape";
           orientationToggleBtn.setAttribute("data-orientation", nextOrientation);
-          orientationToggleBtn.setAttribute("aria-label", "Switch camera to " + nextOrientation + " mode");
+          orientationToggleBtn.setAttribute("aria-label", "Switch device to " + nextOrientation + " mode");
         }
         positionTiltPopover();
         window.dispatchEvent(new Event("resize"));
@@ -4048,9 +3979,6 @@
       function getAngleSliderPercentage() {
         return ((settingsState.deviceRotationAngle - 60) / (150 - 60)) * 100;
       }
-      function getAccelerationSliderPercentage() {
-        return ((settingsState.acceleration - 200) / (1000 - 200)) * 100;
-      }
       function renderAngleSegmentsFor(target) {
         if (!target) return;
         var segments = [];
@@ -4198,10 +4126,8 @@
           }
         });
         if (settingsAngleRange) settingsAngleRange.value = settingsState.deviceRotationAngle;
-        if (settingsAccelerationRange) settingsAccelerationRange.value = settingsState.acceleration;
         if (settingsAngleRangeLandscape) settingsAngleRangeLandscape.value = settingsState.deviceRotationAngle;
         if (settingsAngleDisplay) settingsAngleDisplay.textContent = settingsState.deviceRotationAngle + "\u00B0";
-        if (settingsAccelerationValue) settingsAccelerationValue.textContent = settingsState.acceleration;
         if (settingsAngleDisplayLandscape) settingsAngleDisplayLandscape.textContent = settingsState.deviceRotationAngle + "\u00B0";
         if (settingsHardwareEntryValue) settingsHardwareEntryValue.textContent = settingsState.deviceRotationAngle + "\u00B0";
         if (settingsAntiFlickerEntryValue) settingsAntiFlickerEntryValue.textContent = settingsState.antiFlicker;
@@ -4233,10 +4159,6 @@
         }
         if (settingsAngleSliderThumbLandscape) {
           settingsAngleSliderThumbLandscape.style.left = percentage + "%";
-        }
-        var accelerationPercentage = getAccelerationSliderPercentage();
-        if (settingsAccelerationSliderThumb) {
-          settingsAccelerationSliderThumb.style.left = accelerationPercentage + "%";
         }
       }
       function setTutorialEntryEnabled(isEnabled) {
