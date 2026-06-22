@@ -1632,36 +1632,109 @@
         width: min(100%, 27rem);
       }
       #field-boundary-intro .field-boundary-header {
-        padding: 0.95rem 1rem 0;
+        padding: 0.88rem 1rem 0;
       }
       #field-boundary-intro .field-boundary-header h3 {
-        font-size: 1rem;
+        font-size: 0.94rem;
       }
       #field-boundary-intro .field-boundary-tips {
-        gap: 0.55rem;
+        gap: 0.5rem;
         padding: 0 1rem;
-        overflow-y: auto;
       }
       #field-boundary-intro .field-boundary-tip {
-        padding: 0.72rem 0.78rem;
+        padding: 0.64rem 0.72rem;
         border-radius: 0.9rem;
       }
       #field-boundary-intro .field-boundary-tip strong {
-        font-size: 0.84rem;
-        margin-bottom: 0.18rem;
+        font-size: 0.78rem;
+        margin-bottom: 0.14rem;
       }
       #field-boundary-intro .field-boundary-tip span {
         display: block;
-        font-size: 0.76rem;
-        line-height: 1.45;
+        font-size: 0.7rem;
+        line-height: 1.38;
         color: rgba(255, 255, 255, 0.68);
       }
       #field-boundary-intro .field-boundary-actions {
-        padding: 0 1rem 1rem;
+        padding: 0 1rem 0.92rem;
       }
       #field-boundary-intro .field-boundary-actions button {
-        min-height: 2.5rem;
-        font-size: 0.8rem;
+        min-height: 2.36rem;
+        font-size: 0.76rem;
+      }
+      #field-boundary-visibility {
+        width: min(100%, 27rem);
+      }
+      #field-boundary-visibility .field-boundary-copy {
+        padding: 0 1rem;
+        font-size: 0.76rem;
+        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .field-visibility-guide {
+        margin: 0 1rem;
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: linear-gradient(180deg, rgba(24, 31, 44, 0.92), rgba(11, 15, 22, 0.96));
+      }
+      .field-visibility-guide svg {
+        display: block;
+        width: 100%;
+        height: 8.2rem;
+      }
+      .field-visibility-guide-copy {
+        padding: 0.72rem 0.85rem 0.82rem;
+        font-size: 0.7rem;
+        line-height: 1.42;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .field-visibility-guide-copy strong {
+        color: rgba(255, 255, 255, 0.94);
+        font-weight: 600;
+      }
+      .field-visibility-warning {
+        margin: 0 1rem;
+        border-radius: 0.95rem;
+        border: 1px solid rgba(255, 168, 92, 0.22);
+        background: rgba(255, 122, 26, 0.1);
+        padding: 0.72rem 0.85rem;
+        font-size: 0.72rem;
+        line-height: 1.42;
+        color: rgba(255, 240, 226, 0.9);
+      }
+      .field-visibility-warning strong {
+        color: #fff;
+        font-weight: 600;
+      }
+      .field-visibility-choice-grid {
+        display: grid;
+        gap: 0.55rem;
+        padding: 0 1rem;
+      }
+      .field-visibility-choice {
+        text-align: left;
+        min-height: 3.2rem;
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.82rem 0.9rem;
+        transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+      }
+      .field-visibility-choice.is-selected {
+        border-color: rgba(255, 145, 54, 0.95);
+        background: rgba(255, 122, 26, 0.14);
+        box-shadow: 0 0 0 1px rgba(255, 145, 54, 0.22) inset, 0 12px 24px rgba(255, 122, 26, 0.12);
+        transform: translateY(-1px);
+      }
+      .field-visibility-choice strong {
+        display: block;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.94);
+        line-height: 1.25;
+      }
+      .field-visibility-choice span {
+        display: none;
       }
       .field-boundary-actions {
         display: flex;
@@ -1739,6 +1812,79 @@
         background: rgba(255, 255, 255, 0.08);
         font-size: 0.75rem;
       }
+      #field-boundary-scan .field-boundary-header {
+        padding: 0.92rem 1rem 0;
+      }
+      #field-boundary-scan {
+        gap: 0.62rem;
+      }
+      #field-boundary-scan .field-boundary-header h3 {
+        font-size: 0.96rem;
+      }
+      #field-boundary-scan-copy {
+        margin-top: 0.16rem;
+        font-size: 0.72rem;
+        line-height: 1.35;
+      }
+      #field-boundary-scan .field-boundary-scan-hero {
+        margin: 0 1rem;
+        min-height: 8.6rem;
+      }
+      #field-boundary-scan .field-boundary-stage-meta {
+        padding: 0 1rem 0.45rem;
+        font-size: 0.74rem;
+      }
+      #field-boundary-scan-stage-copy {
+        line-height: 1.35;
+      }
+      #field-boundary-scan-stage-progress {
+        padding: 0.24rem 0.58rem;
+        font-size: 0.7rem;
+      }
+      .field-boundary-scan-note {
+        padding: 0 1rem;
+        margin-top: -0.05rem;
+        font-size: 0.7rem;
+        line-height: 1.35;
+        color: rgba(255, 255, 255, 0.58);
+      }
+      #field-boundary-scan .field-boundary-actions {
+        padding: 0 1rem 0.95rem;
+      }
+      #field-boundary-scan .field-boundary-actions button {
+        min-height: 2.42rem;
+        font-size: 0.78rem;
+      }
+      #field-boundary-failure .field-boundary-header {
+        padding: 0.94rem 1rem 0;
+        align-items: flex-start;
+      }
+      #field-boundary-failure .field-boundary-header > div:first-child {
+        flex: 1;
+        min-width: 0;
+        padding-right: 0.6rem;
+      }
+      #field-boundary-failure .field-boundary-header h3 {
+        font-size: 0.96rem;
+        color: rgba(255, 255, 255, 0.94);
+        line-height: 1.28;
+      }
+      #field-boundary-failure-copy {
+        margin-top: 0.16rem;
+        font-size: 0.75rem;
+        line-height: 1.42;
+        color: rgba(255, 255, 255, 0.72);
+      }
+      #field-boundary-failure .field-boundary-copy {
+        display: none;
+      }
+      #field-boundary-failure .field-boundary-actions {
+        padding: 0 1rem 1rem;
+      }
+      #field-boundary-failure .field-boundary-actions button {
+        min-height: 2.42rem;
+        font-size: 0.78rem;
+      }
       .field-boundary-result-stage {
         margin: 0 1rem;
         flex: 1;
@@ -1771,6 +1917,19 @@
         stroke: rgba(255, 255, 255, 0.95);
         stroke-width: 2;
         transition: r 120ms ease, filter 120ms ease;
+      }
+      .field-boundary-point-visual.is-helper {
+        fill: rgba(255, 184, 120, 0.62);
+        stroke: rgba(255, 255, 255, 0.72);
+      }
+      .field-boundary-point-visual.is-center {
+        fill: rgba(255, 214, 140, 0.88);
+      }
+      .field-boundary-connector {
+        fill: none;
+        stroke: rgba(255, 184, 120, 0.4);
+        stroke-width: 2;
+        stroke-dasharray: 8 7;
       }
       .field-boundary-guides line {
         stroke: rgba(255, 255, 255, 0.22);
@@ -1868,6 +2027,9 @@
           width: auto;
         }
         #field-boundary-intro {
+          width: min(100%, 22rem);
+        }
+        #field-boundary-visibility {
           width: min(100%, 22rem);
         }
       }
@@ -3209,6 +3371,57 @@
           </div>
         </section>
 
+        <section id="field-boundary-visibility" class="field-boundary-panel compact hidden" role="dialog" aria-modal="true" aria-labelledby="field-boundary-visibility-title">
+          <div class="field-boundary-header">
+            <h3 id="field-boundary-visibility-title">Bottom line visibility</h3>
+            <button type="button" id="field-boundary-visibility-close" class="field-boundary-close" aria-label="Close">✕</button>
+          </div>
+          <div class="field-boundary-copy">In the camera view, can you fully see the field bottom line?</div>
+          <div class="field-visibility-warning">
+            <strong>Only a small visible section does not count.</strong> The full bottom line should be visible, at least around the lower three-quarters of the frame.
+          </div>
+          <div class="field-visibility-guide" aria-hidden="true">
+            <svg viewBox="0 0 320 148" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="field-visibility-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#223149"></stop>
+                  <stop offset="100%" stop-color="#131a25"></stop>
+                </linearGradient>
+                <linearGradient id="field-visibility-grass" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3e6e3c"></stop>
+                  <stop offset="100%" stop-color="#20331d"></stop>
+                </linearGradient>
+              </defs>
+              <rect width="320" height="84" fill="url(#field-visibility-sky)"></rect>
+              <rect y="84" width="320" height="64" fill="url(#field-visibility-grass)"></rect>
+              <line x1="0" y1="111" x2="320" y2="111" stroke="rgba(255,255,255,0.28)" stroke-width="1.5" stroke-dasharray="5 6"></line>
+              <text x="12" y="107" fill="rgba(255,255,255,0.62)" font-size="11">3/4 height guide</text>
+              <rect x="28" y="16" width="118" height="104" rx="14" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"></rect>
+              <path d="M44 44 L130 44 L142 108 L32 108 Z" fill="rgba(0,0,0,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"></path>
+              <line x1="36" y1="102" x2="138" y2="102" stroke="#ff7a1a" stroke-width="4" stroke-linecap="round"></line>
+              <text x="56" y="130" fill="rgba(255,255,255,0.88)" font-size="11">Good</text>
+              <rect x="174" y="16" width="118" height="104" rx="14" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)"></rect>
+              <path d="M190 44 L276 44 L288 108 L178 108 Z" fill="rgba(0,0,0,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"></path>
+              <line x1="204" y1="118" x2="268" y2="118" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" opacity="0.5"></line>
+              <text x="208" y="130" fill="rgba(255,255,255,0.88)" font-size="11">Too low / partial</text>
+            </svg>
+            <div class="field-visibility-guide-copy">
+              Use this guide to compare what “fully visible” looks like before starting the scan.
+            </div>
+          </div>
+          <div class="field-visibility-choice-grid">
+            <button type="button" id="field-boundary-visible-yes" class="field-visibility-choice">
+              <strong>Yes, the full bottom line is visible</strong>
+            </button>
+            <button type="button" id="field-boundary-visible-no" class="field-visibility-choice">
+              <strong>No, only part of it is visible</strong>
+            </button>
+          </div>
+          <div class="field-boundary-actions">
+            <button type="button" id="field-boundary-visibility-back" class="boundary-btn-secondary w-full">Back</button>
+          </div>
+        </section>
+
         <section id="field-boundary-scan" class="field-boundary-panel hidden" role="dialog" aria-modal="true" aria-labelledby="field-boundary-scan-title">
           <div class="field-boundary-header">
             <div>
@@ -3238,6 +3451,7 @@
             <span id="field-boundary-scan-stage-copy">Keep the camera still.</span>
             <span id="field-boundary-scan-stage-progress">1 / 3</span>
           </div>
+          <div id="field-boundary-scan-note" class="field-boundary-scan-note">Do not move the device.</div>
           <div class="field-boundary-actions">
             <button type="button" id="field-boundary-scan-cancel" class="boundary-btn-secondary w-full">Cancel</button>
           </div>
@@ -3270,6 +3484,7 @@
               <ellipse cx="360" cy="188" rx="38" ry="24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"></ellipse>
               <path d="M162 116 L240 116 L240 250 L126 250" fill="none" stroke="rgba(255,255,255,0.26)" stroke-width="2"></path>
               <path d="M558 116 L480 116 L480 250 L594 250" fill="none" stroke="rgba(255,255,255,0.26)" stroke-width="2"></path>
+              <g id="field-boundary-connector-layer"></g>
               <g id="field-boundary-guide-layer" class="field-boundary-guides"></g>
               <polygon id="field-boundary-polygon-fill" fill="rgba(255,122,26,0.12)" stroke="none"></polygon>
               <polyline id="field-boundary-polygon" fill="none" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round"></polyline>
@@ -3289,9 +3504,7 @@
               <h3 id="field-boundary-failure-title">Scan failed</h3>
               <p id="field-boundary-failure-copy" class="mt-1 text-xs text-white/68">The camera couldn't complete the scan.</p>
             </div>
-            <button type="button" id="field-boundary-failure-close" class="field-boundary-close" aria-label="Close">✕</button>
           </div>
-          <div class="field-boundary-copy">Try scanning again from the current camera position.</div>
           <div class="field-boundary-actions">
             <button type="button" id="field-boundary-failure-exit" class="boundary-btn-secondary flex-1">Exit</button>
             <button type="button" id="field-boundary-failure-rescan" class="boundary-btn-primary flex-1">Rescan</button>
@@ -3471,6 +3684,9 @@
         boundaryState: "off",
         boundaryMode: "adjust",
         scanResult: "success",
+        fieldPointMode: null,
+        bottomCenterVisible: null,
+        scanPlan: null,
         hasAutoCalibrationFlowRun: false,
         isGuideFlowManual: false,
         hallGuideStep: 0,
@@ -3479,27 +3695,53 @@
         seconds: 0,
       };
       const boundaryPresets = {
-        default: [
-          { x: 186, y: 98 },
-          { x: 538, y: 98 },
-          { x: 622, y: 278 },
-          { x: 108, y: 278 },
-        ],
-        lowConfidence: [
-          { x: 170, y: 110 },
-          { x: 552, y: 104 },
-          { x: 608, y: 272 },
-          { x: 124, y: 286 },
-        ],
+        six: {
+          success: [
+            { id: "top_left", x: 156, y: 108 },
+            { id: "bottom_left", x: 122, y: 278 },
+            { id: "bottom_center", x: 360, y: 294 },
+            { id: "bottom_right", x: 598, y: 278 },
+            { id: "top_right", x: 564, y: 108 },
+            { id: "top_center", x: 360, y: 96 },
+          ],
+          lowConfidence: [
+            { id: "top_left", x: 170, y: 118 },
+            { id: "bottom_left", x: 132, y: 282 },
+            { id: "bottom_center", x: 360, y: 286 },
+            { id: "bottom_right", x: 590, y: 274 },
+            { id: "top_right", x: 552, y: 112 },
+            { id: "top_center", x: 360, y: 102 },
+          ],
+        },
+        seven: {
+          success: [
+            { id: "left1", x: 76, y: 326, helper: true },
+            { id: "left2", x: 122, y: 276 },
+            { id: "left3", x: 164, y: 106 },
+            { id: "top", x: 360, y: 92 },
+            { id: "right3", x: 556, y: 106 },
+            { id: "right2", x: 598, y: 276 },
+            { id: "right1", x: 644, y: 326, helper: true },
+          ],
+          lowConfidence: [
+            { id: "left1", x: 86, y: 322, helper: true },
+            { id: "left2", x: 134, y: 280 },
+            { id: "left3", x: 176, y: 116 },
+            { id: "top", x: 360, y: 102 },
+            { id: "right3", x: 544, y: 112 },
+            { id: "right2", x: 588, y: 272 },
+            { id: "right1", x: 634, y: 320, helper: true },
+          ],
+        },
       };
       const boundaryScanStages = [
         { title: "Scanning field...", copy: "Keep the camera still.", progress: "1 / 3" },
         { title: "Building field view...", copy: "Creating a panoramic field view.", progress: "2 / 3" },
         { title: "Finding field boundary...", copy: "Review the recommendation after scan.", progress: "3 / 3" },
       ];
-      let boundaryDraftPoints = cloneBoundaryPoints(boundaryPresets.default);
-      let boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.default);
-      let boundaryConfirmedPoints = cloneBoundaryPoints(boundaryPresets.default);
+      let boundaryDraftPoints = cloneBoundaryPoints(boundaryPresets.six.success);
+      let boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.six.success);
+      let boundaryConfirmedPoints = cloneBoundaryPoints(boundaryPresets.six.success);
       let boundaryHasDraft = false;
       let boundaryWasAdjusted = false;
       let boundaryActivePointIndex = -1;
@@ -3675,6 +3917,11 @@
       const fieldBoundaryIntroStart = document.getElementById("field-boundary-intro-start");
       const fieldBoundaryIntroCancel = document.getElementById("field-boundary-intro-cancel");
       const fieldBoundaryIntroClose = document.getElementById("field-boundary-intro-close");
+      const fieldBoundaryVisibility = document.getElementById("field-boundary-visibility");
+      const fieldBoundaryVisibilityClose = document.getElementById("field-boundary-visibility-close");
+      const fieldBoundaryVisibilityBack = document.getElementById("field-boundary-visibility-back");
+      const fieldBoundaryVisibleYes = document.getElementById("field-boundary-visible-yes");
+      const fieldBoundaryVisibleNo = document.getElementById("field-boundary-visible-no");
       const fieldBoundaryScan = document.getElementById("field-boundary-scan");
       const fieldBoundaryScanTitle = document.getElementById("field-boundary-scan-title");
       const fieldBoundaryScanCopy = document.getElementById("field-boundary-scan-copy");
@@ -3691,7 +3938,6 @@
       const fieldBoundaryFailure = document.getElementById("field-boundary-failure");
       const fieldBoundaryFailureTitle = document.getElementById("field-boundary-failure-title");
       const fieldBoundaryFailureCopy = document.getElementById("field-boundary-failure-copy");
-      const fieldBoundaryFailureClose = document.getElementById("field-boundary-failure-close");
       const fieldBoundaryFailureExit = document.getElementById("field-boundary-failure-exit");
       const fieldBoundaryFailureRescan = document.getElementById("field-boundary-failure-rescan");
       const fieldBoundaryManager = document.getElementById("field-boundary-manager");
@@ -3700,6 +3946,7 @@
       const fieldBoundaryManagerRescanBtn = document.getElementById("field-boundary-manager-rescan");
       const fieldBoundaryTurnOffBtn = document.getElementById("field-boundary-turn-off");
       const fieldBoundaryThumbPolygon = document.getElementById("field-boundary-thumb-polygon");
+      const fieldBoundaryConnectorLayer = document.getElementById("field-boundary-connector-layer");
       const fieldBoundaryPolygon = document.getElementById("field-boundary-polygon");
       const fieldBoundaryPolygonFill = document.getElementById("field-boundary-polygon-fill");
       const fieldBoundaryPointsLayer = document.getElementById("field-boundary-points-layer");
@@ -3810,8 +4057,22 @@
       }
       function cloneBoundaryPoints(points) {
         return points.map(function (point) {
-          return { x: point.x, y: point.y };
+          return {
+            id: point.id,
+            x: point.x,
+            y: point.y,
+            helper: !!point.helper,
+            center: !!point.center,
+          };
         });
+      }
+      function getBoundaryModeKey() {
+        return state.fieldPointMode === "seven" ? "seven" : "six";
+      }
+      function getBoundaryPresetByResult(result) {
+        const modeKey = getBoundaryModeKey();
+        const variant = result === "lowConfidence" ? "lowConfidence" : "success";
+        return cloneBoundaryPoints(boundaryPresets[modeKey][variant]);
       }
       function boundaryPointsToString(points) {
         return points
@@ -3820,11 +4081,40 @@
           })
           .join(" ");
       }
-      function getBoundaryPresetByResult(result) {
-        return cloneBoundaryPoints(result === "lowConfidence" ? boundaryPresets.lowConfidence : boundaryPresets.default);
-      }
       function isBoundarySuccessResult(result) {
         return result === "success" || result === "lowConfidence";
+      }
+      function getBoundaryShapePoints(points) {
+        if (state.fieldPointMode === "seven") {
+          return ["left3", "top", "right3", "right2", "right1", "left1", "left2"]
+            .map(function (id) {
+              return points.find(function (point) { return point.id === id; });
+            })
+            .filter(Boolean);
+        }
+        return ["top_left", "top_center", "top_right", "bottom_right", "bottom_center", "bottom_left"]
+          .map(function (id) {
+            return points.find(function (point) { return point.id === id; });
+          })
+          .filter(Boolean);
+      }
+      function getBoundaryScanStagesForMode() {
+        const sweepCopy =
+          state.scanPlan === "wideSweep"
+            ? "Hands off the device. The camera is scanning automatically."
+            : "Hands off the device. The camera is scanning automatically.";
+        return [
+          { title: "Scanning field...", copy: sweepCopy, progress: "1 / 3" },
+          { title: "Building field view...", copy: "Creating a panoramic field view.", progress: "2 / 3" },
+          { title: "Finding field boundary...", copy: state.fieldPointMode === "seven" ? "Preparing 7 helper points for review." : "Preparing a 6-point boundary for review.", progress: "3 / 3" },
+        ];
+      }
+      function setBoundaryVisibilityMode(isVisible) {
+        state.bottomCenterVisible = isVisible;
+        state.fieldPointMode = isVisible ? "six" : "seven";
+        state.scanPlan = isVisible ? "shortSweep" : "wideSweep";
+        if (fieldBoundaryVisibleYes) fieldBoundaryVisibleYes.classList.toggle("is-selected", !!isVisible);
+        if (fieldBoundaryVisibleNo) fieldBoundaryVisibleNo.classList.toggle("is-selected", !isVisible);
       }
       function hideBoundaryToast() {
         clearTimeout(boundaryToastTimer);
@@ -3856,7 +4146,7 @@
         });
       }
       function hideBoundaryPanels() {
-        [fieldBoundaryIntro, fieldBoundaryScan, fieldBoundaryResult, fieldBoundaryFailure].forEach(function (panel) {
+        [fieldBoundaryIntro, fieldBoundaryVisibility, fieldBoundaryScan, fieldBoundaryResult, fieldBoundaryFailure].forEach(function (panel) {
           panel.classList.add("hidden");
         });
       }
@@ -3868,7 +4158,7 @@
         btnFieldBoundary.setAttribute("aria-label", "Field boundary, " + (isOn ? "on" : "off"));
       }
       function updateFieldBoundaryThumb() {
-        const points = state.boundaryState === "on" ? boundaryConfirmedPoints : boundaryRecommendedPoints;
+        const points = getBoundaryShapePoints(state.boundaryState === "on" ? boundaryConfirmedPoints : boundaryRecommendedPoints);
         const scaleX = 280 / 720;
         const scaleY = 120 / 340;
         fieldBoundaryThumbPolygon.setAttribute(
@@ -3889,6 +4179,7 @@
         hideBoundaryPanels();
         closeFieldBoundaryManager();
         if (screen === "intro") fieldBoundaryIntro.classList.remove("hidden");
+        if (screen === "visibility") fieldBoundaryVisibility.classList.remove("hidden");
         if (screen === "scan") fieldBoundaryScan.classList.remove("hidden");
         if (screen === "result") fieldBoundaryResult.classList.remove("hidden");
         if (screen === "failure") fieldBoundaryFailure.classList.remove("hidden");
@@ -3942,7 +4233,17 @@
       }
       function openBoundaryIntro() {
         state.boundaryMode = "adjust";
+        state.bottomCenterVisible = null;
+        state.fieldPointMode = null;
+        state.scanPlan = null;
+        if (fieldBoundaryVisibleYes) fieldBoundaryVisibleYes.classList.remove("is-selected");
+        if (fieldBoundaryVisibleNo) fieldBoundaryVisibleNo.classList.remove("is-selected");
         openBoundaryOverlay("intro");
+      }
+      function openBoundaryVisibilityPrompt() {
+        if (fieldBoundaryVisibleYes) fieldBoundaryVisibleYes.classList.toggle("is-selected", state.bottomCenterVisible === true);
+        if (fieldBoundaryVisibleNo) fieldBoundaryVisibleNo.classList.toggle("is-selected", state.bottomCenterVisible === false);
+        openBoundaryOverlay("visibility");
       }
       function openBoundaryFailure(result) {
         state.boundaryState = boundaryRescanFromOn ? "on" : "off";
@@ -3951,16 +4252,16 @@
         openBoundaryOverlay("failure");
         const copyMap = {
           detectFailed: {
-            title: "Couldn't find the boundary",
-            copy: "Scan again to find the field boundary.",
+            title: "Boundary not detected",
+            copy: "The boundary couldn't be detected. Check that the full bottom line is visible in the frame, then keep the device still and scan again.",
           },
           scanFailed: {
-            title: "Scan failed",
-            copy: "The camera couldn't complete the scan.",
+            title: "Scan didn’t finish",
+            copy: "The camera couldn't complete the scan. Keep the device in its current position and scan again.",
           },
           stitchFailed: {
-            title: "Couldn't build the field view",
-            copy: "Try rescanning so the field panorama can be rebuilt.",
+            title: "Field view not ready",
+            copy: "The field view couldn't be created. Make sure the device stays still during the scan, then try again.",
           },
         };
         const content = copyMap[result] || copyMap.scanFailed;
@@ -3975,18 +4276,29 @@
         const isViewMode = state.boundaryMode === "view";
         fieldBoundaryResultTitle.textContent =
           state.scanResult === "lowConfidence" ? "Check the field boundary" : "Boundary ready";
-        fieldBoundaryUse.textContent = isViewMode ? "Done" : state.boundaryState === "on" ? "Save changes" : "Use boundary";
+        fieldBoundaryUse.textContent = isViewMode ? "Done" : state.boundaryState === "on" ? "Save changes" : state.fieldPointMode === "seven" ? "Generate boundary" : "Use boundary";
         fieldBoundaryReset.classList.toggle("hidden", isViewMode || !boundaryWasAdjusted);
-        const closedPoints = boundaryDraftPoints.concat([boundaryDraftPoints[0]]);
+        const shapePoints = getBoundaryShapePoints(boundaryDraftPoints);
+        const closedPoints = shapePoints.concat([shapePoints[0]]);
         const pointsString = boundaryPointsToString(closedPoints);
         fieldBoundaryPolygon.setAttribute("points", pointsString);
         fieldBoundaryPolygonFill.setAttribute("points", pointsString);
+        fieldBoundaryConnectorLayer.innerHTML = "";
         fieldBoundaryGuideLayer.innerHTML = "";
         if (boundaryActivePointIndex >= 0 && !isViewMode) {
           const point = boundaryDraftPoints[boundaryActivePointIndex];
           fieldBoundaryGuideLayer.innerHTML =
             '<line x1="' + point.x + '" y1="0" x2="' + point.x + '" y2="340"></line>' +
             '<line x1="0" y1="' + point.y + '" x2="720" y2="' + point.y + '"></line>';
+        }
+        if (state.fieldPointMode === "seven") {
+          const left1 = boundaryDraftPoints.find(function (point) { return point.id === "left1"; });
+          const left2 = boundaryDraftPoints.find(function (point) { return point.id === "left2"; });
+          const right1 = boundaryDraftPoints.find(function (point) { return point.id === "right1"; });
+          const right2 = boundaryDraftPoints.find(function (point) { return point.id === "right2"; });
+          fieldBoundaryConnectorLayer.innerHTML =
+            (left1 && left2 ? '<path class="field-boundary-connector" d="M' + left1.x + " " + left1.y + " L" + left2.x + " " + left2.y + '"></path>' : "") +
+            (right1 && right2 ? '<path class="field-boundary-connector" d="M' + right1.x + " " + right1.y + " L" + right2.x + " " + right2.y + '"></path>' : "");
         }
         fieldBoundaryPointsLayer.innerHTML = boundaryDraftPoints
           .map(function (point, index) {
@@ -4001,7 +4313,10 @@
               '" cy="' +
               point.y +
               '" r="22"></circle>' +
-              '<circle class="field-boundary-point-visual" cx="' +
+              '<circle class="field-boundary-point-visual' +
+              (point.helper ? " is-helper" : "") +
+              (point.id === "bottom_center" || point.id === "top_center" || point.id === "top" ? " is-center" : "") +
+              '" cx="' +
               point.x +
               '" cy="' +
               point.y +
@@ -4016,6 +4331,10 @@
         state.boundaryMode = mode;
         boundaryActivePointIndex = -1;
         openBoundaryOverlay("result");
+        document.querySelector("#field-boundary-result .field-boundary-header p").textContent =
+          state.fieldPointMode === "seven"
+            ? "Adjust the helper points and field corners if needed."
+            : "Adjust the field points if needed.";
         renderBoundaryResult();
       }
       function confirmBoundarySelection(showToast) {
@@ -4054,10 +4373,15 @@
         updateFieldBoundaryEntry();
         setBoundaryLeftRailDisabled(true);
         openBoundaryOverlay("scan");
+        const modeStages = getBoundaryScanStagesForMode();
         [0, 1, 2].forEach(function (index) {
           boundaryScanTimers.push(
             setTimeout(function () {
-              renderBoundaryScanStage(index);
+              const stage = modeStages[index];
+              fieldBoundaryScanTitle.textContent = stage.title;
+              fieldBoundaryScanCopy.textContent = stage.copy;
+              fieldBoundaryScanStageCopy.textContent = stage.copy;
+              fieldBoundaryScanStageProgress.textContent = stage.progress;
             }, index * 1250)
           );
         });
@@ -4076,13 +4400,16 @@
         state.boundaryState = "off";
         state.boundaryMode = "adjust";
         state.scanResult = "success";
+        state.fieldPointMode = null;
+        state.bottomCenterVisible = null;
+        state.scanPlan = null;
         boundaryHasDraft = false;
         boundaryWasAdjusted = false;
         boundaryActivePointIndex = -1;
         boundaryDragPointerId = null;
         boundaryRescanFromOn = false;
-        boundaryDraftPoints = cloneBoundaryPoints(boundaryPresets.default);
-        boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.default);
+        boundaryDraftPoints = cloneBoundaryPoints(boundaryPresets.six.success);
+        boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.six.success);
         updateFieldBoundaryEntry();
         renderBoundaryCameraOverlay();
         setBoundaryLeftRailDisabled(false);
@@ -4122,7 +4449,11 @@
       function handleBoundaryPointPointerMove(event) {
         if (boundaryDragPointerId !== event.pointerId || boundaryActivePointIndex < 0) return;
         const svgRect = document.getElementById("field-boundary-result-svg").getBoundingClientRect();
+        const currentPoint = boundaryDraftPoints[boundaryActivePointIndex];
         const nextPoint = {
+          id: currentPoint.id,
+          helper: !!currentPoint.helper,
+          center: !!currentPoint.center,
           x: ((event.clientX - svgRect.left) / svgRect.width) * 720,
           y: ((event.clientY - svgRect.top) / svgRect.height) * 340,
         };
@@ -4413,9 +4744,7 @@
         }
         if (fieldBoundaryIntroStart) {
           fieldBoundaryIntroStart.addEventListener("click", function () {
-            setTimeout(function () {
-              startBoundaryScan(state.scanResult || "success");
-            }, 100);
+            openBoundaryVisibilityPrompt();
           });
         }
         [fieldBoundaryIntroCancel, fieldBoundaryIntroClose].forEach(function (button) {
@@ -4426,6 +4755,26 @@
             updateFieldBoundaryEntry();
           });
         });
+        [fieldBoundaryVisibilityClose, fieldBoundaryVisibilityBack].forEach(function (button) {
+          if (!button) return;
+          button.addEventListener("click", openBoundaryIntro);
+        });
+        if (fieldBoundaryVisibleYes) {
+          fieldBoundaryVisibleYes.addEventListener("click", function () {
+            setBoundaryVisibilityMode(true);
+            setTimeout(function () {
+              startBoundaryScan(state.scanResult || "success");
+            }, 100);
+          });
+        }
+        if (fieldBoundaryVisibleNo) {
+          fieldBoundaryVisibleNo.addEventListener("click", function () {
+            setBoundaryVisibilityMode(false);
+            setTimeout(function () {
+              startBoundaryScan(state.scanResult || "success");
+            }, 100);
+          });
+        }
         [fieldBoundaryScanCancel, fieldBoundaryScanClose].forEach(function (button) {
           if (!button) return;
           button.addEventListener("click", function () {
@@ -4440,10 +4789,7 @@
             });
           });
         });
-        [fieldBoundaryFailureClose, fieldBoundaryFailureExit].forEach(function (button) {
-          if (!button) return;
-          button.addEventListener("click", exitBoundaryFailure);
-        });
+        if (fieldBoundaryFailureExit) fieldBoundaryFailureExit.addEventListener("click", exitBoundaryFailure);
         if (fieldBoundaryFailureRescan) fieldBoundaryFailureRescan.addEventListener("click", function () { startBoundaryScan(state.scanResult); });
         if (fieldBoundaryRescan) fieldBoundaryRescan.addEventListener("click", function () { startBoundaryScan(state.scanResult); });
         if (fieldBoundaryResultClose) {
@@ -4530,17 +4876,18 @@
         if (debugBoundaryReset) debugBoundaryReset.addEventListener("click", resetBoundaryState);
         if (debugBoundaryOn) {
           debugBoundaryOn.addEventListener("click", function () {
+            setBoundaryVisibilityMode(true);
             boundaryHasDraft = true;
-            boundaryConfirmedPoints = cloneBoundaryPoints(boundaryPresets.default);
-            boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.default);
+            boundaryConfirmedPoints = cloneBoundaryPoints(boundaryPresets.six.success);
+            boundaryRecommendedPoints = cloneBoundaryPoints(boundaryPresets.six.success);
             state.boundaryState = "on";
             updateFieldBoundaryEntry();
             updateFieldBoundaryThumb();
             renderBoundaryCameraOverlay();
           });
         }
-        if (debugBoundarySuccess) debugBoundarySuccess.addEventListener("click", function () { state.scanResult = "success"; applyBoundaryRecommendation("success"); openBoundaryResult("adjust"); });
-        if (debugBoundaryLow) debugBoundaryLow.addEventListener("click", function () { state.scanResult = "lowConfidence"; applyBoundaryRecommendation("lowConfidence"); openBoundaryResult("adjust"); });
+        if (debugBoundarySuccess) debugBoundarySuccess.addEventListener("click", function () { setBoundaryVisibilityMode(true); state.scanResult = "success"; applyBoundaryRecommendation("success"); openBoundaryResult("adjust"); });
+        if (debugBoundaryLow) debugBoundaryLow.addEventListener("click", function () { setBoundaryVisibilityMode(false); state.scanResult = "lowConfidence"; applyBoundaryRecommendation("lowConfidence"); openBoundaryResult("adjust"); });
         if (debugBoundaryScanFailed) debugBoundaryScanFailed.addEventListener("click", function () { openBoundaryFailure("scanFailed"); });
         if (debugBoundaryStitchFailed) debugBoundaryStitchFailed.addEventListener("click", function () { openBoundaryFailure("stitchFailed"); });
         if (debugBoundaryDetectFailed) debugBoundaryDetectFailed.addEventListener("click", function () { openBoundaryFailure("detectFailed"); });
