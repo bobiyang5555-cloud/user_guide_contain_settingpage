@@ -1892,6 +1892,7 @@
         border-radius: 1.25rem;
         position: relative;
         overflow: hidden;
+        cursor: zoom-in;
         background: radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.09), transparent 30%),
           linear-gradient(180deg, rgba(10, 12, 18, 0.76), rgba(7, 9, 13, 0.92));
         border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1903,6 +1904,59 @@
         background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35)),
           radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.05), transparent 38%);
         pointer-events: none;
+      }
+      .field-boundary-fullscreen-exit {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 2;
+        min-height: 2rem;
+        padding: 0 0.8rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(8, 12, 18, 0.68);
+        backdrop-filter: blur(12px);
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+      #field-boundary-result.is-fullscreen-adjust {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        background: rgba(8, 10, 16, 0.98);
+        gap: 0;
+        padding: 0;
+      }
+      #field-boundary-result.is-fullscreen-adjust .field-boundary-header {
+        display: none;
+      }
+      #field-boundary-result.is-fullscreen-adjust .field-boundary-result-stage {
+        margin: 0;
+        min-height: 100%;
+        height: 100%;
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+        border: none;
+        cursor: default;
+      }
+      #field-boundary-result.is-fullscreen-adjust .field-boundary-result-stage::before {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28));
+      }
+      #field-boundary-result.is-fullscreen-adjust .field-boundary-result-stage svg {
+        width: 100%;
+        height: auto;
+        max-height: min(46vh, calc(100% - 3rem));
+        aspect-ratio: 5068 / 1201;
+      }
+      #field-boundary-result.is-fullscreen-adjust .field-boundary-actions {
+        display: none;
       }
       .field-boundary-point-hit {
         fill: transparent;
@@ -1916,6 +1970,7 @@
         fill: var(--boundary-accent);
         stroke: rgba(255, 255, 255, 0.95);
         stroke-width: 2;
+        vector-effect: non-scaling-stroke;
         transition: r 120ms ease, filter 120ms ease;
       }
       .field-boundary-point-visual.is-helper {
@@ -1930,11 +1985,13 @@
         stroke: rgba(255, 184, 120, 0.4);
         stroke-width: 2;
         stroke-dasharray: 8 7;
+        vector-effect: non-scaling-stroke;
       }
       .field-boundary-guides line {
         stroke: rgba(255, 255, 255, 0.22);
         stroke-width: 1;
         stroke-dasharray: 5 6;
+        vector-effect: non-scaling-stroke;
       }
       .field-boundary-manager {
         position: absolute;
@@ -3465,29 +3522,14 @@
             </div>
             <button type="button" id="field-boundary-result-close" class="field-boundary-close" aria-label="Close">✕</button>
           </div>
-          <div class="field-boundary-result-stage">
-            <svg id="field-boundary-result-svg" viewBox="0 0 720 340" preserveAspectRatio="xMidYMid meet">
-              <defs>
-                <linearGradient id="field-panorama-top" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#1a2131"></stop>
-                  <stop offset="100%" stop-color="#0e131c"></stop>
-                </linearGradient>
-                <linearGradient id="field-panorama-grass" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#3e6c39"></stop>
-                  <stop offset="100%" stop-color="#1a2a17"></stop>
-                </linearGradient>
-              </defs>
-              <rect width="720" height="105" fill="url(#field-panorama-top)"></rect>
-              <rect y="105" width="720" height="235" fill="url(#field-panorama-grass)"></rect>
-              <path d="M112 72 L608 72 L686 308 L34 308 Z" fill="rgba(0,0,0,0.08)" stroke="rgba(255,255,255,0.5)" stroke-width="2"></path>
-              <path d="M360 72 L360 308" stroke="rgba(255,255,255,0.35)" stroke-width="2"></path>
-              <ellipse cx="360" cy="188" rx="38" ry="24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"></ellipse>
-              <path d="M162 116 L240 116 L240 250 L126 250" fill="none" stroke="rgba(255,255,255,0.26)" stroke-width="2"></path>
-              <path d="M558 116 L480 116 L480 250 L594 250" fill="none" stroke="rgba(255,255,255,0.26)" stroke-width="2"></path>
+          <div class="field-boundary-result-stage" title="Double-click to adjust full screen">
+            <button type="button" id="field-boundary-fullscreen-exit" class="field-boundary-fullscreen-exit hidden">Exit full screen</button>
+            <svg id="field-boundary-result-svg" viewBox="0 0 5068 1201" preserveAspectRatio="xMidYMid meet">
+              <image href="./assets/field-boundary-panorama.png" x="0" y="0" width="5068" height="1201" preserveAspectRatio="xMidYMid meet"></image>
               <g id="field-boundary-connector-layer"></g>
               <g id="field-boundary-guide-layer" class="field-boundary-guides"></g>
               <polygon id="field-boundary-polygon-fill" fill="rgba(255,122,26,0.12)" stroke="none"></polygon>
-              <polyline id="field-boundary-polygon" fill="none" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round"></polyline>
+              <polyline id="field-boundary-polygon" fill="none" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
               <g id="field-boundary-points-layer"></g>
             </svg>
           </div>
@@ -3694,27 +3736,45 @@
         timerInterval: null,
         seconds: 0,
       };
+      const BOUNDARY_BASE_WIDTH = 720;
+      const BOUNDARY_BASE_HEIGHT = 340;
+      const BOUNDARY_VIEWBOX_WIDTH = 5068;
+      const BOUNDARY_VIEWBOX_HEIGHT = 1201;
+      const BOUNDARY_SCALE_X = BOUNDARY_VIEWBOX_WIDTH / BOUNDARY_BASE_WIDTH;
+      const BOUNDARY_SCALE_Y = BOUNDARY_VIEWBOX_HEIGHT / BOUNDARY_BASE_HEIGHT;
+      const BOUNDARY_POINT_SCALE = BOUNDARY_SCALE_X;
+      function scaleBoundaryPresetPoints(points) {
+        return points.map(function (point) {
+          return {
+            id: point.id,
+            helper: !!point.helper,
+            center: !!point.center,
+            x: point.x * BOUNDARY_SCALE_X,
+            y: point.y * BOUNDARY_SCALE_Y,
+          };
+        });
+      }
       const boundaryPresets = {
         six: {
-          success: [
+          success: scaleBoundaryPresetPoints([
             { id: "top_left", x: 156, y: 108 },
             { id: "bottom_left", x: 122, y: 278 },
             { id: "bottom_center", x: 360, y: 294 },
             { id: "bottom_right", x: 598, y: 278 },
             { id: "top_right", x: 564, y: 108 },
             { id: "top_center", x: 360, y: 96 },
-          ],
-          lowConfidence: [
+          ]),
+          lowConfidence: scaleBoundaryPresetPoints([
             { id: "top_left", x: 170, y: 118 },
             { id: "bottom_left", x: 132, y: 282 },
             { id: "bottom_center", x: 360, y: 286 },
             { id: "bottom_right", x: 590, y: 274 },
             { id: "top_right", x: 552, y: 112 },
             { id: "top_center", x: 360, y: 102 },
-          ],
+          ]),
         },
         seven: {
-          success: [
+          success: scaleBoundaryPresetPoints([
             { id: "left1", x: 76, y: 326, helper: true },
             { id: "left2", x: 122, y: 276 },
             { id: "left3", x: 164, y: 106 },
@@ -3722,8 +3782,8 @@
             { id: "right3", x: 556, y: 106 },
             { id: "right2", x: 598, y: 276 },
             { id: "right1", x: 644, y: 326, helper: true },
-          ],
-          lowConfidence: [
+          ]),
+          lowConfidence: scaleBoundaryPresetPoints([
             { id: "left1", x: 86, y: 322, helper: true },
             { id: "left2", x: 134, y: 280 },
             { id: "left3", x: 176, y: 116 },
@@ -3731,7 +3791,7 @@
             { id: "right3", x: 544, y: 112 },
             { id: "right2", x: 588, y: 272 },
             { id: "right1", x: 634, y: 320, helper: true },
-          ],
+          ]),
         },
       };
       const boundaryScanStages = [
@@ -3748,6 +3808,7 @@
       let boundaryDragPointerId = null;
       let boundaryScanTimers = [];
       let boundaryOverlayScreen = null;
+      let boundaryResultFullscreen = false;
       let boundaryConfirmAction = null;
       let boundaryToastTimer = null;
       let boundaryRescanFromOn = false;
@@ -3930,6 +3991,9 @@
       const fieldBoundaryScanCancel = document.getElementById("field-boundary-scan-cancel");
       const fieldBoundaryScanClose = document.getElementById("field-boundary-scan-close");
       const fieldBoundaryResult = document.getElementById("field-boundary-result");
+      const fieldBoundaryResultStage = document.querySelector("#field-boundary-result .field-boundary-result-stage");
+      const fieldBoundaryResultSvg = document.getElementById("field-boundary-result-svg");
+      const fieldBoundaryFullscreenExit = document.getElementById("field-boundary-fullscreen-exit");
       const fieldBoundaryResultTitle = document.getElementById("field-boundary-result-title");
       const fieldBoundaryResultClose = document.getElementById("field-boundary-result-close");
       const fieldBoundaryReset = document.getElementById("field-boundary-reset");
@@ -4159,8 +4223,8 @@
       }
       function updateFieldBoundaryThumb() {
         const points = getBoundaryShapePoints(state.boundaryState === "on" ? boundaryConfirmedPoints : boundaryRecommendedPoints);
-        const scaleX = 280 / 720;
-        const scaleY = 120 / 340;
+        const scaleX = 280 / BOUNDARY_VIEWBOX_WIDTH;
+        const scaleY = 120 / BOUNDARY_VIEWBOX_HEIGHT;
         fieldBoundaryThumbPolygon.setAttribute(
           "points",
           points
@@ -4175,6 +4239,7 @@
       }
       function openBoundaryOverlay(screen) {
         boundaryOverlayScreen = screen;
+        if (screen !== "result") setBoundaryResultFullscreen(false);
         fieldBoundaryOverlay.classList.remove("hidden");
         hideBoundaryPanels();
         closeFieldBoundaryManager();
@@ -4185,9 +4250,32 @@
         if (screen === "failure") fieldBoundaryFailure.classList.remove("hidden");
       }
       function closeBoundaryOverlay() {
+        setBoundaryResultFullscreen(false);
         fieldBoundaryOverlay.classList.add("hidden");
         hideBoundaryPanels();
         boundaryOverlayScreen = null;
+      }
+      function setBoundaryResultFullscreen(enabled) {
+        boundaryResultFullscreen = !!enabled;
+        fieldBoundaryResult.classList.toggle("is-fullscreen-adjust", boundaryResultFullscreen);
+        if (fieldBoundaryFullscreenExit) fieldBoundaryFullscreenExit.classList.toggle("hidden", !boundaryResultFullscreen);
+      }
+      function exitBoundaryResultFullscreen() {
+        if (!boundaryResultFullscreen) return;
+        if (state.boundaryMode === "view") {
+          closeBoundaryOverlay();
+          if (state.boundaryState === "on" && !state.isRecording) openFieldBoundaryManager();
+          return;
+        }
+        setBoundaryResultFullscreen(false);
+      }
+      function toggleBoundaryResultFullscreen() {
+        if (boundaryOverlayScreen !== "result") return;
+        if (boundaryResultFullscreen) {
+          exitBoundaryResultFullscreen();
+          return;
+        }
+        setBoundaryResultFullscreen(true);
       }
       function closeFieldBoundaryManager() {
         fieldBoundaryManager.classList.add("hidden");
@@ -4269,14 +4357,14 @@
         fieldBoundaryFailureCopy.textContent = content.copy;
       }
       function clampBoundaryPoint(point) {
-        point.x = Math.max(34, Math.min(686, point.x));
-        point.y = Math.max(72, Math.min(308, point.y));
+        point.x = Math.max(0, Math.min(BOUNDARY_VIEWBOX_WIDTH, point.x));
+        point.y = Math.max(0, Math.min(BOUNDARY_VIEWBOX_HEIGHT, point.y));
       }
       function renderBoundaryResult() {
         const isViewMode = state.boundaryMode === "view";
         fieldBoundaryResultTitle.textContent =
           state.scanResult === "lowConfidence" ? "Check the field boundary" : "Boundary ready";
-        fieldBoundaryUse.textContent = isViewMode ? "Done" : state.boundaryState === "on" ? "Save changes" : state.fieldPointMode === "seven" ? "Generate boundary" : "Use boundary";
+        fieldBoundaryUse.textContent = boundaryWasAdjusted ? "Save changes" : "Use boundary";
         fieldBoundaryReset.classList.toggle("hidden", isViewMode || !boundaryWasAdjusted);
         const shapePoints = getBoundaryShapePoints(boundaryDraftPoints);
         const closedPoints = shapePoints.concat([shapePoints[0]]);
@@ -4288,8 +4376,8 @@
         if (boundaryActivePointIndex >= 0 && !isViewMode) {
           const point = boundaryDraftPoints[boundaryActivePointIndex];
           fieldBoundaryGuideLayer.innerHTML =
-            '<line x1="' + point.x + '" y1="0" x2="' + point.x + '" y2="340"></line>' +
-            '<line x1="0" y1="' + point.y + '" x2="720" y2="' + point.y + '"></line>';
+            '<line x1="' + point.x + '" y1="0" x2="' + point.x + '" y2="' + BOUNDARY_VIEWBOX_HEIGHT + '"></line>' +
+            '<line x1="0" y1="' + point.y + '" x2="' + BOUNDARY_VIEWBOX_WIDTH + '" y2="' + point.y + '"></line>';
         }
         if (state.fieldPointMode === "seven") {
           const left1 = boundaryDraftPoints.find(function (point) { return point.id === "left1"; });
@@ -4312,7 +4400,9 @@
               point.x +
               '" cy="' +
               point.y +
-              '" r="22"></circle>' +
+              '" r="' +
+              (22 * BOUNDARY_POINT_SCALE) +
+              '"></circle>' +
               '<circle class="field-boundary-point-visual' +
               (point.helper ? " is-helper" : "") +
               (point.id === "bottom_center" || point.id === "top_center" || point.id === "top" ? " is-center" : "") +
@@ -4321,7 +4411,7 @@
               '" cy="' +
               point.y +
               '" r="' +
-              (boundaryActivePointIndex === index ? 9 : 7) +
+              (boundaryActivePointIndex === index ? 9 * BOUNDARY_POINT_SCALE : 7 * BOUNDARY_POINT_SCALE) +
               '"></circle></g>'
             );
           })
@@ -4330,12 +4420,14 @@
       function openBoundaryResult(mode) {
         state.boundaryMode = mode;
         boundaryActivePointIndex = -1;
+        setBoundaryResultFullscreen(false);
         openBoundaryOverlay("result");
         document.querySelector("#field-boundary-result .field-boundary-header p").textContent =
           state.fieldPointMode === "seven"
             ? "Adjust the helper points and field corners if needed."
             : "Adjust the field points if needed.";
         renderBoundaryResult();
+        if (mode === "view") setBoundaryResultFullscreen(true);
       }
       function confirmBoundarySelection(showToast) {
         if (!boundaryHasDraft) return;
@@ -4448,14 +4540,14 @@
       }
       function handleBoundaryPointPointerMove(event) {
         if (boundaryDragPointerId !== event.pointerId || boundaryActivePointIndex < 0) return;
-        const svgRect = document.getElementById("field-boundary-result-svg").getBoundingClientRect();
+        const svgRect = fieldBoundaryResultSvg.getBoundingClientRect();
         const currentPoint = boundaryDraftPoints[boundaryActivePointIndex];
         const nextPoint = {
           id: currentPoint.id,
           helper: !!currentPoint.helper,
           center: !!currentPoint.center,
-          x: ((event.clientX - svgRect.left) / svgRect.width) * 720,
-          y: ((event.clientY - svgRect.top) / svgRect.height) * 340,
+          x: ((event.clientX - svgRect.left) / svgRect.width) * BOUNDARY_VIEWBOX_WIDTH,
+          y: ((event.clientY - svgRect.top) / svgRect.height) * BOUNDARY_VIEWBOX_HEIGHT,
         };
         clampBoundaryPoint(nextPoint);
         boundaryDraftPoints[boundaryActivePointIndex] = nextPoint;
@@ -4870,6 +4962,18 @@
         if (fieldBoundaryPointsLayer) {
           fieldBoundaryPointsLayer.addEventListener("pointerdown", handleBoundaryPointPointerDown);
         }
+        if (fieldBoundaryResultStage) {
+          fieldBoundaryResultStage.addEventListener("dblclick", function (event) {
+            if (boundaryOverlayScreen !== "result") return;
+            event.preventDefault();
+            toggleBoundaryResultFullscreen();
+          });
+        }
+        if (fieldBoundaryFullscreenExit) {
+          fieldBoundaryFullscreenExit.addEventListener("click", function () {
+            exitBoundaryResultFullscreen();
+          });
+        }
         window.addEventListener("pointermove", handleBoundaryPointPointerMove);
         window.addEventListener("pointerup", handleBoundaryPointPointerUp);
         window.addEventListener("pointercancel", handleBoundaryPointPointerUp);
@@ -5077,6 +5181,10 @@
         }
         document.addEventListener("keydown", function (e) {
           if (e.key === "Escape") {
+            if (boundaryResultFullscreen) {
+              exitBoundaryResultFullscreen();
+              return;
+            }
             if (!fieldBoundaryRecordPrompt.classList.contains("hidden")) {
               closeBoundaryRecordPrompt();
               return;
